@@ -16,13 +16,13 @@ export const nodeState = atom({
       id: "2",
       type: "doubleNumNode",
       data: {},
-      position: { x: 450, y: 25 },
+      position: { x: 250, y: 225 },
     },
     {
       id: "3",
       type: "numberDisplayNode",
-      data: { label: "Output Node" },
-      position: { x: 450, y: 25 },
+      data: {},
+      position: { x: 250, y: 425 },
     },
   ],
 });
@@ -35,6 +35,11 @@ export const edgeState = atom({
       id: "e1-2",
       source: "1",
       target: "2",
+    },
+    {
+      id: "e2-3",
+      source: "2",
+      target: "3",
     },
   ],
 });

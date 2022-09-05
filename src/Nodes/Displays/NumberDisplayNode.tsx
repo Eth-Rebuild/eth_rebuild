@@ -7,6 +7,7 @@ import { useRecoilValue } from "recoil";
 
 export function NumberDisplayNode({ id }) {
   const numberToDisplay = useRecoilValue(numberDisplaySelector(id));
+
   return (
     <div
       style={{

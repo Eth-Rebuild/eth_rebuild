@@ -9,8 +9,9 @@ export function DoubleNumNode({ id }) {
   const connectedValue = useRecoilValue(numberDisplaySelector(id))[0];
 
   useEffect(() => {
-    setState({ Number: connectedValue * 2 });
-  }, []);
+    const numToSave = connectedValue * 2;
+    setState({ Number: numToSave });
+  }, [connectedValue]);
 
   return (
     <div
