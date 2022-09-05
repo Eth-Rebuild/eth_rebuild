@@ -1,7 +1,24 @@
 import { atom, atomFamily, selectorFamily } from "recoil";
-import { NumberDisplayNode } from "../../Nodes/Displays/NumberDisplayNode";
-import { DoubleNumNode } from "../../Nodes/Pipes/DoubleNumNode";
-import { NumberInputNode } from "../../Nodes/Inputs/NumberInputNode";
+import { NumberDisplayNode, StringDisplayNode } from "../../Nodes/Displays";
+import { DoubleNumNode, StringConcatNode } from "../../Nodes/Pipes";
+import { NumberInputNode, StringInputNode } from "../../Nodes/Inputs";
+
+export const nodeTypesState = atom({
+  key: "nodeTypes",
+  default: {
+    // inputs
+    numberInputNode: NumberInputNode,
+    stringInputNode: StringInputNode,
+
+    // pipes
+    doubleNumNode: DoubleNumNode,
+    stringConcatNode: StringConcatNode,
+
+    // displays
+    numberDisplayNode: NumberDisplayNode,
+    stringDisplayNode: StringDisplayNode,
+  },
+});
 
 export const nodeState = atom({
   key: "nodes",
@@ -20,9 +37,39 @@ export const nodeState = atom({
     },
     {
       id: "3",
-      type: "numberDisplayNode",
+      type: "doubleNumNode",
       data: {},
       position: { x: 250, y: 425 },
+    },
+    {
+      id: "4",
+      type: "numberDisplayNode",
+      data: {},
+      position: { x: 250, y: 625 },
+    },
+    {
+      id: "5",
+      type: "stringInputNode",
+      data: {},
+      position: { x: 450, y: 25 },
+    },
+    {
+      id: "6",
+      type: "stringInputNode",
+      data: {},
+      position: { x: 850, y: 25 },
+    },
+    {
+      id: "7",
+      type: "stringConcatNode",
+      data: {},
+      position: { x: 650, y: 225 },
+    },
+    {
+      id: "8",
+      type: "stringDisplayNode",
+      data: {},
+      position: { x: 650, y: 425 },
     },
   ],
 });
@@ -41,16 +88,27 @@ export const edgeState = atom({
       source: "2",
       target: "3",
     },
+    {
+      id: "e3-4",
+      source: "3",
+      target: "4",
+    },
+    {
+      id: "e5-7",
+      source: "5",
+      target: "7",
+    },
+    {
+      id: "e6-7",
+      source: "6",
+      target: "7",
+    },
+    {
+      id: "e7-8",
+      source: "7",
+      target: "8",
+    },
   ],
-});
-
-export const nodeTypesState = atom({
-  key: "nodeTypes",
-  default: {
-    numberInputNode: NumberInputNode,
-    doubleNumNode: DoubleNumNode,
-    numberDisplayNode: NumberDisplayNode,
-  },
 });
 
 export const nodeDataState = atomFamily<object, string>({

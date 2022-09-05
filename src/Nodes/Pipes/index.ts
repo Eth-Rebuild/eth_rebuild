@@ -1,3 +1,4 @@
 import { DoubleNumNode } from "./DoubleNumNode";
+import { StringConcatNode } from "./StringConcatNode";
 
-export { DoubleNumNode };
+export { DoubleNumNode, StringConcatNode };

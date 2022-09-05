@@ -2,16 +2,19 @@ import { useEffect } from "react";
 import { Handle, Position } from "react-flow-renderer";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { nodeDataState } from "../../Recoil/Atoms/atoms";
-import { numberDisplaySelector } from "../../Recoil/Selectors/selectors";
+import {
+  numberDisplaySelector,
+  stringDisplaySelector,
+} from "../../Recoil/Selectors/selectors";
 
-export function DoubleNumNode({ id }) {
+export function StringConcatNode({ id }) {
   const [state, setState] = useRecoilState(nodeDataState(id));
-  const connectedValue = useRecoilValue(numberDisplaySelector(id))[0];
+  const connectedValues = useRecoilValue(stringDisplaySelector(id));
 
   useEffect(() => {
-    const numToSave = connectedValue * 2;
-    setState({ Number: numToSave });
-  }, [connectedValue]);
+    const stringToSave = connectedValues.join("");
+    setState({ String: stringToSave });
+  }, [connectedValues]);
 
   return (
     <div
@@ -24,7 +27,7 @@ export function DoubleNumNode({ id }) {
       }}
     >
       <Handle type="target" position={Position.Top} />
-      <h1>Double Number Pipe ||</h1>
+      <h1>String Concat Pipe ||</h1>
       <Handle type="source" position={Position.Bottom} />
     </div>
   );

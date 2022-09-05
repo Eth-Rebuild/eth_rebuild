@@ -46,3 +46,14 @@ export const numberDisplaySelector = selectorFamily<Array<number>, string>({
       return connectedNodesData.map((item) => item["Number"]);
     },
 });
+
+export const stringDisplaySelector = selectorFamily<Array<string>, string>({
+  key: "@displaySelector",
+
+  get:
+    (id) =>
+    ({ get }) => {
+      const connectedNodesData = get(connectedNodesDataSelector(id));
+      return connectedNodesData.map((item) => item["String"]);
+    },
+});

@@ -2,7 +2,7 @@ import { Handle, Position } from "react-flow-renderer";
 import { useRecoilState } from "recoil";
 import { nodeDataState } from "../../Recoil/Atoms/atoms";
 
-export function NumberInputNode({ id }) {
+export function StringInputNode({ id }) {
   const [state, setState] = useRecoilState(nodeDataState(id));
 
   return (
@@ -16,10 +16,10 @@ export function NumberInputNode({ id }) {
       }}
     >
       <input
-        type="number"
-        defaultValue={0}
+        type="string"
+        defaultValue=""
         onChange={(e) => {
-          setState({ Number: e.target.valueAsNumber });
+          setState({ String: e.target.value });
         }}
       />
       <Handle type="source" position={Position.Bottom} />

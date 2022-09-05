@@ -38,8 +38,8 @@ export function ReactFlowProvider() {
       ...nodes,
       {
         id: String(nodes.length + 1),
-        type: "additionNode",
-        data: { id: String(nodes.length + 1) },
+        type: "doubleNumNode",
+        data: {},
         position: { x: 450, y: 25 },
       },
     ]);
