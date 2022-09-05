@@ -6,9 +6,10 @@ import ReactFlow, {
   addEdge,
   Background,
 } from "react-flow-renderer";
-import { edgeState, nodeState, nodeTypesState } from "./Atoms/atoms";
+import { edgeState, nodeState, nodeTypesState } from "./Recoil/Atoms/atoms";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { useCallback } from "react";
+import { PageHeader, Button, Space } from "antd";
 
 export function ReactFlowProvider() {
   const [nodes, setNodes] = useRecoilState(nodeState);
@@ -46,21 +47,30 @@ export function ReactFlowProvider() {
 
   return (
     <div style={{ width: "100vw", height: "100vh" }}>
-      <button
-        onClick={() => {
-          addNode();
-        }}
-      >
-        Add node
-      </button>
-      <button
-        onClick={() => {
-          console.log(nodes);
-          console.log(edges);
-        }}
-      >
-        Log Nodes and Edges
-      </button>
+      <PageHeader
+        title="Eth_Rebuild"
+        subTitle="Inspired by Austin Griffith's rad project, eth.build"
+        onBack={() => null}
+      />
+      <Space style={{ margin: "20px" }}>
+        <Button
+          type="primary"
+          onClick={() => {
+            addNode();
+          }}
+        >
+          Add node
+        </Button>
+        <Button
+          type="primary"
+          onClick={() => {
+            console.log(nodes);
+            console.log(edges);
+          }}
+        >
+          Log Nodes and Edges
+        </Button>
+      </Space>
       <ReactFlow
         nodes={nodes}
         edges={edges}

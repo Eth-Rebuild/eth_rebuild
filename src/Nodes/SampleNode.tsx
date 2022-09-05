@@ -4,8 +4,7 @@ import { useRecoilValue } from "recoil";
 import {
   activeConnectionsSelector,
   connectedNodesSelector,
-  edgeState,
-} from "../Atoms/atoms";
+} from "../Recoil/Selectors/selectors";
 
 export function SampleNode({ data }) {
   const activeConnections = useRecoilValue(activeConnectionsSelector(data.id));
