@@ -5,6 +5,8 @@ import ReactFlow, {
   applyEdgeChanges,
   addEdge,
   Background,
+  useViewport,
+  useReactFlow,
 } from "react-flow-renderer";
 import {
   cursorPositionState,
@@ -14,15 +16,18 @@ import {
   nodeTypesState,
 } from "./Recoil/Atoms/atoms";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { useCallback } from "react";
+import { useCallback, useRef } from "react";
 import { PageHeader, Dropdown, Menu } from "antd";
 
 export function Flow() {
+  const reactFlowWrapper = useRef(null);
   const [nodes, setNodes] = useRecoilState(nodeState);
   const [edges, setEdges] = useRecoilState(edgeState);
   const [cursorPos, setCursorPos] = useRecoilState(cursorPositionState);
   const nodeTypes = useRecoilValue(nodeTypesState);
   const nodeTypesPretty = useRecoilValue(nodeTypesPrettyState);
+  const { project } = useReactFlow();
+  const view = useViewport();
 
   const onNodesChange = useCallback(
     //@ts-ignore
@@ -48,12 +53,10 @@ export function Flow() {
         id: String(nodes.length + 1),
         type: type,
         data: {},
-        position: { x: xPos, y: yPos },
+        position: project({ x: xPos - 100, y: yPos - 100 }),
       },
     ]);
   }
-
-  // read the nodeTypes object and creates a menu item for each key
 
   const menu = (
     <Menu
@@ -68,14 +71,18 @@ export function Flow() {
   return (
     <div
       style={{ width: "100vw", height: "100vh" }}
-      onMouseMove={(e) =>
-        setCursorPos({ x: e.clientX - 100, y: e.clientY - 100 })
-      }
+      onMouseMove={(e) => {
+        setCursorPos({
+          x: e.clientX,
+          y: e.clientY,
+        });
+      }}
+      ref={reactFlowWrapper}
     >
       <PageHeader
         title="Eth_Rebuild"
         subTitle="Inspired by Austin Griffith's rad project, eth.build"
-        onBack={() => console.log(nodes, edges)}
+        onBack={() => console.log(view)}
       />
       <Dropdown overlay={menu} trigger={["contextMenu"]}>
         <ReactFlow
