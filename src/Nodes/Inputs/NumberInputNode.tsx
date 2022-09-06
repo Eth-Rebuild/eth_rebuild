@@ -19,7 +19,9 @@ export function NumberInputNode({ id }) {
         type="number"
         defaultValue={0}
         onChange={(e) => {
-          setState({ Number: e.target.valueAsNumber });
+          setState({
+            value: e.target.value,
+          });
         }}
       />
       <Handle type="source" position={Position.Bottom} />

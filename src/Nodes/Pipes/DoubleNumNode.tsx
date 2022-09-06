@@ -2,15 +2,18 @@ import { useEffect } from "react";
 import { Handle, Position } from "react-flow-renderer";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { nodeDataState } from "../../Recoil/Atoms/atoms";
-import { numberDisplaySelector } from "../../Recoil/Selectors/selectors";
+import {
+  connectedValueSelector,
+  numberDisplaySelector,
+} from "../../Recoil/Selectors/selectors";
 
 export function DoubleNumNode({ id }) {
   const [state, setState] = useRecoilState(nodeDataState(id));
-  const connectedValue = useRecoilValue(numberDisplaySelector(id))[0];
+  const connectedValue = useRecoilValue(connectedValueSelector(id))[0];
 
   useEffect(() => {
     const numToSave = connectedValue * 2;
-    setState({ Number: numToSave });
+    setState({ value: numToSave });
   }, [connectedValue]);
 
   return (

@@ -57,3 +57,14 @@ export const stringDisplaySelector = selectorFamily<Array<string>, string>({
       return connectedNodesData.map((item) => item["String"]);
     },
 });
+
+export const connectedValueSelector = selectorFamily<Array<any>, string>({
+  key: "@displaySelector",
+
+  get:
+    (id) =>
+    ({ get }) => {
+      const connectedNodesData = get(connectedNodesDataSelector(id));
+      return connectedNodesData.map((item) => item["value"]);
+    },
+});

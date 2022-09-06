@@ -3,17 +3,18 @@ import { Handle, Position } from "react-flow-renderer";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { nodeDataState } from "../../Recoil/Atoms/atoms";
 import {
+  connectedValueSelector,
   numberDisplaySelector,
   stringDisplaySelector,
 } from "../../Recoil/Selectors/selectors";
 
 export function StringConcatNode({ id }) {
   const [state, setState] = useRecoilState(nodeDataState(id));
-  const connectedValues = useRecoilValue(stringDisplaySelector(id));
+  const connectedValues = useRecoilValue(connectedValueSelector(id));
 
   useEffect(() => {
     const stringToSave = connectedValues.join("");
-    setState({ String: stringToSave });
+    setState({ value: stringToSave });
   }, [connectedValues]);
 
   return (

@@ -2,7 +2,7 @@ import { atom, atomFamily, selectorFamily } from "recoil";
 import { NumberDisplayNode, StringDisplayNode } from "../../Nodes/Displays";
 import { DoubleNumNode, StringConcatNode } from "../../Nodes/Pipes";
 import { NumberInputNode, StringInputNode } from "../../Nodes/Inputs";
-import { Edge } from "react-flow-renderer";
+import { Edge, Node } from "react-flow-renderer";
 
 export const nodeTypesState = atom({
   key: "nodeTypes",
@@ -38,25 +38,10 @@ export const nodeTypesPrettyState = atom({
   },
 });
 
-interface NodeState {
-  id: string;
-  type: string;
-  data: any;
-  position: { x: number; y: number };
-}
-
-export const nodeState = atom<Array<NodeState>>({
+export const nodeState = atom<Array<Node>>({
   key: "nodes",
   default: [],
 });
-
-// interface EdgeState {
-//   id: string;
-//   source: string;
-//   target: string;
-//   sourceHandle?: string;
-//   targetHandle?: string;
-// }
 
 export const edgeState = atom<Array<Edge>>({
   key: "edges",

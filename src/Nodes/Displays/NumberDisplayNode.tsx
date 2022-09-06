@@ -1,12 +1,9 @@
 import { Handle, Position } from "react-flow-renderer";
-import {
-  connectedNodesSelector,
-  numberDisplaySelector,
-} from "../../Recoil/Selectors/selectors";
+import { connectedValueSelector } from "../../Recoil/Selectors/selectors";
 import { useRecoilValue } from "recoil";
 
 export function NumberDisplayNode({ id }) {
-  const numberToDisplay = useRecoilValue(numberDisplaySelector(id));
+  const numberToDisplay = useRecoilValue(connectedValueSelector(id));
 
   return (
     <div

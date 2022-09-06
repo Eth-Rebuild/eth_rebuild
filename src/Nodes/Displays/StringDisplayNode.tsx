@@ -1,9 +1,9 @@
 import { Handle, Position } from "react-flow-renderer";
-import { stringDisplaySelector } from "../../Recoil/Selectors/selectors";
+import { connectedValueSelector } from "../../Recoil/Selectors/selectors";
 import { useRecoilValue } from "recoil";
 
 export function StringDisplayNode({ id }) {
-  const stringToDisplay = useRecoilValue(stringDisplaySelector(id));
+  const stringToDisplay = useRecoilValue(connectedValueSelector(id));
 
   return (
     <div

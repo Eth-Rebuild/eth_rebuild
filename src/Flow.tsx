@@ -30,7 +30,6 @@ export function Flow() {
   const view = useViewport();
 
   const onNodesChange = useCallback(
-    //@ts-ignore
     (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
     [setNodes]
   );
@@ -47,10 +46,11 @@ export function Flow() {
   );
 
   function addNode(type: string, xPos: number, yPos: number) {
+    const lastNodeId = nodes.length ? Number(nodes[nodes.length - 1].id) : 0;
     setNodes([
       ...nodes,
       {
-        id: String(nodes.length + 1),
+        id: String(lastNodeId + 1),
         type: type,
         data: {},
         position: project({ x: xPos - 100, y: yPos - 100 }),

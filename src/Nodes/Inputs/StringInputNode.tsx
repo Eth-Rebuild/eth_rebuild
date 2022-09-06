@@ -19,7 +19,7 @@ export function StringInputNode({ id }) {
         type="string"
         defaultValue=""
         onChange={(e) => {
-          setState({ String: e.target.value });
+          setState({ value: e.target.value });
         }}
       />
       <Handle type="source" position={Position.Bottom} />
