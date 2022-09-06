@@ -20,7 +20,7 @@ export function DoubleNumNode({ id }) {
         border: "1px solid black",
         padding: "5px",
         borderRadius: "5px",
-        backgroundColor: "green",
+        backgroundColor: "#2a9d8f",
       }}
     >
       <Handle type="target" position={Position.Top} />

@@ -123,3 +123,8 @@ export const nodeDataState = atomFamily<object, string>({
       },
   }),
 });
+
+export const cursorPositionState = atom({
+  key: "cursorPosition",
+  default: { x: 0, y: 0 },
+});

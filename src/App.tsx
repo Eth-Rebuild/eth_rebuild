@@ -1,12 +1,12 @@
 import "./App.css";
-import { ReactFlowProvider } from "./ReactFlowProvider";
+import { Flow } from "./Flow";
 import { RecoilRoot } from "recoil";
 
 function App() {
   return (
     <RecoilRoot>
       <div className="App">
-        <ReactFlowProvider />
+        <Flow />
       </div>
     </RecoilRoot>
   );
