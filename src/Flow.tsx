@@ -10,6 +10,7 @@ import {
   cursorPositionState,
   edgeState,
   nodeState,
+  nodeTypesPrettyState,
   nodeTypesState,
 } from "./Recoil/Atoms/atoms";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -21,6 +22,7 @@ export function Flow() {
   const [edges, setEdges] = useRecoilState(edgeState);
   const [cursorPos, setCursorPos] = useRecoilState(cursorPositionState);
   const nodeTypes = useRecoilValue(nodeTypesState);
+  const nodeTypesPretty = useRecoilValue(nodeTypesPrettyState);
 
   const onNodesChange = useCallback(
     //@ts-ignore
@@ -51,31 +53,16 @@ export function Flow() {
     ]);
   }
 
+  // read the nodeTypes object and creates a menu item for each key
+
   const menu = (
     <Menu
-      items={[
-        {
-          key: "1",
-          label: "String Input Node",
-          onClick: () => addNode("stringInputNode", cursorPos.x, cursorPos.y),
-        },
-        {
-          key: "2",
-          label: "String Concat Node",
-          onClick: () => addNode("stringConcatNode", cursorPos.x, cursorPos.y),
-        },
-        {
-          key: "3",
-          label: "String Display Node",
-          onClick: () => addNode("stringDisplayNode", cursorPos.x, cursorPos.y),
-        },
-        {
-          key: "4",
-          label: "Log edges and nodes",
-          onClick: () => console.log(nodes, edges),
-        },
-      ]}
-    />
+      items={Object.keys(nodeTypes).map((key) => ({
+        key: key,
+        label: nodeTypesPretty[key],
+        onClick: () => addNode(key, cursorPos.x, cursorPos.y),
+      }))}
+    ></Menu>
   );
 
   return (
@@ -88,7 +75,7 @@ export function Flow() {
       <PageHeader
         title="Eth_Rebuild"
         subTitle="Inspired by Austin Griffith's rad project, eth.build"
-        onBack={() => null}
+        onBack={() => console.log(nodes, edges)}
       />
       <Dropdown overlay={menu} trigger={["contextMenu"]}>
         <ReactFlow
