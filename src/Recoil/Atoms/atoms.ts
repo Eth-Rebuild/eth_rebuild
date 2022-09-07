@@ -16,6 +16,7 @@ export const nodeTypesState = atom({
     doubleNumNode: Pipes.DoubleNumNode,
     stringConcatNode: Pipes.StringConcatNode,
     dynamicNode: Pipes.DynamicNode,
+    hashNode: Pipes.HashNode,
 
     // displays
     numberDisplayNode: Displays.NumberDisplayNode,
@@ -34,25 +35,43 @@ export const nodeTypesState = atom({
 //   let pipes = Object.keys(Pipes).map((name) => name.replace(pattern, " $&"));
 //   return [...displays, ...inputs, ...pipes];
 // }
+// export const nodeTypesPrettyState = atom({
+//   key: "nodeTypesPretty",
+//   default: {
+//     inputs: ["Number Input", "String Input", "Button"],
+
+//     pipes: ["Double Number", "String Concat", "Dynamic Node", "Hash Node"],
+
+//     displays: [
+//       "Number Display",
+//       "String Display",
+//       "Multi Display",
+//       "Array Display",
+//     ],
+//   },
+// });
 
 export const nodeTypesPrettyState = atom({
   key: "nodeTypesPretty",
   default: {
     // inputs
-    numberInputNode: "Number Input",
-    stringInputNode: "String Input",
-    buttonInputNode: "Button",
-
-    // pipes
-    doubleNumNode: "Double Number",
-    stringConcatNode: "String Concat",
-    dynamicNode: "Dynamic Node",
-
-    // displays
-    numberDisplayNode: "Number Display",
-    stringDisplayNode: "String Display",
-    multiDisplayNode: "Multi Display",
-    arrayDisplayNode: "Array Display",
+    inputs: {
+      numberInputNode: "Number Input",
+      stringInputNode: "String Input",
+      buttonInputNode: "Button",
+    },
+    pipes: {
+      doubleNumNode: "Double Number",
+      stringConcatNode: "String Concat",
+      dynamicNode: "Dynamic Node",
+      hashNode: "Hash Node",
+    },
+    displays: {
+      numberDisplayNode: "Number Display",
+      stringDisplayNode: "String Display",
+      multiDisplayNode: "Multi Display",
+      arrayDisplayNode: "Array Display",
+    },
   },
 });
 

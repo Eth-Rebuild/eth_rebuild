@@ -60,11 +60,41 @@ export function Flow() {
 
   const menu = (
     <Menu
-      items={Object.keys(nodeTypes).map((key) => ({
-        key: key,
-        label: nodeTypesPretty[key],
-        onClick: () => addNode(key, cursorPos.x, cursorPos.y),
-      }))}
+      items={[
+        {
+          key: "Inputs",
+          label: "Inputs",
+          children: Object.keys(nodeTypesPretty.inputs).map((key) => {
+            return {
+              key: key,
+              label: nodeTypesPretty.inputs[key],
+              onClick: () => addNode(key, cursorPos.x, cursorPos.y),
+            };
+          }),
+        },
+        {
+          key: "Pipes",
+          label: "Pipes",
+          children: Object.keys(nodeTypesPretty.pipes).map((key) => {
+            return {
+              key: key,
+              label: nodeTypesPretty.pipes[key],
+              onClick: () => addNode(key, cursorPos.x, cursorPos.y),
+            };
+          }),
+        },
+        {
+          key: "Displays",
+          label: "Displays",
+          children: Object.keys(nodeTypesPretty.displays).map((key) => {
+            return {
+              key: key,
+              label: nodeTypesPretty.displays[key],
+              onClick: () => addNode(key, cursorPos.x, cursorPos.y),
+            };
+          }),
+        },
+      ]}
     ></Menu>
   );
 
