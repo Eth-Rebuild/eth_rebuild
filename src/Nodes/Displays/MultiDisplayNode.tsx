@@ -3,10 +3,7 @@ import { connectedNodeIdDataSelector } from "../../Recoil/Selectors/selectors";
 import { useRecoilValue } from "recoil";
 import { Row, Col } from "antd";
 import { useEffect } from "react";
-import {
-  defaultHandleStyleState,
-  defaultNodeStyleState,
-} from "../../Recoil/Atoms/atoms";
+import { defaultNodeStyleState } from "../../Recoil/Atoms/atoms";
 
 export function MultiDisplayNode({ id }) {
   const a = useRecoilValue(connectedNodeIdDataSelector([id, "a"]))[0];
@@ -14,7 +11,6 @@ export function MultiDisplayNode({ id }) {
   const c = useRecoilValue(connectedNodeIdDataSelector([id, "c"]))[0];
 
   const style = useRecoilValue(defaultNodeStyleState);
-  const handleStyle = useRecoilValue(defaultHandleStyleState);
 
   useEffect(() => {
     console.log("a", a);

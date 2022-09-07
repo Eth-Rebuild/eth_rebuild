@@ -2,8 +2,8 @@ import { Handle, Position } from "react-flow-renderer";
 import { connectedValueSelector } from "../../Recoil/Selectors/selectors";
 import { useRecoilValue } from "recoil";
 
-export function NumberDisplayNode({ id }) {
-  const numberToDisplay = useRecoilValue(connectedValueSelector(id))[0];
+export function ArrayDisplayNode({ id }) {
+  const valuesToDisplay = useRecoilValue(connectedValueSelector(id));
 
   return (
     <div
@@ -16,8 +16,8 @@ export function NumberDisplayNode({ id }) {
       }}
     >
       <Handle type="target" position={Position.Top} />
-      <h1>Number Display Node</h1>
-      <h1>{numberToDisplay}</h1>
+      <h1>Array Display Node</h1>
+      <h1>{valuesToDisplay}</h1>
     </div>
   );
 }

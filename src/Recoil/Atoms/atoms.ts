@@ -1,35 +1,39 @@
 import { atom, atomFamily, selectorFamily } from "recoil";
-import {
-  MultiDisplayNode,
-  NumberDisplayNode,
-  StringDisplayNode,
-} from "../../Nodes/Displays";
-import {
-  DoubleNumNode,
-  DynamicNode,
-  StringConcatNode,
-} from "../../Nodes/Pipes";
-import { NumberInputNode, StringInputNode } from "../../Nodes/Inputs";
+import * as Displays from "../../Nodes/Displays";
+import * as Pipes from "../../Nodes/Pipes";
+import * as Inputs from "../../Nodes/Inputs";
 import { Edge, Node } from "react-flow-renderer";
 
 export const nodeTypesState = atom({
   key: "nodeTypes",
   default: {
     // inputs
-    numberInputNode: NumberInputNode,
-    stringInputNode: StringInputNode,
+    numberInputNode: Inputs.NumberInputNode,
+    stringInputNode: Inputs.StringInputNode,
+    buttonInputNode: Inputs.ButtonInputNode,
 
     // pipes
-    doubleNumNode: DoubleNumNode,
-    stringConcatNode: StringConcatNode,
-    dynamicNode: DynamicNode,
+    doubleNumNode: Pipes.DoubleNumNode,
+    stringConcatNode: Pipes.StringConcatNode,
+    dynamicNode: Pipes.DynamicNode,
 
     // displays
-    numberDisplayNode: NumberDisplayNode,
-    stringDisplayNode: StringDisplayNode,
-    multiDisplayNode: MultiDisplayNode,
+    numberDisplayNode: Displays.NumberDisplayNode,
+    stringDisplayNode: Displays.StringDisplayNode,
+    multiDisplayNode: Displays.MultiDisplayNode,
+    arrayDisplayNode: Displays.ArrayDisplayNode,
   },
 });
+
+// function prettyNames() {
+//   const pattern = /[A-Z]/g;
+//   let displays = Object.keys(Displays).map((name) =>
+//     name.replace(pattern, " $&")
+//   );
+//   let inputs = Object.keys(Inputs).map((name) => name.replace(pattern, " $&"));
+//   let pipes = Object.keys(Pipes).map((name) => name.replace(pattern, " $&"));
+//   return [...displays, ...inputs, ...pipes];
+// }
 
 export const nodeTypesPrettyState = atom({
   key: "nodeTypesPretty",
@@ -37,6 +41,7 @@ export const nodeTypesPrettyState = atom({
     // inputs
     numberInputNode: "Number Input",
     stringInputNode: "String Input",
+    buttonInputNode: "Button",
 
     // pipes
     doubleNumNode: "Double Number",
@@ -47,6 +52,7 @@ export const nodeTypesPrettyState = atom({
     numberDisplayNode: "Number Display",
     stringDisplayNode: "String Display",
     multiDisplayNode: "Multi Display",
+    arrayDisplayNode: "Array Display",
   },
 });
 

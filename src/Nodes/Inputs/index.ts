@@ -1,4 +1,5 @@
 import { NumberInputNode } from "./NumberInputNode";
 import { StringInputNode } from "./StringInputNode";
+import { ButtonInputNode } from "./ButtonInputNode";
 
-export { NumberInputNode, StringInputNode };
+export { NumberInputNode, StringInputNode, ButtonInputNode };

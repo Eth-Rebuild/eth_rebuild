@@ -1,8 +1,9 @@
 import { Handle, Position } from "react-flow-renderer";
 import { useRecoilState } from "recoil";
 import { nodeDataState } from "../../Recoil/Atoms/atoms";
+import { Button } from "antd";
 
-export function NumberInputNode({ id }) {
+export function ButtonInputNode({ id }) {
   const [state, setState] = useRecoilState(nodeDataState(id));
 
   return (
@@ -15,16 +16,15 @@ export function NumberInputNode({ id }) {
         backgroundColor: "#2a9d8f",
       }}
     >
-      <input
-        type="number"
-        defaultValue={0}
-        onChange={(e) => {
-          setState({
-            value: e.target.valueAsNumber,
-          });
+      <Button
+        type="primary"
+        onClick={() => {
+          setState({ value: state["value"] + 1 || 1 });
         }}
-      />
-      <h1>Number Input</h1>
+      >
+        Click Me
+      </Button>
+      <h1>Button Input</h1>
       <Handle type="source" position={Position.Bottom} />
     </div>
   );
