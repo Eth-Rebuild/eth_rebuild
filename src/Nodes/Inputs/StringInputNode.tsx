@@ -22,6 +22,7 @@ export function StringInputNode({ id }) {
           setState({ value: e.target.value });
         }}
       />
+      <h1>String Input</h1>
       <Handle type="source" position={Position.Bottom} />
     </div>
   );

@@ -79,11 +79,11 @@ export function Flow() {
       }}
       ref={reactFlowWrapper}
     >
-      <PageHeader
+      {/* <PageHeader
         title="Eth_Rebuild"
         subTitle="Inspired by Austin Griffith's rad project, eth.build"
         onBack={() => console.log(view)}
-      />
+      /> */}
       <Dropdown overlay={menu} trigger={["contextMenu"]}>
         <ReactFlow
           nodes={nodes}
@@ -95,7 +95,7 @@ export function Flow() {
           onPaneContextMenu={(e) => e.preventDefault()}
         >
           <Background />
-          <MiniMap />
+          {/* <MiniMap /> */}
           <Controls />
         </ReactFlow>
       </Dropdown>

@@ -7,15 +7,22 @@ import {
   numberDisplaySelector,
 } from "../../Recoil/Selectors/selectors";
 
-export function DoubleNumNode({ id }) {
+export function DynamicNode({ id }) {
   const [state, setState] = useRecoilState(nodeDataState(id));
-  const connectedValue = useRecoilValue(connectedValueSelector(id))[0];
+  const connectedValue = useRecoilValue(connectedValueSelector(id));
   const updateNodeInterals = useUpdateNodeInternals();
 
-  useEffect(() => {
-    const numToSave = connectedValue * 2;
-    setState({ value: numToSave });
-  }, [connectedValue]);
+  let handles = connectedValue.map((_, index) => {
+    return (
+      <Handle
+        type="target"
+        position={Position.Top}
+        id={index.toString()}
+        key={index}
+        style={{ marginRight: index * 10 }}
+      />
+    );
+  });
 
   return (
     <div
@@ -28,7 +35,8 @@ export function DoubleNumNode({ id }) {
       }}
     >
       <Handle type="target" position={Position.Top} id="a" />
-      <h1>Double Number Pipe ||</h1>
+      {handles}
+      <h1>Dynamic Node</h1>
       <Handle type="source" position={Position.Bottom} id="a" />
     </div>
   );

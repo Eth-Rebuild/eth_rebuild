@@ -36,6 +36,34 @@ export const connectedNodesDataSelector = selectorFamily<Array<object>, string>(
   }
 );
 
+export const connectedNodeIdSelector = selectorFamily<
+  Array<string>,
+  Array<string>
+>({
+  key: "@connectedNodes",
+  get:
+    ([nodeId, handleId]) =>
+    ({ get }) => {
+      const connectedNodes = get(edgeState).filter(
+        (item) => item.target === nodeId && item.targetHandle === handleId
+      );
+      return connectedNodes.map((item) => item.source);
+    },
+});
+
+export const connectedNodeIdDataSelector = selectorFamily<
+  Array<object>,
+  Array<string>
+>({
+  key: "@connectedNodes",
+  get:
+    ([nodeId, handleId]) =>
+    ({ get }) => {
+      const connectedNodes = get(connectedNodeIdSelector([nodeId, handleId]));
+      return connectedNodes.map((nodeId) => get(nodeDataState(nodeId)));
+    },
+});
+
 export const numberDisplaySelector = selectorFamily<Array<number>, string>({
   key: "@displaySelector",
 

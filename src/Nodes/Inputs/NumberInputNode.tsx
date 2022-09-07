@@ -24,6 +24,7 @@ export function NumberInputNode({ id }) {
           });
         }}
       />
+      <h1>Number Input</h1>
       <Handle type="source" position={Position.Bottom} />
     </div>
   );
