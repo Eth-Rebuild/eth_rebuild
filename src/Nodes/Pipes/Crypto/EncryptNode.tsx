@@ -29,17 +29,9 @@ export function EncryptNode({ id }) {
   }, [connectedValue]);
 
   return (
-    <div
-      style={{
-        height: "100px",
-        border: "1px solid black",
-        padding: "5px",
-        borderRadius: "5px",
-        backgroundColor: "#2a9d8f",
-      }}
-    >
+    <div className="custom-node">
       {createHandles("input", 1)}
-      <h1>Hash function Pipe</h1>
+      <h1>Encrypt</h1>
       {createHandles("output", 1)}
     </div>
   );

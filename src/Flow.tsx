@@ -1,11 +1,9 @@
 import ReactFlow, {
-  MiniMap,
   Controls,
   applyNodeChanges,
   applyEdgeChanges,
   addEdge,
   Background,
-  useViewport,
   useReactFlow,
 } from "react-flow-renderer";
 import {
@@ -27,7 +25,6 @@ export function Flow() {
   const nodeTypes = useRecoilValue(nodeTypesState);
   const nodeTypesPretty = useRecoilValue(nodeTypesPrettyState);
   const { project } = useReactFlow();
-  const view = useViewport();
 
   const onNodesChange = useCallback(
     (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
@@ -109,11 +106,11 @@ export function Flow() {
       }}
       ref={reactFlowWrapper}
     >
-      <PageHeader
+      {/* <PageHeader
         title="Eth_Rebuild"
         subTitle="Inspired by Austin Griffith's rad project, eth.build"
         onBack={() => console.log(nodes)}
-      />
+      /> */}
       <Dropdown overlay={menu} trigger={["contextMenu"]}>
         <ReactFlow
           nodes={nodes}

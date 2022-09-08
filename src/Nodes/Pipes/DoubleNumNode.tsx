@@ -19,15 +19,7 @@ export function DoubleNumNode({ id }) {
   }, [connectedValue]);
 
   return (
-    <div
-      style={{
-        height: "100px",
-        border: "1px solid black",
-        padding: "5px",
-        borderRadius: "5px",
-        backgroundColor: "#2a9d8f",
-      }}
-    >
+    <div className="custom-node">
       {createHandles("input", 1)}
       <h1>Double Number Pipe ||</h1>
       {createHandles("output", 1)}

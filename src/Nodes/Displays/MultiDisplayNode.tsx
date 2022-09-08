@@ -11,8 +11,6 @@ export function MultiDisplayNode({ id }) {
   const b = useRecoilValue(connectedNodeIdDataSelector([id, "b"]))[0];
   const c = useRecoilValue(connectedNodeIdDataSelector([id, "c"]))[0];
 
-  const style = useRecoilValue(defaultNodeStyleState);
-
   useEffect(() => {
     console.log("a", a);
     console.log("b", b);
@@ -20,7 +18,7 @@ export function MultiDisplayNode({ id }) {
   }, [a, b, c]);
 
   return (
-    <div style={style}>
+    <div className="custom-node">
       {createHandles("input", 3)}
       <h1>Multi Display Node</h1>
       <h1>{a ? a["value"] : ""}</h1>

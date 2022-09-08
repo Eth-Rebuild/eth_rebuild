@@ -25,15 +25,7 @@ export function DynamicNode({ id }) {
   });
 
   return (
-    <div
-      style={{
-        height: "100px",
-        border: "1px solid black",
-        padding: "5px",
-        borderRadius: "5px",
-        backgroundColor: "#2a9d8f",
-      }}
-    >
+    <div className="custom-node">
       <Handle type="target" position={Position.Top} id="a" />
       {handles}
       <h1>Dynamic Node</h1>
