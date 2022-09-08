@@ -17,6 +17,7 @@ export const nodeTypesState = atom({
     stringConcatNode: Pipes.StringConcatNode,
     dynamicNode: Pipes.DynamicNode,
     hashNode: Pipes.HashNode,
+    encryptNode: Pipes.EncryptNode,
 
     // displays
     numberDisplayNode: Displays.NumberDisplayNode,
@@ -40,6 +41,7 @@ export const nodeTypesPrettyState = atom({
       stringConcatNode: "String Concat",
       dynamicNode: "Dynamic Node",
       hashNode: "Hash Node",
+      encryptNode: "Encrypt Node",
     },
     displays: {
       numberDisplayNode: "Number Display",

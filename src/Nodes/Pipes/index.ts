@@ -4,5 +4,6 @@ import { DynamicNode } from "./DynamicNode";
 
 //crypto
 import { HashNode } from "./Crypto/HashNode";
+import { EncryptNode } from "./Crypto/EncryptNode";
 
-export { DoubleNumNode, StringConcatNode, DynamicNode, HashNode };
+export { DoubleNumNode, StringConcatNode, DynamicNode, HashNode, EncryptNode };

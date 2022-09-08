@@ -30,8 +30,8 @@ export function EncryptNode({ id }) {
 
   return (
     <div className="custom-node">
-      {createHandles("input", 1)}
       <h4>Encrypt</h4>
+      {createHandles("input", 2, ["private key", "message"])}
       {createHandles("output", 1)}
     </div>
   );

@@ -57,6 +57,7 @@ export function Flow() {
 
   const menu = (
     <Menu
+      theme="dark"
       items={[
         {
           key: "Inputs",
