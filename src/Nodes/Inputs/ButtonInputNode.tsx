@@ -13,7 +13,7 @@ export function ButtonInputNode({ id }) {
       <Button
         type="primary"
         onClick={() => {
-          setState({ value: state["value"] + 1 || 1 });
+          setState({ a: state["value"] + 1 || 1 });
         }}
       >
         Click Me

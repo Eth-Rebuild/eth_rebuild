@@ -4,7 +4,7 @@ import { useRecoilValue } from "recoil";
 import { createHandles } from "../../Helpers/helpers";
 
 export function StringDisplayNode({ id }) {
-  const stringToDisplay = useRecoilValue(connectedValueSelector(id));
+  const stringToDisplay = useRecoilValue(connectedValueSelector([id, "a"]));
 
   return (
     <div className="custom-node">

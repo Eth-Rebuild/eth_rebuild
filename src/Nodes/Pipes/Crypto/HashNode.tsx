@@ -8,20 +8,16 @@ import { createHandles } from "../../../Helpers/helpers";
 
 export function HashNode({ id }) {
   const [state, setState] = useRecoilState(nodeDataState(id));
-  const connectedValue = useRecoilValue(connectedValueSelector(id))[0];
+  const connectedValue = useRecoilValue(connectedValueSelector([id, "a"]));
 
   useEffect(() => {
     try {
       if (connectedValue) {
-        let hash;
-        if (typeof connectedValue === "string") {
-          hash = utils.keccak256(utils.toUtf8Bytes(connectedValue));
-        } else {
-          hash = utils.keccak256(connectedValue);
-        }
-        setState({ value: hash });
-      } else {
-        setState({ value: undefined });
+        const hash =
+          typeof connectedValue === "string"
+            ? utils.keccak256(utils.toUtf8Bytes(connectedValue))
+            : utils.keccak256(connectedValue);
+        setState({ a: hash });
       }
     } catch (e) {
       console.error(e);
@@ -30,8 +26,8 @@ export function HashNode({ id }) {
 
   return (
     <div className="custom-node">
-      {createHandles("input", 1)}
       <h4>Hash function Pipe</h4>
+      {createHandles("input", 1)}
       {createHandles("output", 1)}
     </div>
   );

@@ -6,25 +6,24 @@ import { useRef } from "react";
 import makeBlockie from "ethereum-blockies-base64";
 
 export function AddressDisplayNode({ id }) {
-  const input = useRecoilValue(connectedValueSelector(id))[0];
-  const isValid = isAddress(input);
+  const a = useRecoilValue(connectedValueSelector([id, "a"]));
+  const isValid = isAddress(a);
 
   return (
     <div className="custom-node">
       <h4>Address Display</h4>
       <span>
-        {/* <h4>{isValid ? input : "Invalid Address"}</h4> */}
         {isValid ? (
           <img
             height={50}
             width={50}
-            src={makeBlockie(input)}
+            src={makeBlockie(a)}
             style={{ margin: "10px" }}
           />
         ) : (
           ""
         )}
-        {isValid ? input : "Invalid Address"}
+        {isValid ? a : "Invalid Address"}
       </span>
       {createHandles("input", 1)}
     </div>

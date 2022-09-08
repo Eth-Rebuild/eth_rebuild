@@ -11,7 +11,7 @@ export function StringConcatNode({ id }) {
 
   useEffect(() => {
     const stringToSave = connectedValues.join("");
-    setState({ value: stringToSave });
+    setState({ a: stringToSave });
   }, [connectedValues]);
 
   return (

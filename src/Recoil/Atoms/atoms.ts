@@ -13,7 +13,7 @@ export const nodeTypesState = atom({
     buttonInputNode: Inputs.ButtonInputNode,
 
     // pipes
-    doubleNumNode: Pipes.DoubleNumNode,
+    multiplicationNode: Pipes.MuliplicationNode,
     stringConcatNode: Pipes.StringConcatNode,
     hashNode: Pipes.HashNode,
     encryptNode: Pipes.EncryptNode,
@@ -37,7 +37,7 @@ export const nodeTypesPrettyState = atom({
       buttonInputNode: "Button",
     },
     pipes: {
-      doubleNumNode: "Double Number",
+      multiplicationNode: "Multiplication",
       stringConcatNode: "String Concat",
       hashNode: "Hash Node",
       encryptNode: "Encrypt Node",

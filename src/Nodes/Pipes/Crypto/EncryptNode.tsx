@@ -10,11 +10,7 @@ export function EncryptNode({ id }) {
   const values = getDataSources(connectedValue, 2);
 
   useEffect(() => {
-    if (values) {
-      setState({ value: "Pretend this is encrypted ;)" });
-    } else {
-      setState({ value: undefined });
-    }
+    setState({ a: "Pretend this is encrypted ;)" });
   }, [values]);
 
   return (

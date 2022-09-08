@@ -5,20 +5,26 @@ import { createHandles } from "../../Helpers/helpers";
 import { nodeDataState } from "../../Recoil/Atoms/atoms";
 import { connectedValueSelector } from "../../Recoil/Selectors/selectors";
 
-export function DoubleNumNode({ id }) {
+export function MuliplicationNode({ id }) {
   const [state, setState] = useRecoilState(nodeDataState(id));
-  const connectedValue = useRecoilValue(connectedValueSelector(id))[0];
-  const updateNodeInterals = useUpdateNodeInternals();
+  const a = useRecoilValue(connectedValueSelector([id, "a"]));
+  const b = useRecoilValue(connectedValueSelector([id, "b"]));
 
   useEffect(() => {
-    const numToSave = connectedValue * 2;
-    setState({ value: numToSave });
-  }, [connectedValue]);
+    try {
+      if (a && b) {
+        const numToSave = a * b;
+        setState({ a: numToSave });
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }, [a, b]);
 
   return (
     <div className="custom-node">
-      {createHandles("input", 1)}
-      <h4>Double Number Pipe ||</h4>
+      <h4>Multiplication Pipe</h4>
+      {createHandles("input", 2, ["a", "b"])}
       {createHandles("output", 1)}
     </div>
   );
