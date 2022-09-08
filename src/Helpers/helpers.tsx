@@ -1,12 +1,13 @@
 import { Handle, Position } from "react-flow-renderer";
+import { useRecoilValue } from "recoil";
+import { connectedValueSelector } from "../Recoil/Selectors/selectors";
 
 export const alphaArray = "abcdefghijklmnopqrstuvwxyz".split("");
 
 export function createHandles(kind: string, count: number, labels?: string[]) {
   return Array.from(Array(count)).map((_, index) => (
-    <div>
+    <div key={index}>
       <Handle
-        key={index}
         type={kind === "input" ? "target" : "source"}
         position={kind === "input" ? Position.Left : Position.Right}
         style={{
@@ -31,4 +32,14 @@ export function createHandles(kind: string, count: number, labels?: string[]) {
       </div>
     </div>
   ));
+}
+
+export function getDataSources(
+  connectedValue: any[] | undefined,
+  count: number
+) {
+  if (!connectedValue) return undefined;
+  if (connectedValue.length >= count - 1) {
+    return connectedValue.slice(0, count);
+  }
 }

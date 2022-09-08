@@ -4,29 +4,20 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { nodeDataState } from "../../../Recoil/Atoms/atoms";
 import { connectedValueSelector } from "../../../Recoil/Selectors/selectors";
 import { utils } from "ethers";
-import { createHandles } from "../../../Helpers/helpers";
+import { createHandles, getDataSources } from "../../../Helpers/helpers";
 
 export function EncryptNode({ id }) {
   const [state, setState] = useRecoilState(nodeDataState(id));
   const connectedValue = useRecoilValue(connectedValueSelector(id))[0];
+  const values = getDataSources(connectedValue, 2);
 
   useEffect(() => {
-    try {
-      if (connectedValue) {
-        let hash;
-        if (typeof connectedValue === "string") {
-          hash = utils.keccak256(utils.toUtf8Bytes(connectedValue));
-        } else {
-          hash = utils.keccak256(connectedValue);
-        }
-        setState({ value: hash });
-      } else {
-        setState({ value: undefined });
-      }
-    } catch (e) {
-      console.error(e);
+    if (values) {
+      setState({ value: "Pretend this is encrypted ;)" });
+    } else {
+      setState({ value: undefined });
     }
-  }, [connectedValue]);
+  }, [values]);
 
   return (
     <div className="custom-node">
