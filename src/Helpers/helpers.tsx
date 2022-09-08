@@ -1,6 +1,4 @@
 import { Handle, Position } from "react-flow-renderer";
-import { useRecoilValue } from "recoil";
-import { connectedValueSelector } from "../Recoil/Selectors/selectors";
 
 export const alphaArray = "abcdefghijklmnopqrstuvwxyz".split("");
 
@@ -15,7 +13,7 @@ export function createHandles(kind: string, count: number, labels?: string[]) {
           width: "15px",
           height: "15px",
           borderRadius: "50%",
-          backgroundColor: "#e9c46a",
+          backgroundColor: kind === "input" ? "red" : "green", // TODO: use theme for inputs and ouputs
           cursor: "pointer",
           border: "1px solid #2a9d8f",
           display: "inline-block",

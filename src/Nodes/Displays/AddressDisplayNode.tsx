@@ -2,13 +2,11 @@ import { connectedValueSelector } from "../../Recoil/Selectors/selectors";
 import { useRecoilValue } from "recoil";
 import { createHandles } from "../../Helpers/helpers";
 import { isAddress } from "ethers/lib/utils";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import makeBlockie from "ethereum-blockies-base64";
 
 export function AddressDisplayNode({ id }) {
   const input = useRecoilValue(connectedValueSelector(id))[0];
-  const canvasRef = useRef(null);
-
   const isValid = isAddress(input);
 
   return (
