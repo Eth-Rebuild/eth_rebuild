@@ -13,7 +13,7 @@ export function StringInputNode({ id }) {
         type="string"
         defaultValue=""
         onChange={(e) => {
-          setState({ value: e.target.value });
+          setState({ a: e.target.value });
         }}
       />
       {createHandles("output", 1)}

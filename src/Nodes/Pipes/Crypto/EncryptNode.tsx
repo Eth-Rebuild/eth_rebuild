@@ -6,7 +6,7 @@ import { createHandles, getDataSources } from "../../../Helpers/helpers";
 
 export function EncryptNode({ id }) {
   const [state, setState] = useRecoilState(nodeDataState(id));
-  const connectedValue = useRecoilValue(connectedValueSelector(id))[0];
+  const connectedValue = useRecoilValue(connectedValueSelector([id, "a"]))[0];
   const values = getDataSources(connectedValue, 2);
 
   useEffect(() => {

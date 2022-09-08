@@ -15,7 +15,7 @@ import {
 } from "./Recoil/Atoms/atoms";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { useCallback, useRef } from "react";
-import { PageHeader, Dropdown, Menu } from "antd";
+import { Dropdown, Menu } from "antd";
 
 export function Flow() {
   const reactFlowWrapper = useRef(null);
@@ -41,6 +41,11 @@ export function Flow() {
     },
     [setEdges]
   );
+
+  const onNodeDelete = useCallback((nodesDeleted) => {
+    setNodes((nds) => nds.filter((n) => !nodesDeleted.includes(n.id)));
+    console.log(nodes);
+  }, []);
 
   function addNode(type: string, xPos: number, yPos: number) {
     const lastNodeId = nodes.length ? Number(nodes[nodes.length - 1].id) : 0;
@@ -121,6 +126,7 @@ export function Flow() {
           onConnect={onConnect}
           nodeTypes={nodeTypes}
           onPaneContextMenu={(e) => e.preventDefault()}
+          onNodesDelete={onNodeDelete}
         >
           <Background />
           {/* <MiniMap /> */}

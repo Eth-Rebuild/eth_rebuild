@@ -14,7 +14,7 @@ export function NumberInputNode({ id }) {
         defaultValue={0}
         onChange={(e) => {
           setState({
-            value: e.target.valueAsNumber,
+            a: e.target.valueAsNumber,
           });
         }}
       />

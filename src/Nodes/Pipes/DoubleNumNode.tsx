@@ -1,12 +1,9 @@
 import { useEffect } from "react";
-import { Handle, Position, useUpdateNodeInternals } from "react-flow-renderer";
+import { useUpdateNodeInternals } from "react-flow-renderer";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { createHandles } from "../../Helpers/helpers";
 import { nodeDataState } from "../../Recoil/Atoms/atoms";
-import {
-  connectedValueSelector,
-  numberDisplaySelector,
-} from "../../Recoil/Selectors/selectors";
+import { connectedValueSelector } from "../../Recoil/Selectors/selectors";
 
 export function DoubleNumNode({ id }) {
   const [state, setState] = useRecoilState(nodeDataState(id));
