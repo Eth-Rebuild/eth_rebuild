@@ -2,6 +2,7 @@ import { Handle, Position } from "react-flow-renderer";
 import { useRecoilState } from "recoil";
 import { nodeDataState } from "../../Recoil/Atoms/atoms";
 import { Button } from "antd";
+import { createHandles } from "../../Helpers/helpers";
 
 export function ButtonInputNode({ id }) {
   const [state, setState] = useRecoilState(nodeDataState(id));
@@ -25,7 +26,7 @@ export function ButtonInputNode({ id }) {
         Click Me
       </Button>
       <h1>Button Input</h1>
-      <Handle type="source" position={Position.Bottom} />
+      {createHandles("output", 1)}
     </div>
   );
 }

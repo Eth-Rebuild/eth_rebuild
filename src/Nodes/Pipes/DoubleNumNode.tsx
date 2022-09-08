@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Handle, Position, useUpdateNodeInternals } from "react-flow-renderer";
 import { useRecoilState, useRecoilValue } from "recoil";
+import { createHandles } from "../../Helpers/helpers";
 import { nodeDataState } from "../../Recoil/Atoms/atoms";
 import {
   connectedValueSelector,
@@ -27,9 +28,9 @@ export function DoubleNumNode({ id }) {
         backgroundColor: "#2a9d8f",
       }}
     >
-      <Handle type="target" position={Position.Top} id="a" />
+      {createHandles("input", 1)}
       <h1>Double Number Pipe ||</h1>
-      <Handle type="source" position={Position.Bottom} id="a" />
+      {createHandles("output", 1)}
     </div>
   );
 }

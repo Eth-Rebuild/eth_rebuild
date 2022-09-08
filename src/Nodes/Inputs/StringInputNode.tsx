@@ -1,5 +1,6 @@
 import { Handle, Position } from "react-flow-renderer";
 import { useRecoilState } from "recoil";
+import { createHandles } from "../../Helpers/helpers";
 import { nodeDataState } from "../../Recoil/Atoms/atoms";
 
 export function StringInputNode({ id }) {
@@ -23,7 +24,7 @@ export function StringInputNode({ id }) {
         }}
       />
       <h1>String Input</h1>
-      <Handle type="source" position={Position.Bottom} />
+      {createHandles("output", 1)}
     </div>
   );
 }

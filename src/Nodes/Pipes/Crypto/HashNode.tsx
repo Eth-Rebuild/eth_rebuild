@@ -4,6 +4,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { nodeDataState } from "../../../Recoil/Atoms/atoms";
 import { connectedValueSelector } from "../../../Recoil/Selectors/selectors";
 import { utils } from "ethers";
+import { createHandles } from "../../../Helpers/helpers";
 
 export function HashNode({ id }) {
   const [state, setState] = useRecoilState(nodeDataState(id));
@@ -37,9 +38,9 @@ export function HashNode({ id }) {
         backgroundColor: "#2a9d8f",
       }}
     >
-      <Handle type="target" position={Position.Top} />
+      {createHandles("input", 1)}
       <h1>Hash function Pipe</h1>
-      <Handle type="source" position={Position.Bottom} />
+      {createHandles("output", 1)}
     </div>
   );
 }

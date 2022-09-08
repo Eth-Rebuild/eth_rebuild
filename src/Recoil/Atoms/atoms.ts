@@ -26,31 +26,6 @@ export const nodeTypesState = atom({
   },
 });
 
-// function prettyNames() {
-//   const pattern = /[A-Z]/g;
-//   let displays = Object.keys(Displays).map((name) =>
-//     name.replace(pattern, " $&")
-//   );
-//   let inputs = Object.keys(Inputs).map((name) => name.replace(pattern, " $&"));
-//   let pipes = Object.keys(Pipes).map((name) => name.replace(pattern, " $&"));
-//   return [...displays, ...inputs, ...pipes];
-// }
-// export const nodeTypesPrettyState = atom({
-//   key: "nodeTypesPretty",
-//   default: {
-//     inputs: ["Number Input", "String Input", "Button"],
-
-//     pipes: ["Double Number", "String Concat", "Dynamic Node", "Hash Node"],
-
-//     displays: [
-//       "Number Display",
-//       "String Display",
-//       "Multi Display",
-//       "Array Display",
-//     ],
-//   },
-// });
-
 export const nodeTypesPrettyState = atom({
   key: "nodeTypesPretty",
   default: {
@@ -111,6 +86,8 @@ export const defaultNodeStyleState = atom({
     border: "1px solid #9CA3AF",
     padding: 10,
     borderRadius: 4,
+    width: 400,
+    height: 400,
   },
 });
 
