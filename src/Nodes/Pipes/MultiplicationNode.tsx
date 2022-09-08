@@ -15,6 +15,8 @@ export function MuliplicationNode({ id }) {
       if (a && b) {
         const numToSave = a * b;
         setState({ a: numToSave });
+      } else {
+        setState({ a: undefined });
       }
     } catch (e) {
       console.error(e);

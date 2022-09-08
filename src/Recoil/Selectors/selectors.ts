@@ -30,7 +30,7 @@ export const connectedValueSelector = selectorFamily<any, [string, string]>({
   get:
     ([id, handleId]) =>
     ({ get }) => {
-      const edges = get(edgeState);
+      const edges = get(edgeState).filter((edge) => edge.target === id);
       const connectedHandleState = edges.find(
         (edge) => edge.targetHandle === handleId
       );

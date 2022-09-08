@@ -15,7 +15,7 @@ import {
 } from "./Recoil/Atoms/atoms";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { useCallback, useRef } from "react";
-import { Dropdown, Menu } from "antd";
+import { PageHeader, Dropdown, Menu } from "antd";
 
 export function Flow() {
   const reactFlowWrapper = useRef(null);
@@ -42,10 +42,14 @@ export function Flow() {
     [setEdges]
   );
 
-  const onNodeDelete = useCallback((nodesDeleted) => {
-    setNodes((nds) => nds.filter((n) => !nodesDeleted.includes(n.id)));
-    console.log(nodes);
-  }, []);
+  // TODO: NOT SURE IF I STILL NEED THIS
+  const onNodeDelete = useCallback(
+    (nodesDeleted) => {
+      setNodes((nds) => nds.filter((n) => !nodesDeleted.includes(n.id)));
+      console.log(nodes);
+    },
+    [setNodes]
+  );
 
   function addNode(type: string, xPos: number, yPos: number) {
     const lastNodeId = nodes.length ? Number(nodes[nodes.length - 1].id) : 0;
@@ -112,11 +116,11 @@ export function Flow() {
       }}
       ref={reactFlowWrapper}
     >
-      {/* <PageHeader
+      <PageHeader
         title="Eth_Rebuild"
         subTitle="Inspired by Austin Griffith's rad project, eth.build"
-        onBack={() => console.log(nodes)}
-      /> */}
+        onBack={() => console.log(nodes, edges)}
+      />
       <Dropdown overlay={menu} trigger={["contextMenu"]}>
         <ReactFlow
           nodes={nodes}

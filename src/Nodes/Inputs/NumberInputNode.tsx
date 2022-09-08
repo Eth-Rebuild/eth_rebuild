@@ -11,10 +11,9 @@ export function NumberInputNode({ id }) {
       <h4>Number Input</h4>
       <input
         type="number"
-        defaultValue={0}
         onChange={(e) => {
           setState({
-            a: e.target.valueAsNumber,
+            a: e.target.valueAsNumber || 0,
           });
         }}
       />

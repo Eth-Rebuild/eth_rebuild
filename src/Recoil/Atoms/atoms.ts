@@ -64,15 +64,7 @@ export const edgeState = atom<Array<Edge>>({
 
 export const nodeDataState = atomFamily<object, string>({
   key: "nodeDataState",
-  default: selectorFamily({
-    key: "nodeDataState/Default",
-    get:
-      (id) =>
-      ({ get }) => {
-        const nodes = get(nodeState);
-        return nodes.find((n) => n.id === id) || {};
-      },
-  }),
+  default: {},
 });
 
 export const cursorPositionState = atom({
