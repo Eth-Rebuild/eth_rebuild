@@ -24,6 +24,7 @@ export const nodeTypesState = atom({
     stringDisplayNode: Displays.StringDisplayNode,
     multiDisplayNode: Displays.MultiDisplayNode,
     arrayDisplayNode: Displays.ArrayDisplayNode,
+    addressDisplayNode: Displays.AddressDisplayNode,
   },
 });
 
@@ -48,6 +49,7 @@ export const nodeTypesPrettyState = atom({
       stringDisplayNode: "String Display",
       multiDisplayNode: "Multi Display",
       arrayDisplayNode: "Array Display",
+      addressDisplayNode: "Address Display",
     },
   },
 });
