@@ -10,7 +10,7 @@ export function createHandles(kind: string, count: number) {
         type={kind === "input" ? "target" : "source"}
         position={kind === "input" ? Position.Left : Position.Right}
         style={{
-          top: `${(index + 1) * 30}px`,
+          top: `${(index + 1) * 30 + 10}px`,
           width: "15px",
           height: "15px",
           borderRadius: "50%",

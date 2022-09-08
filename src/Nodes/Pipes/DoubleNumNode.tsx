@@ -21,7 +21,7 @@ export function DoubleNumNode({ id }) {
   return (
     <div className="custom-node">
       {createHandles("input", 1)}
-      <h1>Double Number Pipe ||</h1>
+      <h4>Double Number Pipe ||</h4>
       {createHandles("output", 1)}
     </div>
   );

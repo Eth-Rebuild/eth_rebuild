@@ -8,6 +8,7 @@ export function NumberInputNode({ id }) {
 
   return (
     <div className="custom-node">
+      <h4>Number Input</h4>
       <input
         type="number"
         defaultValue={0}
@@ -17,7 +18,6 @@ export function NumberInputNode({ id }) {
           });
         }}
       />
-      <h1>Number Input</h1>
       {createHandles("output", 1)}
     </div>
   );

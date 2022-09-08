@@ -31,7 +31,7 @@ export function EncryptNode({ id }) {
   return (
     <div className="custom-node">
       {createHandles("input", 1)}
-      <h1>Encrypt</h1>
+      <h4>Encrypt</h4>
       {createHandles("output", 1)}
     </div>
   );

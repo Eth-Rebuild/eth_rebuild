@@ -8,6 +8,7 @@ export function StringInputNode({ id }) {
 
   return (
     <div className="custom-node">
+      <h4>String Input</h4>
       <input
         type="string"
         defaultValue=""
@@ -15,7 +16,6 @@ export function StringInputNode({ id }) {
           setState({ value: e.target.value });
         }}
       />
-      <h1>String Input</h1>
       {createHandles("output", 1)}
     </div>
   );

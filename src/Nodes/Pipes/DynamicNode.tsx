@@ -28,7 +28,7 @@ export function DynamicNode({ id }) {
     <div className="custom-node">
       <Handle type="target" position={Position.Top} id="a" />
       {handles}
-      <h1>Dynamic Node</h1>
+      <h4>Dynamic Node</h4>
       <Handle type="source" position={Position.Bottom} id="a" />
     </div>
   );

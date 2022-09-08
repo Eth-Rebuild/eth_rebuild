@@ -9,8 +9,8 @@ export function ArrayDisplayNode({ id }) {
   return (
     <div className="custom-node">
       {createHandles("input", 1)}
-      <h1>Array Display Node</h1>
-      <h1>{valuesToDisplay}</h1>
+      <h4>Array Display Node</h4>
+      <h4>{valuesToDisplay}</h4>
     </div>
   );
 }

@@ -31,7 +31,7 @@ export function HashNode({ id }) {
   return (
     <div className="custom-node">
       {createHandles("input", 1)}
-      <h1>Hash function Pipe</h1>
+      <h4>Hash function Pipe</h4>
       {createHandles("output", 1)}
     </div>
   );

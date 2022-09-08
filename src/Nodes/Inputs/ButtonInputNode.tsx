@@ -9,6 +9,7 @@ export function ButtonInputNode({ id }) {
 
   return (
     <div className="custom-node">
+      <h4>Button Input</h4>
       <Button
         type="primary"
         onClick={() => {
@@ -17,7 +18,6 @@ export function ButtonInputNode({ id }) {
       >
         Click Me
       </Button>
-      <h1>Button Input</h1>
       {createHandles("output", 1)}
     </div>
   );

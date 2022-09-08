@@ -9,8 +9,8 @@ export function NumberDisplayNode({ id }) {
   return (
     <div className="custom-node">
       {createHandles("input", 1)}
-      <h1>Number Display Node</h1>
-      <h1>{numberToDisplay}</h1>
+      <h4>Number Display Node</h4>
+      <h4>{numberToDisplay}</h4>
     </div>
   );
 }

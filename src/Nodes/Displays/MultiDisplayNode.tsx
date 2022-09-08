@@ -20,10 +20,10 @@ export function MultiDisplayNode({ id }) {
   return (
     <div className="custom-node">
       {createHandles("input", 3)}
-      <h1>Multi Display Node</h1>
-      <h1>{a ? a["value"] : ""}</h1>
-      <h1>{b ? b["value"] : ""}</h1>
-      <h1>{c ? c["value"] : ""}</h1>
+      <h4>Multi Display Node</h4>
+      <h4>{a ? a["value"] : ""}</h4>
+      <h4>{b ? b["value"] : ""}</h4>
+      <h4>{c ? c["value"] : ""}</h4>
     </div>
   );
 }
