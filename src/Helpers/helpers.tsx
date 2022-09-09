@@ -20,14 +20,14 @@ export function createHandles(kind: string, count: number, labels?: string[]) {
         }}
         id={alphaArray[index]}
       />
-      <div
+      <span
         style={{
-          position: "absolute",
+          // position: "absolute",
           top: `${(index + 1) * 30 + 9}px`,
         }}
       >
         {labels ? labels[index] : ""}
-      </div>
+      </span>
     </div>
   ));
 }
