@@ -18,6 +18,10 @@ import { NOTNode } from "./Logic/NOTNode";
 import { ORNode } from "./Logic/ORNode";
 import { XORNode } from "./Logic/XORNode";
 
+// Ethers
+import { ProviderNode } from "./Ethers/ProviderNode";
+import { GetBalanceNode } from "./Ethers/GetBalanceNode";
+
 export {
   // Math
   MuliplicationNode,
@@ -38,4 +42,8 @@ export {
   NOTNode,
   ORNode,
   XORNode,
+
+  // Ethers
+  ProviderNode,
+  GetBalanceNode,
 };

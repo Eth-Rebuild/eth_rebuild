@@ -2,8 +2,8 @@ import { connectedValueSelector } from "../../Recoil/Selectors/selectors";
 import { useRecoilValue } from "recoil";
 import { createHandles } from "../../Helpers/helpers";
 import { isAddress } from "ethers/lib/utils";
-import { useRef } from "react";
 import makeBlockie from "ethereum-blockies-base64";
+import { useState } from "react";
 
 export function AddressDisplayNode({ id }) {
   const a = useRecoilValue(connectedValueSelector([id, "a"]));

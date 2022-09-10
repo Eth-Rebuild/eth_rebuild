@@ -26,6 +26,7 @@ export const connectedNodesSelector = selectorFamily<Array<string>, string>({
 
 export const connectedValueSelector = selectorFamily<any, [string, string]>({
   key: "@displaySelector",
+  dangerouslyAllowMutability: true,
 
   get:
     ([id, handleId]) =>

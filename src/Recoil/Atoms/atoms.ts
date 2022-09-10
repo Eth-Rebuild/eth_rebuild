@@ -1,4 +1,4 @@
-import { atom, atomFamily, selectorFamily } from "recoil";
+import { atom, atomFamily } from "recoil";
 import * as Displays from "../../Nodes/Displays";
 import * as Pipes from "../../Nodes/Pipes";
 import * as Inputs from "../../Nodes/Inputs";
@@ -37,6 +37,10 @@ export const nodeTypesState = atom({
     notNode: Pipes.NOTNode,
     orNode: Pipes.ORNode,
     xorNode: Pipes.XORNode,
+
+    // ETHERS
+    providerNode: Pipes.ProviderNode,
+    getBalanceNode: Pipes.GetBalanceNode,
 
     //  ---------
     // | Displays |
@@ -80,6 +84,10 @@ export const nodeTypesPrettyState = atom({
       notNode: "NOT Node",
       orNode: "OR Node",
       xorNode: "XOR Node",
+
+      // ETHERS
+      providerNode: "Provider Node",
+      getBalanceNode: "Balance Node",
     },
     displays: {
       numberDisplayNode: "Number Display",
@@ -105,6 +113,7 @@ export const edgeState = atom<Array<Edge>>({
 
 export const nodeDataState = atomFamily<object, string>({
   key: "nodeDataState",
+  dangerouslyAllowMutability: true,
   default: {},
 });
 
