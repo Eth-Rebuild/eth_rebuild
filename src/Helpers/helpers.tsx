@@ -12,9 +12,10 @@ export function createHandles(kind: string, count: number, labels?: string[]) {
     >
       {Array.from(Array(count)).map((_, index) => (
         <div
+          key={kind + index.toString()}
           style={{
             display: "flex",
-            justifyContent: kind === "input" ? "flex-start" : "flex-end",
+            // justifyContent: kind === "input" ? "flex-start" : "flex-end",
           }}
         >
           <Handle

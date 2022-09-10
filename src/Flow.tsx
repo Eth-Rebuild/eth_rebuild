@@ -15,10 +15,11 @@ import {
 } from "./Recoil/Atoms/atoms";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { useCallback, useRef } from "react";
-import { PageHeader, Dropdown, Menu } from "antd";
+import { Dropdown, Layout, Menu } from "antd";
+
+const { Header, Content } = Layout;
 
 export function Flow() {
-  const reactFlowWrapper = useRef(null);
   const [nodes, setNodes] = useRecoilState(nodeState);
   const [edges, setEdges] = useRecoilState(edgeState);
   const [cursorPos, setCursorPos] = useRecoilState(cursorPositionState);
@@ -59,69 +60,73 @@ export function Flow() {
         id: String(lastNodeId + 1),
         type: type,
         data: {},
-        position: project({ x: xPos - 100, y: yPos - 100 }),
+        position: project({
+          x: window.innerWidth / 2,
+          y: window.innerHeight / 2 - 300,
+        }),
       },
     ]);
   }
 
-  const menu = (
-    <Menu
-      theme="dark"
-      items={[
-        {
-          key: "Inputs",
-          label: "Inputs",
-          children: Object.keys(nodeTypesPretty.inputs).map((key) => {
-            return {
-              key: key,
-              label: nodeTypesPretty.inputs[key],
-              onClick: () => addNode(key, cursorPos.x, cursorPos.y),
-            };
-          }),
-        },
-        {
-          key: "Pipes",
-          label: "Pipes",
-          children: Object.keys(nodeTypesPretty.pipes).map((key) => {
-            return {
-              key: key,
-              label: nodeTypesPretty.pipes[key],
-              onClick: () => addNode(key, cursorPos.x, cursorPos.y),
-            };
-          }),
-        },
-        {
-          key: "Displays",
-          label: "Displays",
-          children: Object.keys(nodeTypesPretty.displays).map((key) => {
-            return {
-              key: key,
-              label: nodeTypesPretty.displays[key],
-              onClick: () => addNode(key, cursorPos.x, cursorPos.y),
-            };
-          }),
-        },
-      ]}
-    ></Menu>
-  );
+  // const menu = (
+  // );
 
   return (
-    <div
-      style={{ width: "100vw", height: "100vh" }}
-      onMouseMove={(e) => {
-        setCursorPos({
-          x: e.clientX,
-          y: e.clientY,
-        });
+    <Layout
+      style={{
+        height: "100vh",
+        width: "100vw",
       }}
-      ref={reactFlowWrapper}
     >
-      {/* <PageHeader
-        title="Eth_Rebuild"
-        subTitle="Inspired by Austin Griffith's rad project, eth.build"
-        onBack={() => console.log(nodes, edges)}
-      /> */}
-      <Dropdown overlay={menu} trigger={["contextMenu"]}>
+      <Header>
+        <Menu
+          theme="dark"
+          mode="horizontal"
+          items={[
+            {
+              key: "Inputs",
+              label: "Inputs",
+              children: Object.keys(nodeTypesPretty.inputs).map((key) => {
+                return {
+                  key: key,
+                  label: nodeTypesPretty.inputs[key],
+                  onClick: () => addNode(key, cursorPos.x, cursorPos.y),
+                };
+              }),
+            },
+            {
+              key: "Pipes",
+              label: "Pipes",
+              children: Object.keys(nodeTypesPretty.pipes).map((key) => {
+                return {
+                  key: key,
+                  label: nodeTypesPretty.pipes[key],
+                  onClick: () => addNode(key, cursorPos.x, cursorPos.y),
+                };
+              }),
+            },
+            {
+              key: "Displays",
+              label: "Displays",
+              children: Object.keys(nodeTypesPretty.displays).map((key) => {
+                return {
+                  key: key,
+                  label: nodeTypesPretty.displays[key],
+                  onClick: () => addNode(key, cursorPos.x, cursorPos.y),
+                };
+              }),
+            },
+          ]}
+        />
+      </Header>
+      <Content
+      // onMouseMove={(e) => {
+      //   setCursorPos({
+      //     x: e.clientX,
+      //     y: e.clientY,
+      //   });
+      // }}
+      >
         <ReactFlow
           nodes={nodes}
           edges={edges}
@@ -133,10 +138,20 @@ export function Flow() {
           onNodesDelete={onNodeDelete}
         >
           <Background />
-          {/* <MiniMap /> */}
           <Controls />
         </ReactFlow>
-      </Dropdown>
-    </div>
+      </Content>
+    </Layout>
+    // <div
+    //   style={{ width: "100vw", height: "100vh" }}
+    //   onMouseMove={(e) => {
+    //     setCursorPos({
+    //       x: e.clientX,
+    //       y: e.clientY,
+    //     });
+    //   }}
+    //   ref={reactFlowWrapper}
+    // >
+    // </div>
   );
 }
