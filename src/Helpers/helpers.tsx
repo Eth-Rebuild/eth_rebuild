@@ -3,33 +3,46 @@ import { Handle, Position } from "react-flow-renderer";
 export const alphaArray = "abcdefghijklmnopqrstuvwxyz".split("");
 
 export function createHandles(kind: string, count: number, labels?: string[]) {
-  return Array.from(Array(count)).map((_, index) => (
-    <div key={index}>
-      <Handle
-        type={kind === "input" ? "target" : "source"}
-        position={kind === "input" ? Position.Left : Position.Right}
-        style={{
-          top: `${(index + 1) * 30 + 20}px`,
-          width: "15px",
-          height: "15px",
-          borderRadius: "50%",
-          backgroundColor: kind === "input" ? "red" : "green", // TODO: use theme for inputs and ouputs
-          cursor: "pointer",
-          border: "1px solid #2a9d8f",
-          display: "inline-block",
-        }}
-        id={alphaArray[index]}
-      />
-      <span
-        style={{
-          // position: "absolute",
-          top: `${(index + 1) * 30 + 9}px`,
-        }}
-      >
-        {labels ? labels[index] : ""}
-      </span>
+  return (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
+      {Array.from(Array(count)).map((_, index) => (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: kind === "input" ? "flex-start" : "flex-end",
+          }}
+        >
+          <Handle
+            type={kind === "input" ? "target" : "source"}
+            position={kind === "input" ? Position.Left : Position.Right}
+            style={{
+              width: "15px",
+              height: "15px",
+              borderRadius: "50%",
+              backgroundColor: kind === "input" ? "red" : "green", // TODO: use theme for inputs and ouputs
+              cursor: "pointer",
+              border: "1px solid #2a9d8f",
+              position: "relative",
+              order: 2,
+            }}
+            id={alphaArray[index]}
+          />
+          <span
+            style={{
+              order: kind === "input" ? 3 : 1,
+            }}
+          >
+            {labels ? labels[index] : ""}
+          </span>
+        </div>
+      ))}
     </div>
-  ));
+  );
 }
 
 export function getDataSources(

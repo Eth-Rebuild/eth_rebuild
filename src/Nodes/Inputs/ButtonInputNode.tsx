@@ -10,6 +10,7 @@ export function ButtonInputNode({ id }) {
     <div className="custom-node">
       <h4>Button Input</h4>
       <Button
+        className="input"
         type="primary"
         onClick={() => {
           setState({ a: state["value"] + 1 || 1 });

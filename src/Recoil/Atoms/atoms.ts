@@ -31,6 +31,7 @@ export const nodeTypesState = atom({
     // CRYPTO
     hashNode: Pipes.HashNode,
     encryptNode: Pipes.EncryptNode,
+    keyPairNode: Pipes.KeyPairNode,
 
     // LOGIC
     andNode: Pipes.ANDNode,
@@ -78,6 +79,7 @@ export const nodeTypesPrettyState = atom({
       // CRYPTO
       hashNode: "Hash Node",
       encryptNode: "Encrypt Node",
+      keyPairNode: "Key Pair",
 
       // LOGIC
       andNode: "AND Node",

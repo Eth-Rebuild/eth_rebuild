@@ -1,6 +1,7 @@
 import { ethers } from "ethers";
 import { useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
+import { getEmitHelpers } from "typescript";
 import { createHandles } from "../../../Helpers/helpers";
 import { nodeDataState } from "../../../Recoil/Atoms/atoms";
 import { connectedValueSelector } from "../../../Recoil/Selectors/selectors";
@@ -11,7 +12,8 @@ export function ProviderNode({ id }) {
   const b = useRecoilValue(connectedValueSelector([id, "b"]));
 
   const getProvider = async () => {
-    const provider = new ethers.providers.AlchemyProvider(a, b);
+    // const provider = new ethers.providers.AlchemyProvider(a, b);
+    const provider = new ethers.providers.JsonRpcProvider(a, b);
     setState({ a: provider });
   };
 
@@ -28,7 +30,7 @@ export function ProviderNode({ id }) {
   return (
     <div className="custom-node">
       <h4>Ethers Network Node</h4>
-      {createHandles("input", 2, ["Chain ID", "API Key"])}
+      {createHandles("input", 2, ["JSON_RPC Endpoint", "Chain ID"])}
       {createHandles("output", 1)}
     </div>
   );

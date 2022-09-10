@@ -11,6 +11,7 @@ import { StringConcatNode } from "./StringConcatNode";
 // Crypto
 import { HashNode } from "./Crypto/HashNode";
 import { EncryptNode } from "./Crypto/EncryptNode";
+import { KeyPairNode } from "./Crypto/KeyPair";
 
 // Logic gates
 import { ANDNode } from "./Logic/ANDNode";
@@ -36,6 +37,7 @@ export {
   // Crypto
   HashNode,
   EncryptNode,
+  KeyPairNode,
 
   // Logic gates
   ANDNode,

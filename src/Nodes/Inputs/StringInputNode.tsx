@@ -9,7 +9,10 @@ export function StringInputNode({ id }) {
   return (
     <div className="custom-node">
       <h4>String Input</h4>
-      <Input onChange={(e) => setState({ a: e.target.value })} />
+      <Input
+        className="input"
+        onChange={(e) => setState({ a: e.target.value })}
+      />
       {createHandles("output", 1)}
     </div>
   );
