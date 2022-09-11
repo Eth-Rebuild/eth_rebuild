@@ -4,8 +4,6 @@
 
 ## Please note this is under heavy construction right now, and very well may break at any point! If it does please reach out to me on twitter or telegram @blind_nabler!
 
----
-
 ### Getting Started
 
 1. `git clone https://github.com/MercuricChloride/eth_rebuild.git`
