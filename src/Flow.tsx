@@ -7,22 +7,20 @@ import ReactFlow, {
   useReactFlow,
 } from "react-flow-renderer";
 import {
-  cursorPositionState,
   edgeState,
   nodeState,
   nodeTypesPrettyState,
   nodeTypesState,
 } from "./Recoil/Atoms/atoms";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { useCallback, useRef } from "react";
-import { Dropdown, Layout, Menu } from "antd";
+import { useCallback } from "react";
+import { Layout, Menu } from "antd";
 
 const { Header, Content } = Layout;
 
 export function Flow() {
   const [nodes, setNodes] = useRecoilState(nodeState);
   const [edges, setEdges] = useRecoilState(edgeState);
-  const [cursorPos, setCursorPos] = useRecoilState(cursorPositionState);
   const nodeTypes = useRecoilValue(nodeTypesState);
   const nodeTypesPretty = useRecoilValue(nodeTypesPrettyState);
   const { project } = useReactFlow();
@@ -49,10 +47,10 @@ export function Flow() {
       setNodes((nds) => nds.filter((n) => !nodesDeleted.includes(n.id)));
       console.log(nodes);
     },
-    [setNodes]
+    [setNodes, nodes]
   );
 
-  function addNode(type: string, xPos: number, yPos: number) {
+  function addNode(type: string) {
     const lastNodeId = nodes.length ? Number(nodes[nodes.length - 1].id) : 0;
     setNodes([
       ...nodes,
@@ -90,7 +88,7 @@ export function Flow() {
                 return {
                   key: key,
                   label: nodeTypesPretty.inputs[key],
-                  onClick: () => addNode(key, cursorPos.x, cursorPos.y),
+                  onClick: () => addNode(key),
                 };
               }),
             },
@@ -101,7 +99,7 @@ export function Flow() {
                 return {
                   key: key,
                   label: nodeTypesPretty.pipes[key],
-                  onClick: () => addNode(key, cursorPos.x, cursorPos.y),
+                  onClick: () => addNode(key),
                 };
               }),
             },
@@ -112,21 +110,14 @@ export function Flow() {
                 return {
                   key: key,
                   label: nodeTypesPretty.displays[key],
-                  onClick: () => addNode(key, cursorPos.x, cursorPos.y),
+                  onClick: () => addNode(key),
                 };
               }),
             },
           ]}
         />
       </Header>
-      <Content
-      // onMouseMove={(e) => {
-      //   setCursorPos({
-      //     x: e.clientX,
-      //     y: e.clientY,
-      //   });
-      // }}
-      >
+      <Content>
         <ReactFlow
           nodes={nodes}
           edges={edges}
