@@ -5,6 +5,10 @@ import ReactFlow, {
   addEdge,
   Background,
   useReactFlow,
+  NodeChange,
+  EdgeChange,
+  Connection,
+  Edge,
 } from "react-flow-renderer";
 import {
   edgeState,
@@ -26,29 +30,47 @@ export function Flow() {
   const { project } = useReactFlow();
 
   const onNodesChange = useCallback(
-    (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
+    (changes: NodeChange[]) =>
+      setNodes((nds) => applyNodeChanges(changes, nds)),
     [setNodes]
   );
   const onEdgesChange = useCallback(
-    (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
+    (changes: EdgeChange[]) =>
+      setEdges((eds) => applyEdgeChanges(changes, eds)),
     [setEdges]
   );
 
   const onConnect = useCallback(
-    (connection) => {
+    (connection: Edge | Connection) => {
       setEdges((eds) => addEdge(connection, eds));
     },
     [setEdges]
   );
 
   // TODO: NOT SURE IF I STILL NEED THIS
-  const onNodeDelete = useCallback(
-    (nodesDeleted) => {
-      setNodes((nds) => nds.filter((n) => !nodesDeleted.includes(n.id)));
-      console.log(nodes);
-    },
-    [setNodes, nodes]
-  );
+  // const onNodeDelete = useCallback(
+  //   (nodesDeleted) => {
+  //     setNodes((nds) => nds.filter((n) => !nodesDeleted.includes(n.id)));
+  //     console.log(nodes);
+  //   },
+  //   [setNodes, nodes]
+  // );
+
+  // const onConnectStart = useCallback((_, { nodeId }) => {
+  //   connectingNodeId.current = nodeId;
+  // }, []);
+
+  // const onConnectStop = useCallback((event) => {
+  //   const targetIsPane = event.target.classList.contains("react-flow__pane");
+
+  //   if (targetIsPane) {
+  //     addNode("stringDisplayNode");
+  //     // const id = nodes.length ? Number(nodes[nodes.length - 1].id) : 0;
+  //     // setEdges((eds) =>
+  //     //   eds.concat([{ id.toString(), source: connectingNodeId.current, target: id }])
+  //     // );
+  //   }
+  // }, []);
 
   function addNode(type: string) {
     const lastNodeId = nodes.length ? Number(nodes[nodes.length - 1].id) : 0;
@@ -65,9 +87,6 @@ export function Flow() {
       },
     ]);
   }
-
-  // const menu = (
-  // );
 
   return (
     <Layout
@@ -126,7 +145,9 @@ export function Flow() {
           onConnect={onConnect}
           nodeTypes={nodeTypes}
           onPaneContextMenu={(e) => e.preventDefault()}
-          onNodesDelete={onNodeDelete}
+          // onNodesDelete={onNodeDelete}
+          // onConnectStop={onConnectStop}
+          // ref={reactFlowWrapper}
         >
           <Background />
           <Controls />

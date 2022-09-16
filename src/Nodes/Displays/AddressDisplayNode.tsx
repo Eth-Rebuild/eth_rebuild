@@ -3,7 +3,6 @@ import { useRecoilValue } from "recoil";
 import { createHandles } from "../../Helpers/helpers";
 import { isAddress } from "ethers/lib/utils";
 import makeBlockie from "ethereum-blockies-base64";
-import { useState } from "react";
 
 export function AddressDisplayNode({ id }) {
   const a = useRecoilValue(connectedValueSelector([id, "a"]));
@@ -11,8 +10,10 @@ export function AddressDisplayNode({ id }) {
 
   return (
     <div className="custom-node">
-      <h4>Address Display</h4>
+      <h4>Address Display</h4>{" "}
       <span>
+        {" "}
+        {createHandles("input", 1)}{" "}
         {isValid ? (
           <img
             height={50}
@@ -25,7 +26,6 @@ export function AddressDisplayNode({ id }) {
         )}
         {isValid ? a : "Invalid Address"}
       </span>
-      {createHandles("input", 1)}
     </div>
   );
 }
