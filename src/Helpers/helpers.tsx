@@ -15,7 +15,6 @@ export function createHandles(kind: string, count: number, labels?: string[]) {
           key={kind + index.toString()}
           style={{
             display: "flex",
-            // justifyContent: kind === "input" ? "flex-start" : "flex-end",
           }}
         >
           <Handle
@@ -25,7 +24,7 @@ export function createHandles(kind: string, count: number, labels?: string[]) {
               width: "15px",
               height: "15px",
               borderRadius: "50%",
-              backgroundColor: kind === "input" ? "red" : "green", // TODO: use theme for inputs and ouputs
+              backgroundColor: kind === "input" ? "red" : "green",
               cursor: "pointer",
               border: "1px solid #2a9d8f",
               position: "relative",

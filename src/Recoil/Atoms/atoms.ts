@@ -60,38 +60,37 @@ export const nodeTypesPrettyState = atom({
   key: "nodeTypesPretty",
   default: {
     Input: {
-      numberInputNode: "Number Input",
-      stringInputNode: "String Input",
+      numberInputNode: "Number",
+      stringInputNode: "String",
       buttonInputNode: "Button",
     },
     Display: {
-      numberDisplayNode: "Number Display",
-      stringDisplayNode: "String Display",
-      multiDisplayNode: "Multi Display",
-      arrayDisplayNode: "Array Display",
-      addressDisplayNode: "Address Display",
-      conditionalDisplayNode: "Conditional Display",
-      booleanDisplayNode: "Boolean Display",
+      numberDisplayNode: "Number",
+      stringDisplayNode: "String",
+      multiDisplayNode: "Multi",
+      arrayDisplayNode: "Array",
+      addressDisplayNode: "Address",
+      conditionalDisplayNode: "Conditional",
+      booleanDisplayNode: "Boolean",
     },
-    // TODO: Add storage
-    Storage: {},
-    // TODO: Add api interfaces
+    // TODO: Add storage maybe?
+    // Storage: {},
+    // TODO: Add axios api interfaces
     Network: {},
     Crypto: {
-      hashNode: "Hash Node",
-      encryptNode: "Encrypt Node",
+      hashNode: "Hash",
+      encryptNode: "Encrypt",
       keyPairNode: "Key Pair",
     },
     Ethers: {
-      providerNode: "Provider Node",
-      getBalanceNode: "Balance Node",
+      providerNode: "Provider",
+      getBalanceNode: "Balance",
     },
     Control: {
-      andNode: "AND Node",
-      notNode: "NOT Node",
-      orNode: "OR Node",
-      xorNode: "XOR Node",
-      // TODO: I should add an if node
+      andNode: "AND",
+      notNode: "NOT",
+      orNode: "OR",
+      xorNode: "XOR",
     },
     Math: {
       multiplicationNode: "Multiplication",
@@ -105,7 +104,7 @@ export const nodeTypesPrettyState = atom({
     // TODO: Fill with ethers utils
     Utils: {},
     String: {
-      stringConcatNode: "String Concat",
+      stringConcatNode: "Concat",
     },
     // TODO ADD THIS
     Object: {},
