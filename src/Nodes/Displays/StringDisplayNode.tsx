@@ -8,8 +8,8 @@ export function StringDisplayNode({ id }) {
 
   return (
     <div className="custom-node">
-      {createHandles("input", 1)}
       <h4>String Display Node</h4>
+      {createHandles("input", 1)}
       <h4>{stringToDisplay}</h4>
     </div>
   );

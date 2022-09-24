@@ -11,22 +11,23 @@ import ReactFlow, {
   Edge,
 } from "react-flow-renderer";
 import {
+  cursorPositionState,
   edgeState,
   nodeState,
-  nodeTypesPrettyState,
   nodeTypesState,
 } from "./Recoil/Atoms/atoms";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { useCallback } from "react";
-import { Layout, Menu } from "antd";
+import { Layout } from "antd";
+import { MenuHeader } from "./Components/Header";
 
-const { Header, Content } = Layout;
+const { Content } = Layout;
 
 export function Flow() {
   const [nodes, setNodes] = useRecoilState(nodeState);
   const [edges, setEdges] = useRecoilState(edgeState);
+  const [_, setCursorPos] = useRecoilState(cursorPositionState);
   const nodeTypes = useRecoilValue(nodeTypesState);
-  const nodeTypesPretty = useRecoilValue(nodeTypesPrettyState);
   const { project } = useReactFlow();
 
   const onNodesChange = useCallback(
@@ -47,47 +48,6 @@ export function Flow() {
     [setEdges]
   );
 
-  // TODO: NOT SURE IF I STILL NEED THIS
-  // const onNodeDelete = useCallback(
-  //   (nodesDeleted) => {
-  //     setNodes((nds) => nds.filter((n) => !nodesDeleted.includes(n.id)));
-  //     console.log(nodes);
-  //   },
-  //   [setNodes, nodes]
-  // );
-
-  // const onConnectStart = useCallback((_, { nodeId }) => {
-  //   connectingNodeId.current = nodeId;
-  // }, []);
-
-  // const onConnectStop = useCallback((event) => {
-  //   const targetIsPane = event.target.classList.contains("react-flow__pane");
-
-  //   if (targetIsPane) {
-  //     addNode("stringDisplayNode");
-  //     // const id = nodes.length ? Number(nodes[nodes.length - 1].id) : 0;
-  //     // setEdges((eds) =>
-  //     //   eds.concat([{ id.toString(), source: connectingNodeId.current, target: id }])
-  //     // );
-  //   }
-  // }, []);
-
-  function addNode(type: string) {
-    const lastNodeId = nodes.length ? Number(nodes[nodes.length - 1].id) : 0;
-    setNodes([
-      ...nodes,
-      {
-        id: String(lastNodeId + 1),
-        type: type,
-        data: {},
-        position: project({
-          x: window.innerWidth / 2,
-          y: window.innerHeight / 2 - 300,
-        }),
-      },
-    ]);
-  }
-
   return (
     <Layout
       style={{
@@ -95,47 +55,7 @@ export function Flow() {
         width: "100vw",
       }}
     >
-      <Header>
-        <Menu
-          theme="dark"
-          mode="horizontal"
-          items={[
-            {
-              key: "Inputs",
-              label: "Inputs",
-              children: Object.keys(nodeTypesPretty.inputs).map((key) => {
-                return {
-                  key: key,
-                  label: nodeTypesPretty.inputs[key],
-                  onClick: () => addNode(key),
-                };
-              }),
-            },
-            {
-              key: "Pipes",
-              label: "Pipes",
-              children: Object.keys(nodeTypesPretty.pipes).map((key) => {
-                return {
-                  key: key,
-                  label: nodeTypesPretty.pipes[key],
-                  onClick: () => addNode(key),
-                };
-              }),
-            },
-            {
-              key: "Displays",
-              label: "Displays",
-              children: Object.keys(nodeTypesPretty.displays).map((key) => {
-                return {
-                  key: key,
-                  label: nodeTypesPretty.displays[key],
-                  onClick: () => addNode(key),
-                };
-              }),
-            },
-          ]}
-        />
-      </Header>
+      <MenuHeader />
       <Content>
         <ReactFlow
           nodes={nodes}
@@ -145,25 +65,17 @@ export function Flow() {
           onConnect={onConnect}
           nodeTypes={nodeTypes}
           onPaneContextMenu={(e) => e.preventDefault()}
-          // onNodesDelete={onNodeDelete}
-          // onConnectStop={onConnectStop}
-          // ref={reactFlowWrapper}
+          onMouseMove={(e) => {
+            setCursorPos({
+              x: e.clientX,
+              y: e.clientY,
+            });
+          }}
         >
           <Background />
           <Controls />
         </ReactFlow>
       </Content>
     </Layout>
-    // <div
-    //   style={{ width: "100vw", height: "100vh" }}
-    //   onMouseMove={(e) => {
-    //     setCursorPos({
-    //       x: e.clientX,
-    //       y: e.clientY,
-    //     });
-    //   }}
-    //   ref={reactFlowWrapper}
-    // >
-    // </div>
   );
 }

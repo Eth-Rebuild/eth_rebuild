@@ -9,8 +9,8 @@ export function NumberDisplayNode({ id }) {
 
   return (
     <div className="custom-node">
-      {createHandles("input", 1)}
       <h4>Number Display Node</h4>
+      {createHandles("input", 1)}
       <h4>
         {num instanceof BigNumber
           ? "Ξ" + formatEther(num).substring(0, 6)

@@ -8,8 +8,8 @@ export function BooleanDisplayNode({ id }) {
 
   return (
     <div className="custom-node">
-      {createHandles("input", 1)}
       <h4>Boolean Display Node</h4>
+      {createHandles("input", 1)}
       <h4>{valueToDisplay ? "true" : "false"}</h4>
     </div>
   );

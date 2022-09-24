@@ -59,39 +59,12 @@ export const nodeTypesState = atom({
 export const nodeTypesPrettyState = atom({
   key: "nodeTypesPretty",
   default: {
-    // inputs
-    inputs: {
+    Input: {
       numberInputNode: "Number Input",
       stringInputNode: "String Input",
       buttonInputNode: "Button",
     },
-    pipes: {
-      // MATH
-      multiplicationNode: "Multiplication",
-      additionNode: "Addition",
-      subtractionNode: "Subtraction",
-      divisionNode: "Division",
-      moduloNode: "Modulo",
-      minNode: "Min",
-      maxNode: "Max",
-      stringConcatNode: "String Concat",
-
-      // CRYPTO
-      hashNode: "Hash Node",
-      encryptNode: "Encrypt Node",
-      keyPairNode: "Key Pair",
-
-      // LOGIC
-      andNode: "AND Node",
-      notNode: "NOT Node",
-      orNode: "OR Node",
-      xorNode: "XOR Node",
-
-      // ETHERS
-      providerNode: "Provider Node",
-      getBalanceNode: "Balance Node",
-    },
-    displays: {
+    Display: {
       numberDisplayNode: "Number Display",
       stringDisplayNode: "String Display",
       multiDisplayNode: "Multi Display",
@@ -100,6 +73,42 @@ export const nodeTypesPrettyState = atom({
       conditionalDisplayNode: "Conditional Display",
       booleanDisplayNode: "Boolean Display",
     },
+    // TODO: Add storage
+    Storage: {},
+    // TODO: Add api interfaces
+    Network: {},
+    Crypto: {
+      hashNode: "Hash Node",
+      encryptNode: "Encrypt Node",
+      keyPairNode: "Key Pair",
+    },
+    Ethers: {
+      providerNode: "Provider Node",
+      getBalanceNode: "Balance Node",
+    },
+    Control: {
+      andNode: "AND Node",
+      notNode: "NOT Node",
+      orNode: "OR Node",
+      xorNode: "XOR Node",
+      // TODO: I should add an if node
+    },
+    Math: {
+      multiplicationNode: "Multiplication",
+      additionNode: "Addition",
+      subtractionNode: "Subtraction",
+      divisionNode: "Division",
+      moduloNode: "Modulo",
+      minNode: "Min",
+      maxNode: "Max",
+    },
+    // TODO: Fill with ethers utils
+    Utils: {},
+    String: {
+      stringConcatNode: "String Concat",
+    },
+    // TODO ADD THIS
+    Object: {},
   },
 });
 
