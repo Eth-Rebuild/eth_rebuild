@@ -22,7 +22,7 @@ export function NOTNode({ id }) {
   }, [a]);
 
   return (
-    <div className="custom-node">
+    <div className="custom-node pipe">
       <h4>NOT Node</h4>
       {createHandles("input", 1, ["a"])}
       {createHandles("output", 1)}

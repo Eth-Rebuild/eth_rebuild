@@ -8,7 +8,7 @@ export function NumberDisplayNode({ id }) {
   const num = useRecoilValue(connectedValueSelector([id, "a"]));
 
   return (
-    <div className="custom-node">
+    <div className="custom-node display">
       <h4>Number Display Node</h4>
       {createHandles("input", 1)}
       <h4>

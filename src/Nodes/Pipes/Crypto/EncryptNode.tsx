@@ -14,7 +14,7 @@ export function EncryptNode({ id }) {
   }, [values]);
 
   return (
-    <div className="custom-node">
+    <div className="custom-node pipe">
       <h4>Encrypt</h4>
       {createHandles("input", 2, ["private key", "message"])}
       {createHandles("output", 1)}

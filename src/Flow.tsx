@@ -22,6 +22,7 @@ import { ReactElement, useCallback, useRef } from "react";
 import { Layout } from "antd";
 import { MenuHeader } from "./Components/Header";
 import { JsxElement } from "typescript";
+import { CustomControls } from "./Components/CustomControls";
 
 const { Content } = Layout;
 
@@ -57,29 +58,31 @@ export function Flow() {
   }, []);
 
   const onConnectStop = useCallback(
-    (event) => {
-      const targetIsPane = event.target.classList.contains("react-flow__pane");
+    (event: MouseEvent) => {
+      if (event.target instanceof Element) {
+        const targetIsPane =
+          event.target.classList.contains("react-flow__pane");
 
-      if (targetIsPane) {
-        // we need to remove the wrapper bounds, in order to get the correct position
-        if (reactFlowWrapper.current?.getBoundingClientRect()) {
-          const { top, left } =
-            reactFlowWrapper.current.getBoundingClientRect();
-          const id = nodes.length ? nodes[nodes.length - 1].id : String(0);
-          const newNode = {
-            id,
-            type: "stringDisplayNode",
-            position: project({
-              x: event.clientX - left - 75,
-              y: event.clientY - top,
-            }),
-            data: { label: `Node ${id}` },
-          };
+        if (targetIsPane) {
+          if (reactFlowWrapper.current?.getBoundingClientRect()) {
+            const { top, left } =
+              reactFlowWrapper.current.getBoundingClientRect();
+            const id = nodes.length ? nodes[nodes.length - 1].id : String(0);
+            const newNode = {
+              id,
+              type: "stringDisplayNode",
+              position: project({
+                x: event.clientX - left - 75,
+                y: event.clientY - top,
+              }),
+              data: { label: `Node ${id}` },
+            };
 
-          setNodes((nds) => nds.concat(newNode));
-          setEdges((eds) =>
-            eds.concat([{ id, source: connectingNodeId.current, target: id }])
-          );
+            setNodes((nds) => nds.concat(newNode));
+            setEdges((eds) =>
+              eds.concat([{ id, source: connectingNodeId.current, target: id }])
+            );
+          }
         }
       }
     },
@@ -120,7 +123,7 @@ export function Flow() {
             }}
           >
             <Background />
-            <Controls />
+            <CustomControls />
           </ReactFlow>
         </div>
       </Content>

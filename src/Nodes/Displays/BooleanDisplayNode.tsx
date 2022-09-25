@@ -7,7 +7,7 @@ export function BooleanDisplayNode({ id }) {
   const valueToDisplay = useRecoilValue(connectedValueSelector([id, "a"]));
 
   return (
-    <div className="custom-node">
+    <div className="custom-node display">
       <h4>Boolean Display Node</h4>
       {createHandles("input", 1)}
       <h4>{valueToDisplay ? "true" : "false"}</h4>

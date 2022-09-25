@@ -15,7 +15,7 @@ export function StringConcatNode({ id }) {
   }, [connectedValues]);
 
   return (
-    <div className="custom-node">
+    <div className="custom-node pipe">
       {createHandles("input", 1)}
       <h4>String Concat Pipe ||</h4>
       {createHandles("output", 1)}

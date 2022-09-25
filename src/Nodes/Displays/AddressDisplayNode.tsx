@@ -9,10 +9,9 @@ export function AddressDisplayNode({ id }) {
   const isValid = isAddress(a);
 
   return (
-    <div className="custom-node">
+    <div className="custom-node display">
       <h4>Address Display</h4>{" "}
       <span>
-        {" "}
         {createHandles("input", 1)}{" "}
         {isValid ? (
           <img

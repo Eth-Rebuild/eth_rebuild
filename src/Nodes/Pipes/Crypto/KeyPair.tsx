@@ -28,7 +28,7 @@ export function KeyPairNode({ id }) {
   }, [connectedValue]);
 
   return (
-    <div className="custom-node">
+    <div className="custom-node pipe">
       <h4>Key Pair Pipe</h4>
       {createHandles("input", 1, ["Private Key"])}
       {createHandles("output", 3, ["Public Key", "Private Key", "Address"])}

@@ -7,7 +7,7 @@ export function ArrayDisplayNode({ id }) {
   const valuesToDisplay = useRecoilValue(connectedValueSelector([id, "a"]));
 
   return (
-    <div className="custom-node">
+    <div className="custom-node display">
       <h4>Array Display Node</h4>
       {createHandles("input", 1)}
       <h4>{valuesToDisplay}</h4>

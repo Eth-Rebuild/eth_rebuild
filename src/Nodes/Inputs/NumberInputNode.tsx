@@ -12,7 +12,7 @@ export function NumberInputNode({ id }) {
   };
 
   return (
-    <div className="custom-node">
+    <div className="custom-node input">
       <h4>Number Input</h4>
       <InputNumber className="input" onChange={onChange} defaultValue={0} />
       {createHandles("output", 1)}

@@ -26,7 +26,7 @@ export function GetBalanceNode({ id }) {
   }, [a, b]);
 
   return (
-    <div className="custom-node">
+    <div className="custom-node pipe">
       <h4>Get Balance</h4>
       {createHandles("input", 2, ["Provider", "Address"])}
       {createHandles("output", 1)}

@@ -10,7 +10,7 @@ export function MultiDisplayNode({ id }) {
 
   console.log(a, b, c);
   return (
-    <div className="custom-node">
+    <div className="custom-node display">
       {createHandles("input", 3)}
       <h4>Multi Display Node</h4>
       <h4>{a}</h4>

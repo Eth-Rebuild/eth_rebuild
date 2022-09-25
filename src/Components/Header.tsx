@@ -51,8 +51,19 @@ export function MenuHeader() {
   }
 
   return (
-    <Header>
-      <Menu theme="dark" mode="horizontal" items={makeBins(nodeTypesPretty)} />
+    <Header
+      style={{
+        backgroundColor: "#ffffff",
+      }}
+    >
+      <Menu
+        mode="horizontal"
+        items={makeBins(nodeTypesPretty)}
+        style={{
+          backgroundColor: "#ffffff",
+          justifyContent: "center",
+        }}
+      />
     </Header>
   );
 }

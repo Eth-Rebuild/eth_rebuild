@@ -8,7 +8,7 @@ export function ConditionalDisplayNode({ id }) {
   const c = useRecoilValue(connectedValueSelector([id, "c"]));
 
   return (
-    <div className="custom-node">
+    <div className="custom-node display">
       <h4>Conditional Display</h4>
       <h4>{b && c ? (a ? b : c) : "Invalid Input(s)"}</h4>
       {createHandles("input", 3, [

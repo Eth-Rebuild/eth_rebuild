@@ -23,7 +23,7 @@ export function MuliplicationNode({ id }) {
   }, [a, b]);
 
   return (
-    <div className="custom-node">
+    <div className="custom-node pipe">
       <h4>Multiplication Pipe</h4>
       {createHandles("input", 2, ["a", "b"])}
       {createHandles("output", 1)}

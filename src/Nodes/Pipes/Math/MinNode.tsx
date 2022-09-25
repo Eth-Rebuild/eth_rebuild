@@ -23,7 +23,7 @@ export function MinNode({ id }) {
   }, [a, b]);
 
   return (
-    <div className="custom-node">
+    <div className="custom-node pipe">
       <h4>Min Pipe</h4>
       {createHandles("input", 2, ["a", "b"])}
       {createHandles("output", 1)}

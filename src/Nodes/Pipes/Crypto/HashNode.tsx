@@ -24,7 +24,7 @@ export function HashNode({ id }) {
   }, [connectedValue]);
 
   return (
-    <div className="custom-node">
+    <div className="custom-node pipe">
       <h4>Hash function Pipe</h4>
       {createHandles("input", 1)}
       {createHandles("output", 1)}

@@ -28,7 +28,7 @@ export function ProviderNode({ id }) {
   }, [a, b]);
 
   return (
-    <div className="custom-node">
+    <div className="custom-node pipe">
       <h4>Ethers Network Node</h4>
       {createHandles("input", 2, ["JSON_RPC Endpoint", "Chain ID"])}
       {createHandles("output", 1)}

@@ -7,7 +7,7 @@ export function ButtonInputNode({ id }) {
   const [state, setState] = useRecoilState(nodeDataState(id));
 
   return (
-    <div className="custom-node">
+    <div className="custom-node input">
       <h4>Button Input</h4>
       <Button
         className="input"
