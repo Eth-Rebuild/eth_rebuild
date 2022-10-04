@@ -2,25 +2,30 @@ import { useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { nodeDataState } from "../../../Recoil/Atoms/atoms";
 import { connectedValueSelector } from "../../../Recoil/Selectors/selectors";
-import { createHandles, getDataSources } from "../../../Helpers/helpers";
+import { createHandles } from "../../../Helpers/helpers";
+import { utils } from "ethers";
 
-export function EncryptNode({ id }) {
+export function SharedSecretNode({ id }) {
   const [state, setState] = useRecoilState(nodeDataState(id));
   const a = useRecoilValue(connectedValueSelector([id, "a"]));
   const b = useRecoilValue(connectedValueSelector([id, "b"]));
 
-  const encrypt = async () => {};
+  const getSharedSecret = () => {
+    const signingKey = new utils.SigningKey(utils.formatBytes32String(a));
+    const sharedSecret = signingKey.computeSharedSecret(utils.formatBytes32String(b));
+    setState({ a: sharedSecret });
+  };
 
   useEffect(() => {
     if (a && b) {
-      encrypt();
+      getSharedSecret();
     }
   }, [a, b]);
 
   return (
     <div className="custom-node pipe">
       <h4>Encrypt</h4>
-      {createHandles("input", 2, ["shared key", "message"])}
+      {createHandles("input", 2, ["Your private key", "Their public key"])}
       {createHandles("output", 1)}
     </div>
   );

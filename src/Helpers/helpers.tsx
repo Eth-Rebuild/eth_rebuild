@@ -8,6 +8,7 @@ export function createHandles(kind: string, count: number, labels?: string[]) {
       style={{
         display: "flex",
         flexDirection: "column",
+        alignItems: kind === "input" ? "start" : "end",
       }}
     >
       {Array.from(Array(count)).map((_, index) => (
@@ -45,10 +46,7 @@ export function createHandles(kind: string, count: number, labels?: string[]) {
   );
 }
 
-export function getDataSources(
-  connectedValue: any[] | undefined,
-  count: number
-) {
+export function getDataSources(connectedValue: any[] | undefined, count: number) {
   if (!connectedValue) return undefined;
   if (connectedValue.length >= count - 1) {
     return connectedValue.slice(0, count);

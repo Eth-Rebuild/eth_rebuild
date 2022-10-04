@@ -13,9 +13,7 @@ export function KeyPairNode({ id }) {
   useEffect(() => {
     try {
       if (connectedValue) {
-        const keyPair = new SigningKey(
-          utils.formatBytes32String(connectedValue)
-        );
+        const keyPair = new SigningKey(utils.formatBytes32String(connectedValue));
         setState({
           a: keyPair.publicKey,
           b: utils.parseBytes32String(keyPair.privateKey),

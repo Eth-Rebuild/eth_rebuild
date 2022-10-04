@@ -30,8 +30,9 @@ export const nodeTypesState = atom({
 
     // CRYPTO
     hashNode: Pipes.HashNode,
-    encryptNode: Pipes.EncryptNode,
+    sharedSecretNode: Pipes.SharedSecretNode,
     keyPairNode: Pipes.KeyPairNode,
+    encryptNode: Pipes.EncryptNode,
 
     // LOGIC
     andNode: Pipes.ANDNode,
@@ -79,8 +80,9 @@ export const nodeTypesPrettyState = atom({
     Network: {},
     Crypto: {
       hashNode: "Hash",
-      encryptNode: "Encrypt",
+      sharedSecretNode: "Shared Secret",
       keyPairNode: "Key Pair",
+      encryptNode: "Encrypt",
     },
     Ethers: {
       providerNode: "Provider",

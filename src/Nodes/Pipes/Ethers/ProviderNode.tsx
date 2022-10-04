@@ -1,7 +1,6 @@
 import { ethers } from "ethers";
 import { useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { getEmitHelpers } from "typescript";
 import { createHandles } from "../../../Helpers/helpers";
 import { nodeDataState } from "../../../Recoil/Atoms/atoms";
 import { connectedValueSelector } from "../../../Recoil/Selectors/selectors";
@@ -12,16 +11,13 @@ export function ProviderNode({ id }) {
   const b = useRecoilValue(connectedValueSelector([id, "b"]));
 
   const getProvider = async () => {
-    // const provider = new ethers.providers.AlchemyProvider(a, b);
-    const provider = new ethers.providers.JsonRpcProvider(a, b);
+    const provider = new ethers.providers.JsonRpcProvider(a || process.env.REACT_APP_ALCHEMY_ENDPOINT, b || 1);
     setState({ a: provider });
   };
 
   useEffect(() => {
     try {
-      if (a && b) {
-        getProvider();
-      }
+      getProvider();
     } catch (e) {
       console.error(e);
     }
