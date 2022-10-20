@@ -10,18 +10,13 @@ import ReactFlow, {
   Connection,
   Edge,
   Node,
-} from "react-flow-renderer";
-import {
-  cursorPositionState,
-  edgeState,
-  nodeState,
-  nodeTypesState,
-} from "./Recoil/Atoms/atoms";
+} from "reactflow";
+import "reactflow/dist/style.css";
+import { cursorPositionState, edgeState, nodeState, nodeTypesState } from "./Recoil/Atoms/atoms";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { ReactElement, useCallback, useRef } from "react";
+import { useCallback, useRef } from "react";
 import { Layout } from "antd";
 import { MenuHeader } from "./Components/Header";
-import { JsxElement } from "typescript";
 import { CustomControls } from "./Components/CustomControls";
 
 const { Content } = Layout;
@@ -31,20 +26,12 @@ export function Flow() {
   const [edges, setEdges] = useRecoilState(edgeState);
   const [_, setCursorPos] = useRecoilState(cursorPositionState);
   const nodeTypes = useRecoilValue(nodeTypesState);
-  const connectingNodeId = useRef("0");
+  const connectingNodeId = useRef("");
   const reactFlowWrapper = useRef<HTMLDivElement>(null);
   const { project } = useReactFlow();
 
-  const onNodesChange = useCallback(
-    (changes: NodeChange[]) =>
-      setNodes((nds) => applyNodeChanges(changes, nds)),
-    [setNodes]
-  );
-  const onEdgesChange = useCallback(
-    (changes: EdgeChange[]) =>
-      setEdges((eds) => applyEdgeChanges(changes, eds)),
-    [setEdges]
-  );
+  const onNodesChange = useCallback((changes: NodeChange[]) => setNodes((nds) => applyNodeChanges(changes, nds)), [setNodes]);
+  const onEdgesChange = useCallback((changes: EdgeChange[]) => setEdges((eds) => applyEdgeChanges(changes, eds)), [setEdges]);
 
   const onConnect = useCallback(
     (connection: Edge | Connection) => {
@@ -53,21 +40,23 @@ export function Flow() {
     [setEdges]
   );
 
-  const onConnectStart = useCallback((_, { nodeId }) => {
-    connectingNodeId.current = nodeId;
-  }, []);
+  const onConnectStart = useCallback(
+    (_, { nodeId }) => {
+      connectingNodeId.current = nodeId;
+    },
+    [project]
+  );
 
-  const onConnectStop = useCallback(
+  const onConnectEnd = useCallback(
     (event: MouseEvent) => {
       if (event.target instanceof Element) {
-        const targetIsPane =
-          event.target.classList.contains("react-flow__pane");
+        console.log(nodes);
+        const targetIsPane = event.target.classList.contains("react-flow__pane");
 
         if (targetIsPane) {
           if (reactFlowWrapper.current?.getBoundingClientRect()) {
-            const { top, left } =
-              reactFlowWrapper.current.getBoundingClientRect();
-            const id = nodes.length ? nodes[nodes.length - 1].id : String(0);
+            const { top, left } = reactFlowWrapper.current.getBoundingClientRect();
+            const id = nodes.length >= 1 ? String(nodes[nodes.length - 1].id + 1) : String(0);
             const newNode = {
               id,
               type: "stringDisplayNode",
@@ -77,16 +66,13 @@ export function Flow() {
               }),
               data: { label: `Node ${id}` },
             };
-
             setNodes((nds) => nds.concat(newNode));
-            setEdges((eds) =>
-              eds.concat([{ id, source: connectingNodeId.current, target: id }])
-            );
+            setEdges((eds) => eds.concat([{ id, source: connectingNodeId.current, target: id }]));
           }
         }
       }
     },
-    [project]
+    [nodes]
   );
 
   return (
@@ -114,7 +100,7 @@ export function Flow() {
             nodeTypes={nodeTypes}
             onPaneContextMenu={(e) => e.preventDefault()}
             onConnectStart={onConnectStart}
-            onConnectStop={onConnectStop}
+            onConnectEnd={onConnectEnd}
             onMouseMove={(e) => {
               setCursorPos({
                 x: e.clientX,

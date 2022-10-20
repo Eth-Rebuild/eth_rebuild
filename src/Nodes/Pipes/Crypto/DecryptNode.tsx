@@ -3,8 +3,6 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { nodeDataState } from "../../../Recoil/Atoms/atoms";
 import { connectedValueSelector } from "../../../Recoil/Selectors/selectors";
 import { createHandles } from "../../../Helpers/helpers";
-// import EthCrypto from "eth-crypto";
-import { utils } from "ethers";
 
 export function DecryptNode({ id }) {
   const [state, setState] = useRecoilState(nodeDataState(id));

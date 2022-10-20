@@ -1,4 +1,4 @@
-import { Handle, Position } from "react-flow-renderer";
+import { Handle, Position } from "reactflow";
 import { connectedValueSelector } from "../../Recoil/Selectors/selectors";
 import { useRecoilValue } from "recoil";
 import { createHandles } from "../../Helpers/helpers";

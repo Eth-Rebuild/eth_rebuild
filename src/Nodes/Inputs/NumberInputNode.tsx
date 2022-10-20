@@ -1,4 +1,4 @@
-import { Handle, Position } from "react-flow-renderer";
+import { Handle, Position } from "reactflow";
 import { useRecoilState } from "recoil";
 import { createHandles } from "../../Helpers/helpers";
 import { nodeDataState } from "../../Recoil/Atoms/atoms";

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useUpdateNodeInternals } from "react-flow-renderer";
+import { useUpdateNodeInternals } from "reactflow";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { createHandles } from "../../../Helpers/helpers";
 import { nodeDataState } from "../../../Recoil/Atoms/atoms";

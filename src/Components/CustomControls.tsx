@@ -1,4 +1,4 @@
-import { ControlButton, Controls } from "react-flow-renderer";
+import { ControlButton, Controls } from "reactflow";
 export function CustomControls() {
   return (
     <div>

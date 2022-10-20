@@ -1,4 +1,4 @@
-import { Handle, Position } from "react-flow-renderer";
+import { Handle, Position } from "reactflow";
 
 export const alphaArray = "abcdefghijklmnopqrstuvwxyz".split("");
 
@@ -30,6 +30,11 @@ export function createHandles(kind: string, count: number, labels?: string[]) {
               border: "1px solid #ffffff",
               position: "relative",
               order: 2,
+            }}
+            onContextMenu={(e) => {
+              e.preventDefault();
+              console.log(kind === "input" ? "right click on input" : "right click on output");
+              console.log(e);
             }}
             id={alphaArray[index]}
           />

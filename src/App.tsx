@@ -1,6 +1,6 @@
 import "./App.css";
 import { Flow } from "./Flow";
-import { ReactFlowProvider } from "react-flow-renderer";
+import { ReactFlowProvider } from "reactflow";
 import { RecoilRoot } from "recoil";
 
 function App() {

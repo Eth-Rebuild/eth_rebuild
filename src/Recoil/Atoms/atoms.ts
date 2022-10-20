@@ -2,7 +2,7 @@ import { atom, atomFamily } from "recoil";
 import * as Displays from "../../Nodes/Displays";
 import * as Pipes from "../../Nodes/Pipes";
 import * as Inputs from "../../Nodes/Inputs";
-import { Edge, Node } from "react-flow-renderer";
+import { Edge, Node } from "reactflow";
 
 export const nodeTypesState = atom({
   key: "nodeTypes",
