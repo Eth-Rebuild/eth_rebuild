@@ -28,6 +28,7 @@ export function Flow() {
   const nodeTypes = useRecoilValue(nodeTypesState);
   const connectingNodeId = useRef("");
   const connectingNodeHandleId = useRef("");
+  const connectingNodeHandleType = useRef("");
   const reactFlowWrapper = useRef<HTMLDivElement>(null);
   const { project } = useReactFlow();
 
@@ -57,7 +58,7 @@ export function Flow() {
             const id = nodes.length >= 1 ? String(nodes[nodes.length - 1].id + 1) : String(0);
             const newNode = {
               id,
-              type: "stringDisplayNode",
+              type: connectingNodeHandleType.current == "source" ? "stringDisplayNode" : "stringInputNode",
               position: project({
                 x: event.clientX - left - 75,
                 y: event.clientY - top,
@@ -66,7 +67,11 @@ export function Flow() {
             };
             setNodes((nds) => nds.concat(newNode));
             setEdges((eds) =>
-              eds.concat({ id, source: connectingNodeId.current, sourceHandle: connectingNodeHandleId.current, target: id, targetHandle: "a" })
+              eds.concat(
+                connectingNodeHandleType.current == "source"
+                  ? { id, source: connectingNodeId.current, sourceHandle: connectingNodeHandleId.current, target: id, targetHandle: "a" }
+                  : { id, source: id, sourceHandle: "a", target: connectingNodeId.current, targetHandle: connectingNodeHandleId.current }
+              )
             );
           }
         }
