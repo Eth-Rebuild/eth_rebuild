@@ -27,6 +27,7 @@ export function Flow() {
   const [_, setCursorPos] = useRecoilState(cursorPositionState);
   const nodeTypes = useRecoilValue(nodeTypesState);
   const connectingNodeId = useRef("");
+  const connectingNodeHandleId = useRef("");
   const reactFlowWrapper = useRef<HTMLDivElement>(null);
   const { project } = useReactFlow();
 
@@ -40,19 +41,16 @@ export function Flow() {
     [setEdges]
   );
 
-  const onConnectStart = useCallback(
-    (_, { nodeId }) => {
-      connectingNodeId.current = nodeId;
-    },
-    [project]
-  );
+  const onConnectStart = useCallback((_, { nodeId, handleId, handleType }) => {
+    console.log(nodeId, handleId, handleType);
+    connectingNodeId.current = nodeId;
+    connectingNodeHandleId.current = handleId;
+  }, []);
 
   const onConnectEnd = useCallback(
     (event: MouseEvent) => {
       if (event.target instanceof Element) {
-        console.log(nodes);
         const targetIsPane = event.target.classList.contains("react-flow__pane");
-
         if (targetIsPane) {
           if (reactFlowWrapper.current?.getBoundingClientRect()) {
             const { top, left } = reactFlowWrapper.current.getBoundingClientRect();
@@ -67,7 +65,9 @@ export function Flow() {
               data: { label: `Node ${id}` },
             };
             setNodes((nds) => nds.concat(newNode));
-            setEdges((eds) => eds.concat([{ id, source: connectingNodeId.current, target: id }]));
+            setEdges((eds) =>
+              eds.concat({ id, source: connectingNodeId.current, sourceHandle: connectingNodeHandleId.current, target: id, targetHandle: "a" })
+            );
           }
         }
       }
