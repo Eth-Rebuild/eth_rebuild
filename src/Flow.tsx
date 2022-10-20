@@ -46,6 +46,7 @@ export function Flow() {
     console.log(nodeId, handleId, handleType);
     connectingNodeId.current = nodeId;
     connectingNodeHandleId.current = handleId;
+    connectingNodeHandleType.current = handleType;
   }, []);
 
   const onConnectEnd = useCallback(
@@ -56,6 +57,7 @@ export function Flow() {
           if (reactFlowWrapper.current?.getBoundingClientRect()) {
             const { top, left } = reactFlowWrapper.current.getBoundingClientRect();
             const id = nodes.length >= 1 ? String(nodes[nodes.length - 1].id + 1) : String(0);
+            console.log(connectingNodeHandleType.current);
             const newNode = {
               id,
               type: connectingNodeHandleType.current == "source" ? "stringDisplayNode" : "stringInputNode",
@@ -65,12 +67,25 @@ export function Flow() {
               }),
               data: { label: `Node ${id}` },
             };
+            console.log(newNode);
             setNodes((nds) => nds.concat(newNode));
             setEdges((eds) =>
               eds.concat(
                 connectingNodeHandleType.current == "source"
-                  ? { id, source: connectingNodeId.current, sourceHandle: connectingNodeHandleId.current, target: id, targetHandle: "a" }
-                  : { id, source: id, sourceHandle: "a", target: connectingNodeId.current, targetHandle: connectingNodeHandleId.current }
+                  ? {
+                      id: `${connectingNodeId.current}-${id}`,
+                      source: connectingNodeId.current,
+                      sourceHandle: connectingNodeHandleId.current,
+                      target: id,
+                      targetHandle: "a",
+                    }
+                  : {
+                      id: `${id}a-${connectingNodeId.current}${connectingNodeHandleId.current}`,
+                      source: id,
+                      sourceHandle: "a",
+                      target: connectingNodeId.current,
+                      targetHandle: connectingNodeHandleId.current,
+                    }
               )
             );
           }
