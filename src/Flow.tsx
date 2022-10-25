@@ -67,7 +67,6 @@ export function Flow() {
               }),
               data: { label: `Node ${id}` },
             };
-            console.log(newNode);
             setNodes((nds) => nds.concat(newNode));
             setEdges((eds) =>
               eds.concat(

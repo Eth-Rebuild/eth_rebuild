@@ -1,6 +1,6 @@
 import { Handle, Position } from "reactflow";
 import { useRecoilState } from "recoil";
-import { createHandles } from "../../Helpers/helpers";
+import { Handles } from "../../Helpers/helpers";
 import { nodeDataState } from "../../Recoil/Atoms/atoms";
 import { InputNumber } from "antd";
 
@@ -15,7 +15,14 @@ export function NumberInputNode({ id }) {
     <div className="custom-node input">
       <h4>Number Input</h4>
       <InputNumber className="input" onChange={onChange} defaultValue={0} />
-      {createHandles("output", 1)}
+      <Handles
+        kind="output"
+        count={1}
+        id={id}
+        types={{
+          a: "number",
+        }}
+      />
     </div>
   );
 }
