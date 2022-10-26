@@ -1,5 +1,4 @@
 import { selectorFamily } from "recoil";
-import { isObjectLiteralExpression, validateLocaleAndSetLanguage } from "typescript";
 import { edgeState, nodeDataState, nodeState } from "../Atoms/atoms";
 
 export const connectedNodesSelector = selectorFamily<Array<string>, string>({

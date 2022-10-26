@@ -1,7 +1,6 @@
-import { Handle, Position } from "reactflow";
 import { connectedValueSelector } from "../../Recoil/Selectors/selectors";
 import { useRecoilValue } from "recoil";
-import { createHandles, Handles } from "../../Helpers/helpers";
+import { Handles } from "../../Helpers/helpers";
 
 export function StringDisplayNode({ id }) {
   const stringToDisplay = useRecoilValue(connectedValueSelector([id, "a"]));
