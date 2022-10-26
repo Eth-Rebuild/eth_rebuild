@@ -15,6 +15,7 @@ export function ArrayDisplayNode({ id }) {
         types={{
           a: "array",
         }}
+        labels={["Array"]}
       />
       <h4>{valuesToDisplay}</h4>
     </div>

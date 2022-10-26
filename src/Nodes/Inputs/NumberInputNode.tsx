@@ -8,7 +8,7 @@ export function NumberInputNode({ id }) {
   const [state, setState] = useRecoilState(nodeDataState(id));
 
   const onChange = (value: number) => {
-    setState({ a: value });
+    setState((state) => ({ ...state, a: value }));
   };
 
   return (

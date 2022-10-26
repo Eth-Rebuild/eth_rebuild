@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { nodeDataState } from "../../../Recoil/Atoms/atoms";
 import { connectedValueSelector } from "../../../Recoil/Selectors/selectors";
-import { createHandles } from "../../../Helpers/helpers";
+import { Handles } from "../../../Helpers/helpers";
 
 export function DecryptNode({ id }) {
   const [state, setState] = useRecoilState(nodeDataState(id));
@@ -13,7 +13,7 @@ export function DecryptNode({ id }) {
     // const privateKey = utils.formatBytes32String(a);
     // const encrypted = EthCrypto.cipher.parse(b);
     // const decrypted = await EthCrypto.decryptWithPrivateKey(privateKey, encrypted);
-    // setState({ a: decrypted });
+    // setState((state) => ({ ...state, a: decrypted }));
   };
 
   useEffect(() => {
@@ -25,8 +25,24 @@ export function DecryptNode({ id }) {
   return (
     <div className="custom-node pipe">
       <h4>Encrypt</h4>
-      {createHandles("input", 2, ["Private Key", "Encrypted Message"])}
-      {createHandles("output", 1, ["Message"])}
+      <Handles
+        kind="input"
+        count={2}
+        id={id}
+        types={{
+          a: "string",
+          b: "string",
+        }}
+        labels={["Private Key", "Encrypted"]}
+      />
+      <Handles
+        kind="output"
+        count={1}
+        id={id}
+        types={{
+          a: "string",
+        }}
+      />
     </div>
   );
 }

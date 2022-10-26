@@ -19,6 +19,7 @@ export function AddressDisplayNode({ id }) {
           types={{
             a: "string",
           }}
+          labels={["Address"]}
         />
         {isValid ? <img height={50} width={50} src={makeBlockie(a)} style={{ margin: "10px" }} /> : ""}
         {isValid ? a : "Invalid Address"}

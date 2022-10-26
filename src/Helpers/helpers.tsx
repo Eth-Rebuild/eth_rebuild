@@ -68,6 +68,7 @@ export function Handles(props: HandlesProps) {
               // null checking
               if (target && targetHandle && sourceHandle) {
                 // check if the connected at target, and handle is valid
+                console.log(target, targetHandle, sourceHandle);
                 const validHandles = validConnections?.[sourceHandle]?.[target];
                 return validHandles ? validHandles.includes(targetHandle) : false;
               } else {

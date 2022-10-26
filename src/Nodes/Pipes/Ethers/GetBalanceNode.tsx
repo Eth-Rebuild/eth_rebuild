@@ -1,7 +1,7 @@
 import { ethers } from "ethers";
 import { useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { createHandles } from "../../../Helpers/helpers";
+import { Handles } from "../../../Helpers/helpers";
 import { nodeDataState } from "../../../Recoil/Atoms/atoms";
 import { connectedValueSelector } from "../../../Recoil/Selectors/selectors";
 
@@ -13,7 +13,7 @@ export function GetBalanceNode({ id }) {
   const getBalance = async () => {
     if (a && b) {
       const balance = await a.getBalance(b);
-      setState({ a: balance });
+      setState((prevState) => ({ ...prevState, a: balance }));
     }
   };
 
@@ -28,8 +28,24 @@ export function GetBalanceNode({ id }) {
   return (
     <div className="custom-node pipe">
       <h4>Get Balance</h4>
-      {createHandles("input", 2, ["Provider", "Address"])}
-      {createHandles("output", 1)}
+      <Handles
+        kind="input"
+        count={2}
+        id={id}
+        types={{
+          a: "object",
+          b: "string",
+        }}
+        labels={["Provider", "Address"]}
+      />
+      <Handles
+        kind="output"
+        count={1}
+        id={id}
+        types={{
+          a: "number",
+        }}
+      />
     </div>
   );
 }

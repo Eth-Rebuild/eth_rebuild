@@ -14,8 +14,9 @@ export function BooleanDisplayNode({ id }) {
         count={1}
         id={id}
         types={{
-          a: "boolean",
+          a: "any",
         }}
+        labels={["Condition"]}
       />
       <h4>{valueToDisplay ? "true" : "false"}</h4>
     </div>

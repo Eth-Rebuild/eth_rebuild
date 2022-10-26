@@ -1,7 +1,7 @@
 import { connectedValueSelector } from "../../Recoil/Selectors/selectors";
 import { useRecoilValue } from "recoil";
 import { useEffect } from "react";
-import { createHandles } from "../../Helpers/helpers";
+import { Handles } from "../../Helpers/helpers";
 
 export function MultiDisplayNode({ id }) {
   const a = useRecoilValue(connectedValueSelector([id, "a"]));
@@ -11,7 +11,16 @@ export function MultiDisplayNode({ id }) {
   console.log(a, b, c);
   return (
     <div className="custom-node display">
-      {createHandles("input", 3)}
+      <Handles
+        kind="input"
+        count={3}
+        id={id}
+        types={{
+          a: "any",
+          b: "string",
+          c: "string",
+        }}
+      />
       <h4>Multi Display Node</h4>
       <h4>{a}</h4>
       <h4>{b}</h4>

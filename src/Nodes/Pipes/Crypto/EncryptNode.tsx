@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { nodeDataState } from "../../../Recoil/Atoms/atoms";
 import { connectedValueSelector } from "../../../Recoil/Selectors/selectors";
-import { createHandles, getDataSources } from "../../../Helpers/helpers";
+import { Handles } from "../../../Helpers/helpers";
 
 export function EncryptNode({ id }) {
   const [state, setState] = useRecoilState(nodeDataState(id));
@@ -20,8 +20,24 @@ export function EncryptNode({ id }) {
   return (
     <div className="custom-node pipe">
       <h4>Encrypt</h4>
-      {createHandles("input", 2, ["shared key", "message"])}
-      {createHandles("output", 1)}
+      <Handles
+        kind="input"
+        count={2}
+        id={id}
+        types={{
+          a: "string",
+          b: "string",
+        }}
+        labels={["Public Key", "String"]}
+      />
+      <Handles
+        kind="output"
+        count={1}
+        id={id}
+        types={{
+          a: "string",
+        }}
+      />
     </div>
   );
 }

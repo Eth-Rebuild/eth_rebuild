@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { createHandles } from "../../../Helpers/helpers";
+import { Handles } from "../../../Helpers/helpers";
 import { nodeDataState } from "../../../Recoil/Atoms/atoms";
 import { connectedValueSelector } from "../../../Recoil/Selectors/selectors";
 
@@ -12,9 +12,9 @@ export function ANDNode({ id }) {
   useEffect(() => {
     try {
       if (a && b) {
-        setState({ a: true });
+        setState((state) => ({ ...state, a: true }));
       } else {
-        setState({ a: undefined });
+        setState((state) => ({ ...state, a: undefined }));
       }
     } catch (e) {
       console.error(e);
@@ -24,8 +24,24 @@ export function ANDNode({ id }) {
   return (
     <div className="custom-node pipe">
       <h4>AND Node</h4>
-      {createHandles("input", 2, ["a", "b"])}
-      {createHandles("output", 1)}
+      <Handles
+        kind="input"
+        count={2}
+        id={id}
+        types={{
+          a: "any",
+          b: "any",
+        }}
+        labels={["A", "B"]}
+      />
+      <Handles
+        kind="output"
+        count={1}
+        id={id}
+        types={{
+          a: "boolean",
+        }}
+      />
     </div>
   );
 }

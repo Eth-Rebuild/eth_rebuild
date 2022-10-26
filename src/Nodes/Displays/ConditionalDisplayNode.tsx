@@ -20,6 +20,7 @@ export function ConditionalDisplayNode({ id }) {
           b: "string",
           c: "string",
         }}
+        labels={["Condition", "Display If True", "Display If False"]}
       />
     </div>
   );

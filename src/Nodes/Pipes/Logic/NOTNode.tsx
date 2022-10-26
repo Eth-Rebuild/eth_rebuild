@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useUpdateNodeInternals } from "reactflow";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { createHandles } from "../../../Helpers/helpers";
+import { Handles } from "../../../Helpers/helpers";
 import { nodeDataState } from "../../../Recoil/Atoms/atoms";
 import { connectedValueSelector } from "../../../Recoil/Selectors/selectors";
 
@@ -12,9 +12,9 @@ export function NOTNode({ id }) {
   useEffect(() => {
     try {
       if (a) {
-        setState({ a: undefined });
+        setState((state) => ({ ...state, a: undefined }));
       } else {
-        setState({ a: true });
+        setState((state) => ({ ...state, a: true }));
       }
     } catch (e) {
       console.error(e);
@@ -24,8 +24,23 @@ export function NOTNode({ id }) {
   return (
     <div className="custom-node pipe">
       <h4>NOT Node</h4>
-      {createHandles("input", 1, ["a"])}
-      {createHandles("output", 1)}
+      <Handles
+        kind="input"
+        count={1}
+        id={id}
+        types={{
+          a: "any",
+        }}
+        labels={["A"]}
+      />
+      <Handles
+        kind="output"
+        count={1}
+        id={id}
+        types={{
+          a: "boolean",
+        }}
+      />
     </div>
   );
 }

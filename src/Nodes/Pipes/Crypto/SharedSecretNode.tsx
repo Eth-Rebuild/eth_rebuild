@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { nodeDataState } from "../../../Recoil/Atoms/atoms";
 import { connectedValueSelector } from "../../../Recoil/Selectors/selectors";
-import { createHandles } from "../../../Helpers/helpers";
+import { Handles } from "../../../Helpers/helpers";
 import { utils } from "ethers";
 
 export function SharedSecretNode({ id }) {
@@ -13,7 +13,7 @@ export function SharedSecretNode({ id }) {
   const getSharedSecret = () => {
     const signingKey = new utils.SigningKey(utils.formatBytes32String(a));
     const sharedSecret = signingKey.computeSharedSecret(utils.formatBytes32String(b));
-    setState({ a: sharedSecret });
+    setState((state) => ({ ...state, a: sharedSecret }));
   };
 
   useEffect(() => {
@@ -25,8 +25,25 @@ export function SharedSecretNode({ id }) {
   return (
     <div className="custom-node pipe">
       <h4>Encrypt</h4>
-      {createHandles("input", 2, ["Your private key", "Their public key"])}
-      {createHandles("output", 1)}
+      <Handles
+        kind="input"
+        count={2}
+        id={id}
+        types={{
+          a: "string",
+          b: "string",
+        }}
+        labels={["Your private key", "Their public key"]}
+      />
+      <Handles
+        kind="output"
+        count={1}
+        id={id}
+        types={{
+          a: "string",
+        }}
+        labels={["Shared Secret"]}
+      />
     </div>
   );
 }
