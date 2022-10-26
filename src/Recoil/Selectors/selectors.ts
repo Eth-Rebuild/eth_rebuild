@@ -89,13 +89,9 @@ export const validHandleConnectionSelector = selectorFamily<object, [string, str
           const { id } = node;
           const inputTypes = get(nodeDataState(id)).inputTypes;
           const handles = Object.keys(inputTypes).filter((key) => {
-            return inputTypes[key] === type;
+            return (inputTypes[key] === type || inputTypes[key] === "any") && get(connectedNodesSelector(id)).length < Object.keys(inputTypes).length;
           });
           valid[id] = handles;
-          // return {
-          //   id,
-          //   handles,
-          // };
         });
       return valid;
     },

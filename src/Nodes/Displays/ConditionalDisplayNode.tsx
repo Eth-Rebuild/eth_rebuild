@@ -1,6 +1,6 @@
 import { connectedValueSelector } from "../../Recoil/Selectors/selectors";
 import { useRecoilValue } from "recoil";
-import { createHandles } from "../../Helpers/helpers";
+import { Handles } from "../../Helpers/helpers";
 
 export function ConditionalDisplayNode({ id }) {
   const a = useRecoilValue(connectedValueSelector([id, "a"]));
@@ -11,11 +11,16 @@ export function ConditionalDisplayNode({ id }) {
     <div className="custom-node display">
       <h4>Conditional Display</h4>
       <h4>{b && c ? (a ? b : c) : "Invalid Input(s)"}</h4>
-      {createHandles("input", 3, [
-        "conditional",
-        "display if true",
-        "display if false",
-      ])}
+      <Handles
+        kind="input"
+        count={3}
+        id={id}
+        types={{
+          a: "any",
+          b: "string",
+          c: "string",
+        }}
+      />
     </div>
   );
 }
