@@ -123,6 +123,7 @@ export const edgeState = atom<Array<Edge>>({
   default: [],
 });
 
+//@params: nodeID: string
 export const nodeDataState = atomFamily<any, string>({
   key: "nodeDataState",
   dangerouslyAllowMutability: true,

@@ -29,11 +29,11 @@ export const connectedValueSelector = selectorFamily<any, [string, string]>({
   get:
     ([id, handleId]) =>
     ({ get }) => {
-      const edges = get(edgeState).filter((edge) => edge.target === id);
-      const connectedHandleState = edges.find((edge) => edge.targetHandle === handleId);
-      if (connectedHandleState) {
-        const nodeData = get(nodeDataState(connectedHandleState.source));
-        return nodeData[connectedHandleState.sourceHandle ? connectedHandleState.sourceHandle : "default"];
+      // Conencted Node to this handleId
+      const edge = get(edgeState).filter((edge) => edge.target === id && edge.targetHandle === handleId)[0];
+      if (edge && edge.sourceHandle) {
+        const nodeData = get(nodeDataState(edge.source));
+        return nodeData?.[edge.sourceHandle];
       } else {
         return undefined;
       }
@@ -64,19 +64,14 @@ export const validNodeConnectionSelector = selectorFamily<object, string>({
     },
 });
 
-// export interface ValidNode {
-//   handles: Array<string>;
-// }
 // @notice used to find all valid connections for the type of a node's handle
-
-// returns an object with
 export const validHandleConnectionSelector = selectorFamily<object, [string, string]>({
   key: "@validHandleConnectionSelector",
 
   get:
     ([id, handleId]) =>
     ({ get }) => {
-      const type = get(nodeDataState(id))["outputTypes"][handleId];
+      const type = get(nodeDataState(id))?.["outputTypes"]?.[handleId];
       const nodes = get(nodeState);
       let valid = {};
       nodes
@@ -94,29 +89,5 @@ export const validHandleConnectionSelector = selectorFamily<object, [string, str
           valid[id] = handles;
         });
       return valid;
-    },
-});
-
-//@param sourceId: string
-//@param sourceHandle: string
-//@param targetId: string
-//@param targetHandle: string
-
-// explanation:
-// return connectedValueSelector([sourceId, sourceHandle]) === connectedValueSelector([targetId, targetHandle])
-
-//@dev used to check if a connection is valid
-export const isValidConnectionSelector = selectorFamily<boolean, [string, string, string, string]>({
-  key: "@isValidConnectionSelector",
-  get:
-    ([sourceId, sourceHandle, targetId, targetHandle]) =>
-    ({ get }) => {
-      const sourceType = get(connectedValueSelector([sourceId, sourceHandle]));
-      const targetType = get(connectedValueSelector([targetId, targetHandle]));
-      if (sourceType === targetType) return true;
-      else {
-        console.log("Invalid connection");
-        return false;
-      }
     },
 });

@@ -14,10 +14,11 @@ import ReactFlow, {
 import "reactflow/dist/style.css";
 import { cursorPositionState, edgeState, nodeState, nodeTypesState } from "./Recoil/Atoms/atoms";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { useCallback, useRef } from "react";
+import { useCallback, useRef, useState } from "react";
 import { Layout } from "antd";
 import { MenuHeader } from "./Components/Header";
 import { CustomControls } from "./Components/CustomControls";
+import { useEffect } from "react";
 
 const { Content } = Layout;
 
@@ -43,7 +44,6 @@ export function Flow() {
   );
 
   const onConnectStart = useCallback((_, { nodeId, handleId, handleType }) => {
-    console.log(nodeId, handleId, handleType);
     connectingNodeId.current = nodeId;
     connectingNodeHandleId.current = handleId;
     connectingNodeHandleType.current = handleType;

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Connection, Handle, Position } from "reactflow";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { nodeDataState } from "../Recoil/Atoms/atoms";
+import { useRecoilCallback, useRecoilRefresher_UNSTABLE, useRecoilState, useRecoilValue } from "recoil";
+import { cursorPositionState, nodeDataState, nodeState } from "../Recoil/Atoms/atoms";
 import { validNodeConnectionSelector } from "../Recoil/Selectors/selectors";
 
 export const alphaArray = "abcdefghijklmnopqrstuvwxyz".split("");
@@ -12,23 +12,31 @@ interface HandlesProps {
   id: string;
   types?: object;
   labels?: string[];
+  validConnection?: () => boolean;
 }
 
 export function Handles(props: HandlesProps) {
-  const { kind, count, types, labels, id } = props;
-  const [, setState] = useRecoilState(nodeDataState(id));
+  const { kind, count, types, labels, id, validConnection } = props;
+  const [state, setState] = useRecoilState(nodeDataState(id));
+  // maybe we need to use a callback here to make sure the state is updated
   const validConnections = useRecoilValue(validNodeConnectionSelector(id));
 
   useEffect(() => {
+    for (let i = 0; i < count; i++) {
+      if (!state[alphaArray[i]]) {
+        setState((prevState) => ({ ...state, [alphaArray[i]]: undefined }));
+      }
+    }
     if (kind === "output") {
       setState((prevState) => ({
-        outputTypes: types,
         ...prevState,
+        outputTypes: types,
       }));
+      console.log(state);
     } else {
       setState((prevState) => ({
-        inputTypes: types,
         ...prevState,
+        inputTypes: types,
       }));
     }
   }, []);
@@ -68,7 +76,6 @@ export function Handles(props: HandlesProps) {
               // null checking
               if (target && targetHandle && sourceHandle) {
                 // check if the connected at target, and handle is valid
-                console.log(target, targetHandle, sourceHandle);
                 const validHandles = validConnections?.[sourceHandle]?.[target];
                 return validHandles ? validHandles.includes(targetHandle) : false;
               } else {
