@@ -1,7 +1,7 @@
 import { Layout, Menu, MenuItemProps } from "antd";
 import { useRecoilValue, useRecoilState } from "recoil";
 import { nodeTypesPrettyState, nodeState } from "../Recoil/Atoms/atoms";
-import { useReactFlow } from "react-flow-renderer";
+import { useReactFlow } from "reactflow";
 const { Header } = Layout;
 
 export function MenuHeader() {
@@ -10,19 +10,20 @@ export function MenuHeader() {
   const { project } = useReactFlow();
 
   function addNode(type: string) {
-    const lastNodeId = nodes.length ? Number(nodes[nodes.length - 1].id) : 0;
-    setNodes([
-      ...nodes,
-      {
-        id: String(lastNodeId + 1),
-        type: type,
-        data: {},
-        position: project({
-          x: window.innerWidth / 2,
-          y: window.innerHeight / 2 - 300,
-        }),
-      },
-    ]);
+    setNodes((nodes) => {
+      return [
+        ...nodes,
+        {
+          id: String(nodes.length),
+          type: type,
+          data: {},
+          position: project({
+            x: window.innerWidth / 2,
+            y: window.innerHeight / 2 - 300,
+          }),
+        },
+      ];
+    });
   }
 
   interface MenuObjectProps {

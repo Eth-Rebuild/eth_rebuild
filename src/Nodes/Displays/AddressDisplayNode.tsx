@@ -1,6 +1,6 @@
 import { connectedValueSelector } from "../../Recoil/Selectors/selectors";
 import { useRecoilValue } from "recoil";
-import { createHandles } from "../../Helpers/helpers";
+import { Handles } from "../../Helpers/helpers";
 import { isAddress } from "ethers/lib/utils";
 import makeBlockie from "ethereum-blockies-base64";
 
@@ -12,17 +12,16 @@ export function AddressDisplayNode({ id }) {
     <div className="custom-node display">
       <h4>Address Display</h4>{" "}
       <span>
-        {createHandles("input", 1)}{" "}
-        {isValid ? (
-          <img
-            height={50}
-            width={50}
-            src={makeBlockie(a)}
-            style={{ margin: "10px" }}
-          />
-        ) : (
-          ""
-        )}
+        <Handles
+          kind="input"
+          count={1}
+          id={id}
+          types={{
+            a: "string",
+          }}
+          labels={["Address"]}
+        />
+        {isValid ? <img height={50} width={50} src={makeBlockie(a)} style={{ margin: "10px" }} /> : ""}
         {isValid ? a : "Invalid Address"}
       </span>
     </div>

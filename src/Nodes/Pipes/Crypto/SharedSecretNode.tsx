@@ -1,50 +1,48 @@
 import { useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { Handles } from "../../../Helpers/helpers";
 import { nodeDataState } from "../../../Recoil/Atoms/atoms";
 import { connectedValueSelector } from "../../../Recoil/Selectors/selectors";
+import { Handles } from "../../../Helpers/helpers";
+import { utils } from "ethers";
 
-export function XORNode({ id }) {
+export function SharedSecretNode({ id }) {
   const [state, setState] = useRecoilState(nodeDataState(id));
   const a = useRecoilValue(connectedValueSelector([id, "a"]));
   const b = useRecoilValue(connectedValueSelector([id, "b"]));
 
+  const getSharedSecret = () => {
+    const signingKey = new utils.SigningKey(utils.formatBytes32String(a));
+    const sharedSecret = signingKey.computeSharedSecret(utils.formatBytes32String(b));
+    setState((state) => ({ ...state, a: sharedSecret }));
+  };
+
   useEffect(() => {
-    try {
-      if (a || b) {
-        if (a && b) {
-          setState((state) => ({ ...state, a: undefined }));
-        } else {
-          setState((state) => ({ ...state, a: true }));
-        }
-      } else {
-        setState((state) => ({ ...state, a: undefined }));
-      }
-    } catch (e) {
-      console.error(e);
+    if (a && b) {
+      getSharedSecret();
     }
   }, [a, b]);
 
   return (
     <div className="custom-node pipe">
-      <h4>XOR Node</h4>
+      <h4>Encrypt</h4>
       <Handles
         kind="input"
         count={2}
         id={id}
         types={{
-          a: "any",
-          b: "any",
+          a: "string",
+          b: "string",
         }}
-        labels={["A", "B"]}
+        labels={["Your private key", "Their public key"]}
       />
       <Handles
         kind="output"
         count={1}
         id={id}
         types={{
-          a: "boolean",
+          a: "string",
         }}
+        labels={["Shared Secret"]}
       />
     </div>
   );

@@ -2,7 +2,7 @@ import { atom, atomFamily } from "recoil";
 import * as Displays from "../../Nodes/Displays";
 import * as Pipes from "../../Nodes/Pipes";
 import * as Inputs from "../../Nodes/Inputs";
-import { Edge, Node } from "react-flow-renderer";
+import { Edge, Node } from "reactflow";
 
 export const nodeTypesState = atom({
   key: "nodeTypes",
@@ -30,8 +30,9 @@ export const nodeTypesState = atom({
 
     // CRYPTO
     hashNode: Pipes.HashNode,
-    encryptNode: Pipes.EncryptNode,
+    sharedSecretNode: Pipes.SharedSecretNode,
     keyPairNode: Pipes.KeyPairNode,
+    encryptNode: Pipes.EncryptNode,
 
     // LOGIC
     andNode: Pipes.ANDNode,
@@ -79,8 +80,9 @@ export const nodeTypesPrettyState = atom({
     Network: {},
     Crypto: {
       hashNode: "Hash",
-      encryptNode: "Encrypt",
+      sharedSecretNode: "Shared Secret",
       keyPairNode: "Key Pair",
+      encryptNode: "Encrypt",
     },
     Ethers: {
       providerNode: "Provider",
@@ -121,7 +123,8 @@ export const edgeState = atom<Array<Edge>>({
   default: [],
 });
 
-export const nodeDataState = atomFamily<object, string>({
+//@params: nodeID: string
+export const nodeDataState = atomFamily<any, string>({
   key: "nodeDataState",
   dangerouslyAllowMutability: true,
   default: {},

@@ -1,7 +1,6 @@
-import { Handle, Position } from "react-flow-renderer";
 import { connectedValueSelector } from "../../Recoil/Selectors/selectors";
 import { useRecoilValue } from "recoil";
-import { createHandles } from "../../Helpers/helpers";
+import { Handles } from "../../Helpers/helpers";
 
 export function ArrayDisplayNode({ id }) {
   const valuesToDisplay = useRecoilValue(connectedValueSelector([id, "a"]));
@@ -9,7 +8,15 @@ export function ArrayDisplayNode({ id }) {
   return (
     <div className="custom-node display">
       <h4>Array Display Node</h4>
-      {createHandles("input", 1)}
+      <Handles
+        kind="input"
+        count={1}
+        id={id}
+        types={{
+          a: "array",
+        }}
+        labels={["Array"]}
+      />
       <h4>{valuesToDisplay}</h4>
     </div>
   );

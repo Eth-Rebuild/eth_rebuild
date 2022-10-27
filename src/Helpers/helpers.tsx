@@ -1,13 +1,52 @@
-import { Handle, Position } from "react-flow-renderer";
+import { useEffect } from "react";
+import { Connection, Handle, Position } from "reactflow";
+import { useRecoilCallback, useRecoilRefresher_UNSTABLE, useRecoilState, useRecoilValue } from "recoil";
+import { cursorPositionState, nodeDataState, nodeState } from "../Recoil/Atoms/atoms";
+import { validNodeConnectionSelector } from "../Recoil/Selectors/selectors";
 
 export const alphaArray = "abcdefghijklmnopqrstuvwxyz".split("");
 
-export function createHandles(kind: string, count: number, labels?: string[]) {
+interface HandlesProps {
+  kind: string;
+  count: number;
+  id: string;
+  types?: object;
+  labels?: string[];
+  validConnection?: () => boolean;
+}
+
+export function Handles(props: HandlesProps) {
+  const { kind, count, types, labels, id, validConnection } = props;
+  const [state, setState] = useRecoilState(nodeDataState(id));
+  // maybe we need to use a callback here to make sure the state is updated
+  const validConnections = useRecoilValue(validNodeConnectionSelector(id));
+
+  useEffect(() => {
+    for (let i = 0; i < count; i++) {
+      if (!state[alphaArray[i]]) {
+        setState((prevState) => ({ ...state, [alphaArray[i]]: undefined }));
+      }
+    }
+    if (kind === "output") {
+      setState((prevState) => ({
+        ...prevState,
+        outputTypes: types,
+      }));
+      console.log(state);
+    } else {
+      setState((prevState) => ({
+        ...prevState,
+        inputTypes: types,
+      }));
+    }
+  }, []);
+
   return (
     <div
       style={{
         display: "flex",
         flexDirection: "column",
+        alignItems: kind === "input" ? "start" : "end",
       }}
     >
       {Array.from(Array(count)).map((_, index) => (
@@ -31,6 +70,18 @@ export function createHandles(kind: string, count: number, labels?: string[]) {
               order: 2,
             }}
             id={alphaArray[index]}
+            isValidConnection={(connection: Connection) => {
+              // grab the target
+              const { target, targetHandle, sourceHandle } = connection;
+              // null checking
+              if (target && targetHandle && sourceHandle) {
+                // check if the connected at target, and handle is valid
+                const validHandles = validConnections?.[sourceHandle]?.[target];
+                return validHandles ? validHandles.includes(targetHandle) : false;
+              } else {
+                return false;
+              }
+            }}
           />
           <span
             style={{
@@ -45,10 +96,7 @@ export function createHandles(kind: string, count: number, labels?: string[]) {
   );
 }
 
-export function getDataSources(
-  connectedValue: any[] | undefined,
-  count: number
-) {
+export function getDataSources(connectedValue: any[] | undefined, count: number) {
   if (!connectedValue) return undefined;
   if (connectedValue.length >= count - 1) {
     return connectedValue.slice(0, count);
