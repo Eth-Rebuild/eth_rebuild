@@ -14,9 +14,6 @@ export function NumberInputNode({ id }) {
     setState((state) => ({ ...state, a: value }));
   };
 
-  useEffect(() => {
-    console.log(state);
-  }, [state]);
   return (
     <div className="custom-node input">
       <h4>Number Input</h4>
