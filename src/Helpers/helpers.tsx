@@ -7,50 +7,62 @@ import { validNodeConnectionSelector } from "../Recoil/Selectors/selectors";
 export const alphaArray = "abcdefghijklmnopqrstuvwxyz".split("");
 
 interface HandlesProps {
-  kind: string;
-  count: number;
   id: string;
-  types?: object;
-  labels?: string[];
-  // validConnection?: () => boolean;
-  validConnections?: any;
+  inputTypes?: object;
+  outputTypes?: object;
+  inputLabels?: string[];
+  outputLabels?: string[];
 }
 
 export function Handles(props: HandlesProps) {
-  const { kind, count, types, labels, id, validConnections } = props;
+  const { inputTypes, outputTypes, inputLabels, outputLabels, id} = props;
   const [state, setState] = useRecoilState(nodeDataState(id));
-  // maybe we need to use a callback here to make sure the state is updated
-  // const validConnections = useRecoilValue(validNodeConnectionSelector(id));
+  const nodes = useRecoilValue(nodeState);
+  const validConnections = useRecoilValue(validNodeConnectionSelector(id));
 
   useEffect(() => {
-    for (let i = 0; i < count; i++) {
-      if (!state[alphaArray[i]]) {
-        setState((prevState) => ({ ...state, [alphaArray[i]]: undefined }));
-      }
-    }
-    if (kind === "output") {
-      setState((prevState) => ({
-        ...prevState,
-        outputTypes: types,
-      }));
-      console.log(state);
-    } else {
-      setState((prevState) => ({
-        ...prevState,
-        inputTypes: types,
-      }));
-    }
+    setState((prevState) => ({
+      ...prevState,
+      inputTypes,
+      outputTypes
+    }));
   }, []);
 
+  useEffect(() => {
+    console.log(validConnections)
+    console.log(state)
+  }, [nodes])
+
   return (
+    <div
+    style={{
+    display: "flex",
+    flexDirection: "column"
+    }}>
     <div
       style={{
         display: "flex",
         flexDirection: "column",
-        alignItems: kind === "input" ? "start" : "end",
+        alignItems: "start"
       }}
     >
-      {Array.from(Array(count)).map((_, index) => (
+      {inputTypes ? createHandles(Object.keys(inputTypes).length, "input", validConnections, inputLabels) : ""}
+    </div>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "start"
+      }}
+    >
+      {outputTypes ? createHandles(Object.keys(outputTypes).length, "output", validConnections, outputLabels) : ""}
+    </div>
+    </div>
+  );
+}
+
+function createHandles(count:number, kind: string, validConnections: any, labels?: string[]) {
+      return (Array.from(Array(count)).map((_, index) => (
         <div
           key={kind + index.toString()}
           style={{
@@ -92,9 +104,7 @@ export function Handles(props: HandlesProps) {
             {labels ? labels[index] : ""}
           </span>
         </div>
-      ))}
-    </div>
-  );
+      )));
 }
 
 export function getDataSources(connectedValue: any[] | undefined, count: number) {

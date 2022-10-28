@@ -19,10 +19,8 @@ export function NumberInputNode({ id }) {
       <h4>Number Input</h4>
       <InputNumber className="input" onChange={onChange} defaultValue={0} />
       <Handles
-        kind="output"
-        count={1}
         id={id}
-        types={{
+        outputTypes={{
           a: "number",
         }}
       />
