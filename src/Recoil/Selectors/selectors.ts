@@ -12,7 +12,7 @@ export const connectedNodesSelector = selectorFamily<Array<string>, string>({
 });
 
 // @params:
-//  - id: string
+// - id: string
 // - handleId: string
 
 // explanation of this selector:
@@ -29,7 +29,7 @@ export const connectedValueSelector = selectorFamily<any, [string, string]>({
   get:
     ([id, handleId]) =>
     ({ get }) => {
-      // Conencted Node to this handleId
+      // Connected Node to this handleId
       const edge = get(edgeState).filter((edge) => edge.target === id && edge.targetHandle === handleId)[0];
       if (edge && edge.sourceHandle) {
         const nodeData = get(nodeDataState(edge.source));

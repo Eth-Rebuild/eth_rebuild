@@ -12,6 +12,7 @@ export function ProviderNode({ id }) {
 
   const getProvider = async () => {
     const provider = new ethers.providers.JsonRpcProvider(a || process.env.REACT_APP_ALCHEMY_ENDPOINT, b || 1);
+    console.log(provider);
     setState((prevState) => ({ ...prevState, a: provider }));
   };
 

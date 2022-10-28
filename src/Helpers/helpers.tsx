@@ -12,14 +12,15 @@ interface HandlesProps {
   id: string;
   types?: object;
   labels?: string[];
-  validConnection?: () => boolean;
+  // validConnection?: () => boolean;
+  validConnections?: any;
 }
 
 export function Handles(props: HandlesProps) {
-  const { kind, count, types, labels, id, validConnection } = props;
+  const { kind, count, types, labels, id, validConnections } = props;
   const [state, setState] = useRecoilState(nodeDataState(id));
   // maybe we need to use a callback here to make sure the state is updated
-  const validConnections = useRecoilValue(validNodeConnectionSelector(id));
+  // const validConnections = useRecoilValue(validNodeConnectionSelector(id));
 
   useEffect(() => {
     for (let i = 0; i < count; i++) {
