@@ -9,13 +9,11 @@ export function ArrayDisplayNode({ id }) {
     <div className="custom-node display">
       <h4>Array Display Node</h4>
       <Handles
-        kind="input"
-        count={1}
         id={id}
-        types={{
+        inputTypes={{
           a: "array",
         }}
-        labels={["Array"]}
+        inputLabels={["Array"]}
       />
       <h4>{valuesToDisplay}</h4>
     </div>

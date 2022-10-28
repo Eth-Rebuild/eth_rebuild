@@ -25,20 +25,13 @@ export function ORNode({ id }) {
     <div className="custom-node pipe">
       <h4>OR Node</h4>
       <Handles
-        kind="input"
-        count={2}
         id={id}
-        types={{
+        inputTypes={{
           a: "any",
           b: "any",
         }}
-        labels={["A", "B"]}
-      />
-      <Handles
-        kind="output"
-        count={1}
-        id={id}
-        types={{
+        inputLabels={["A", "B"]}
+        outputTypes={{
           a: "boolean",
         }}
       />

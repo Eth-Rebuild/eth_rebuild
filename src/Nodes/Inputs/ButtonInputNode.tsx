@@ -22,10 +22,8 @@ export function ButtonInputNode({ id }) {
         {"Click"}
       </Button>
       <Handles
-        kind="output"
-        count={1}
         id={id}
-        types={{
+        outputTypes={{
           a: "boolean",
         }}
       />

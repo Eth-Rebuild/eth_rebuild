@@ -25,19 +25,12 @@ export function NOTNode({ id }) {
     <div className="custom-node pipe">
       <h4>NOT Node</h4>
       <Handles
-        kind="input"
-        count={1}
         id={id}
-        types={{
+        inputTypes={{
           a: "any",
         }}
-        labels={["A"]}
-      />
-      <Handles
-        kind="output"
-        count={1}
-        id={id}
-        types={{
+        inputLabels={["A"]}
+        outputTypes={{
           a: "boolean",
         }}
       />

@@ -28,22 +28,16 @@ export function ProviderNode({ id }) {
     <div className="custom-node pipe">
       <h4>Ethers Network Node</h4>
       <Handles
-        kind="input"
-        count={2}
         id={id}
-        types={{
+        inputTypes={{
           a: "string",
           b: "number",
         }}
-        labels={["Endpoint", "Network"]}
-      />
-      <Handles
-        kind="output"
-        count={1}
-        id={id}
-        types={{
+        inputLabels={["Endpoint", "Network"]}
+        outputTypes={{
           a: "object",
         }}
+        outputLabels={["Provider"]}
       />
     </div>
   );
