@@ -26,10 +26,8 @@ export function StringInputNode({ id }) {
       )}
       <Input className="input" onChange={(e) => setState((oldState) => ({ ...oldState, a: e.target.value }))} />
       <Handles
-        kind="output"
-        count={1}
         id={id}
-        types={{
+        outputTypes={{
           a: "string",
         }}
       />

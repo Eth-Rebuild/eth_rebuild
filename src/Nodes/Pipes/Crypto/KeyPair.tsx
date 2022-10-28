@@ -25,24 +25,17 @@ export function KeyPairNode({ id }) {
     <div className="custom-node pipe">
       <h4>Key Pair Pipe</h4>
       <Handles
-        kind="input"
-        count={1}
         id={id}
-        types={{
+        inputTypes={{
           a: "string",
         }}
-        labels={["Private Key"]}
-      />
-      <Handles
-        kind="output"
-        count={3}
-        id={id}
-        types={{
+        inputLabels={["Private Key"]}
+        outputTypes={{
           a: "string",
           b: "string",
           c: "string",
         }}
-        labels={["Public Key", "Private Key", "Address"]}
+        outputLabels={["Public Key", "Private Key", "Address"]}
       />
     </div>
   );

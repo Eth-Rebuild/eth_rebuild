@@ -11,11 +11,9 @@ export function NumberDisplayNode({ id }) {
     <div className="custom-node display">
       <h4>Number Display Node</h4>
       <Handles
-        kind="input"
-        count={1}
         id={id}
-        types={{
-          a: "number",
+        inputTypes={{
+          a: "number"
         }}
       />
       <h4>{num instanceof BigNumber ? "Ξ" + formatEther(num).substring(0, 6) : num ? num : ""}</h4>

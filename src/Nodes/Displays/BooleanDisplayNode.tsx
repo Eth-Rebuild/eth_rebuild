@@ -10,13 +10,11 @@ export function BooleanDisplayNode({ id }) {
     <div className="custom-node display">
       <h4>Boolean Display Node</h4>
       <Handles
-        kind="input"
-        count={1}
         id={id}
-        types={{
+        inputTypes={{
           a: "any",
         }}
-        labels={["Condition"]}
+        inputLabels={["Condition"]}
       />
       <h4>{valueToDisplay ? "true" : "false"}</h4>
     </div>

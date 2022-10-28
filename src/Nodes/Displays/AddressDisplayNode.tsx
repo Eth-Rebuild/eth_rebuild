@@ -13,13 +13,11 @@ export function AddressDisplayNode({ id }) {
       <h4>Address Display</h4>{" "}
       <span>
         <Handles
-          kind="input"
-          count={1}
           id={id}
-          types={{
+          inputTypes={{
             a: "string",
           }}
-          labels={["Address"]}
+          inputLabels={["Address"]}
         />
         {isValid ? <img height={50} width={50} src={makeBlockie(a)} style={{ margin: "10px" }} /> : ""}
         {isValid ? a : "Invalid Address"}

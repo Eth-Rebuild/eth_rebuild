@@ -29,22 +29,12 @@ export function GetBalanceNode({ id }) {
     <div className="custom-node pipe">
       <h4>Get Balance</h4>
       <Handles
-        kind="input"
-        count={2}
         id={id}
-        types={{
+        inputTypes={{
           a: "object",
           b: "string",
         }}
-        labels={["Provider", "Address"]}
-      />
-      <Handles
-        kind="output"
-        count={1}
-        id={id}
-        types={{
-          a: "number",
-        }}
+        inputLabels={["Provider", "Address"]}
       />
     </div>
   );

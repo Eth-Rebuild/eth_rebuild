@@ -26,23 +26,16 @@ export function SharedSecretNode({ id }) {
     <div className="custom-node pipe">
       <h4>Encrypt</h4>
       <Handles
-        kind="input"
-        count={2}
         id={id}
-        types={{
+        inputTypes={{
           a: "string",
           b: "string",
         }}
-        labels={["Your private key", "Their public key"]}
-      />
-      <Handles
-        kind="output"
-        count={1}
-        id={id}
-        types={{
+        inputLabels={["Your private key", "Their public key"]}
+        outputTypes={{
           a: "string",
         }}
-        labels={["Shared Secret"]}
+        outputLabels={["Shared Secret"]}
       />
     </div>
   );

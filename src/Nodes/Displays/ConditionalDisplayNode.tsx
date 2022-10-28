@@ -12,15 +12,13 @@ export function ConditionalDisplayNode({ id }) {
       <h4>Conditional Display</h4>
       <h4>{b && c ? (a ? b : c) : "Invalid Input(s)"}</h4>
       <Handles
-        kind="input"
-        count={3}
         id={id}
-        types={{
+        inputTypes={{
           a: "any",
           b: "string",
           c: "string",
         }}
-        labels={["Condition", "Display If True", "Display If False"]}
+        inputLabels={["Condition", "Display If True", "Display If False"]}
       />
     </div>
   );

@@ -24,19 +24,12 @@ export function HashNode({ id }) {
     <div className="custom-node pipe">
       <h4>Hash function Pipe</h4>
       <Handles
-        kind="input"
-        count={1}
         id={id}
-        types={{
+        inputTypes={{
           a: "string",
         }}
-        labels={["String"]}
-      />
-      <Handles
-        kind="output"
-        count={1}
-        id={id}
-        types={{
+        inputLabels={["String"]}
+        outputTypes={{
           a: "string",
         }}
       />

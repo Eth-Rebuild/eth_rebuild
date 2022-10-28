@@ -26,20 +26,13 @@ export function DecryptNode({ id }) {
     <div className="custom-node pipe">
       <h4>Encrypt</h4>
       <Handles
-        kind="input"
-        count={2}
         id={id}
-        types={{
+        inputTypes={{
           a: "string",
           b: "string",
         }}
-        labels={["Private Key", "Encrypted"]}
-      />
-      <Handles
-        kind="output"
-        count={1}
-        id={id}
-        types={{
+        inputLabels={["Private Key", "Encrypted"]}
+        outputTypes={{
           a: "string",
         }}
       />

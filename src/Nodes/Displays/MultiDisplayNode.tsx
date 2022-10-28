@@ -12,10 +12,8 @@ export function MultiDisplayNode({ id }) {
   return (
     <div className="custom-node display">
       <Handles
-        kind="input"
-        count={3}
         id={id}
-        types={{
+        inputTypes={{
           a: "any",
           b: "string",
           c: "string",

@@ -23,20 +23,13 @@ export function StringConcatNode({ id }) {
     <div className="custom-node pipe">
       <h4>String Concat Node</h4>
       <Handles
-        kind="input"
-        count={2}
         id={id}
-        types={{
+        inputTypes={{
           a: "string",
           b: "string",
         }}
-        labels={["String 1", "String 2"]}
-      />
-      <Handles
-        kind="output"
-        count={1}
-        id={id}
-        types={{
+        inputLabels={["String 1", "String 2"]}
+        outputTypes={{
           a: "string",
         }}
       />

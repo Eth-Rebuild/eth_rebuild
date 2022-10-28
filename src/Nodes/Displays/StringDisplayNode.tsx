@@ -8,10 +8,8 @@ export function StringDisplayNode({ id }) {
     <div className="custom-node display">
       <h4>String Display Node</h4>
       <Handles
-        kind="input"
-        count={1}
         id={id}
-        types={{
+        inputTypes={{
           a: "string",
         }}
       />
