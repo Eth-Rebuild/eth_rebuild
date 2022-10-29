@@ -1,20 +1,23 @@
 import { Layout, Menu, MenuItemProps } from "antd";
 import { useRecoilValue, useRecoilState } from "recoil";
-import { nodeTypesPrettyState, nodeState } from "../Recoil/Atoms/atoms";
+import { nodeTypesPrettyState, nodeState, maxNodeIdState } from "../Recoil/Atoms/atoms";
 import { useReactFlow } from "reactflow";
 const { Header } = Layout;
 
 export function MenuHeader() {
   const nodeTypesPretty = useRecoilValue(nodeTypesPrettyState);
   const [nodes, setNodes] = useRecoilState(nodeState);
+  const [maxNodeId, setMaxNodeId] = useRecoilState(maxNodeIdState);
   const { project } = useReactFlow();
 
   function addNode(type: string) {
+    const id = String(maxNodeId);
+    setMaxNodeId(maxNodeId + 1);
     setNodes((nodes) => {
       return [
         ...nodes,
         {
-          id: String(nodes.length),
+          id,
           type: type,
           data: {},
           position: project({

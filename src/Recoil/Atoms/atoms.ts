@@ -3,7 +3,7 @@ import * as Displays from "../../Nodes/Displays";
 import * as Pipes from "../../Nodes/Pipes";
 import * as Inputs from "../../Nodes/Inputs";
 import { Edge, Node } from "reactflow";
-import {validNodeConnectionSelector} from "../Selectors/selectors";
+import { validNodeConnectionSelector } from "../Selectors/selectors";
 
 export const nodeTypesState = atom({
   key: "nodeTypes",
@@ -14,6 +14,7 @@ export const nodeTypesState = atom({
     numberInputNode: Inputs.NumberInputNode,
     stringInputNode: Inputs.StringInputNode,
     buttonInputNode: Inputs.ButtonInputNode,
+    anyInputNode: Inputs.AnyInputNode,
 
     //  -------
     // | PIPES |
@@ -65,6 +66,7 @@ export const nodeTypesPrettyState = atom({
       numberInputNode: "Number",
       stringInputNode: "String",
       buttonInputNode: "Button",
+      anyInputNode: "Any",
     },
     Display: {
       numberDisplayNode: "Number",
@@ -119,6 +121,11 @@ export const nodeState = atom<Array<Node>>({
   default: [],
 });
 
+export const maxNodeIdState = atom({
+  key: "maxNodeId",
+  default: 0,
+});
+
 export const edgeState = atom<Array<Edge>>({
   key: "edges",
   default: [],
@@ -128,25 +135,26 @@ export const edgeState = atom<Array<Edge>>({
 export const nodeDataState = atomFamily<any, string>({
   key: "nodeDataState",
   dangerouslyAllowMutability: true,
-  default: (
-    {a: undefined,
-     b: undefined,
-     c: undefined,
-     d: undefined,
-     e: undefined,
-     f: undefined,
-     g: undefined,
-     h: undefined,
-     i: undefined,
-     j: undefined,
-     k: undefined,
-     l: undefined,
-     m: undefined,
-     n: undefined,
-     o: undefined,
-     p: undefined,
-     inputTypes: undefined,
-     outputTypes: undefined})
+  default: {
+    a: undefined,
+    b: undefined,
+    c: undefined,
+    d: undefined,
+    e: undefined,
+    f: undefined,
+    g: undefined,
+    h: undefined,
+    i: undefined,
+    j: undefined,
+    k: undefined,
+    l: undefined,
+    m: undefined,
+    n: undefined,
+    o: undefined,
+    p: undefined,
+    inputTypes: undefined,
+    outputTypes: undefined,
+  },
 });
 
 export const cursorPositionState = atom({

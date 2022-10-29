@@ -1,9 +1,21 @@
 import { connectedValueSelector } from "../../Recoil/Selectors/selectors";
 import { useRecoilValue } from "recoil";
 import { Handles } from "../../Helpers/helpers";
+import { isBigNumberish } from "@ethersproject/bignumber/lib/bignumber";
+import { BigNumber, utils } from "ethers";
 
 export function StringDisplayNode({ id }) {
-  const stringToDisplay = useRecoilValue(connectedValueSelector([id, "a"]));
+  const a = format(useRecoilValue(connectedValueSelector([id, "a"])));
+
+  function format(str) {
+    if (BigNumber.isBigNumber(str)) {
+      return "Ξ" + utils.formatEther(str);
+    } else if (typeof str === "string" || typeof str === "number") {
+      return str;
+    }
+    return "Invalid Input";
+  }
+
   return (
     <div className="custom-node display">
       <h4>String Display Node</h4>
@@ -13,7 +25,7 @@ export function StringDisplayNode({ id }) {
           a: "string",
         }}
       />
-      <h4>{stringToDisplay}</h4>
+      <h4>{a}</h4>
     </div>
   );
 }

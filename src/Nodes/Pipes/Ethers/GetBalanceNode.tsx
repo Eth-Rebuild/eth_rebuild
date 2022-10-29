@@ -35,6 +35,9 @@ export function GetBalanceNode({ id }) {
           b: "string",
         }}
         inputLabels={["Provider", "Address"]}
+        outputTypes={{
+          a: "number",
+        }}
       />
     </div>
   );
