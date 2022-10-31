@@ -67,7 +67,6 @@ export const validNodeConnectionSelector = selectorFamily<object, string>({
 // @notice used to find all valid connections for the type of a node's handle
 export const validHandleConnectionSelector = selectorFamily<object, [string, string]>({
   key: "@validHandleConnectionSelector",
-
   get:
     ([id, handleId]) =>
     ({ get }) => {
@@ -77,13 +76,15 @@ export const validHandleConnectionSelector = selectorFamily<object, [string, str
       nodes
         // filter over every node, and see if their input types contain our outputType at the handle
         .filter((node) => {
+          if (node.id === id) return false;
           const { inputTypes } = get(nodeDataState(node.id));
-          return inputTypes ? Object.values(inputTypes).includes(type) : false;
+          return inputTypes ? Object.values(inputTypes).includes(type) || Object.values(inputTypes).includes("any") || type === "any" : false;
         })
         .forEach((node) => {
           const { id } = node;
           const inputTypes = get(nodeDataState(id)).inputTypes;
           const handles = Object.keys(inputTypes).filter((key) => {
+            if (type === "any") return true;
             return (inputTypes[key] === type || inputTypes[key] === "any") && !get(connectedValueSelector([id, key]));
           });
           valid[id] = handles;

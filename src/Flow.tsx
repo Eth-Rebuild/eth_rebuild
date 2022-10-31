@@ -12,13 +12,12 @@ import ReactFlow, {
   Node,
 } from "reactflow";
 import "reactflow/dist/style.css";
-import { cursorPositionState, edgeState, nodeState, nodeTypesState } from "./Recoil/Atoms/atoms";
+import { cursorPositionState, edgeState, maxNodeIdState, nodeState, nodeTypesState } from "./Recoil/Atoms/atoms";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useRef } from "react";
 import { Layout } from "antd";
 import { MenuHeader } from "./Components/Header";
 import { CustomControls } from "./Components/CustomControls";
-import { useEffect } from "react";
 
 const { Content } = Layout;
 
@@ -26,6 +25,7 @@ export function Flow() {
   const [nodes, setNodes] = useRecoilState(nodeState);
   const [edges, setEdges] = useRecoilState(edgeState);
   const [_, setCursorPos] = useRecoilState(cursorPositionState);
+  const [maxNodeId, setMaxNodeId] = useRecoilState(maxNodeIdState);
   const nodeTypes = useRecoilValue(nodeTypesState);
   const connectingNodeId = useRef("");
   const connectingNodeHandleId = useRef("");
@@ -56,11 +56,11 @@ export function Flow() {
         if (targetIsPane) {
           if (reactFlowWrapper.current?.getBoundingClientRect()) {
             const { top, left } = reactFlowWrapper.current.getBoundingClientRect();
-            const id = nodes.length >= 1 ? String(nodes[nodes.length - 1].id + 1) : String(0);
-            console.log(connectingNodeHandleType.current);
+            const id = String(maxNodeId);
+            setMaxNodeId(maxNodeId + 1);
             const newNode = {
               id,
-              type: connectingNodeHandleType.current == "source" ? "stringDisplayNode" : "stringInputNode",
+              type: connectingNodeHandleType.current == "source" ? "stringDisplayNode" : "anyInputNode",
               position: project({
                 x: event.clientX - left - 75,
                 y: event.clientY - top,

@@ -6,10 +6,16 @@ import { validNodeConnectionSelector } from "../Recoil/Selectors/selectors";
 
 export const alphaArray = "abcdefghijklmnopqrstuvwxyz".split("");
 
+type HandleType = "string" | "number" | "boolean" | "address" | "array" | "object" | "any";
+
+interface HandleTypes {
+  [key: string]: HandleType;
+}
+
 interface HandlesProps {
   id: string;
-  inputTypes?: object;
-  outputTypes?: object;
+  inputTypes?: HandleTypes;
+  outputTypes?: HandleTypes;
   inputLabels?: string[];
   outputLabels?: string[];
 }
@@ -17,7 +23,6 @@ interface HandlesProps {
 export function Handles(props: HandlesProps) {
   const { inputTypes, outputTypes, inputLabels, outputLabels, id } = props;
   const [state, setState] = useRecoilState(nodeDataState(id));
-  const nodes = useRecoilValue(nodeState);
   const validConnections = useRecoilValue(validNodeConnectionSelector(id));
 
   useEffect(() => {
@@ -27,11 +32,6 @@ export function Handles(props: HandlesProps) {
       outputTypes,
     }));
   }, []);
-
-  // useEffect(() => {
-  //   console.log(validConnections)
-  //   console.log(state)
-  // }, [nodes])
 
   return (
     <div

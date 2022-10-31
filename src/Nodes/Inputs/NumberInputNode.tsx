@@ -1,11 +1,8 @@
-import { Connection, Handle, Position } from "reactflow";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { Handles } from "../../Helpers/helpers";
 import { nodeDataState } from "../../Recoil/Atoms/atoms";
 import { InputNumber } from "antd";
-import { useEffect } from "react";
-import { ConnectOpts } from "net";
-import { validNodeConnectionSelector } from "../../Recoil/Selectors/selectors";
+import { isAddress } from "ethers/lib/utils";
 
 export function NumberInputNode({ id }) {
   const [state, setState] = useRecoilState(nodeDataState(id));
