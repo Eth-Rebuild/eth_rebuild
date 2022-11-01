@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import { Connection, Handle, Position } from "reactflow";
+import { Connection, Edge, Handle, Node, Position } from "reactflow";
 import { useRecoilCallback, useRecoilRefresher_UNSTABLE, useRecoilState, useRecoilValue } from "recoil";
-import { cursorPositionState, nodeDataState, nodeState } from "../Recoil/Atoms/atoms";
+import { edgeState, nodeDataState, nodeState } from "../Recoil/Atoms/atoms";
 import { validNodeConnectionSelector } from "../Recoil/Selectors/selectors";
 
 export const alphaArray = "abcdefghijklmnopqrstuvwxyz".split("");
@@ -110,9 +110,16 @@ function createHandles(count: number, kind: string, validConnections: any, label
   ));
 }
 
-export function getDataSources(connectedValue: any[] | undefined, count: number) {
-  if (!connectedValue) return undefined;
-  if (connectedValue.length >= count - 1) {
-    return connectedValue.slice(0, count);
-  }
-}
+export const useUpdateCanvasState = (nodes: Node[], edges: Edge[], nodeData: Object[]) => {
+  return useRecoilCallback(
+    ({ set }) =>
+      () => {
+        set(nodeState, nodes);
+        set(edgeState, edges);
+        nodes.forEach((node, nodeIndex) => {
+          set(nodeDataState(node.id), nodeData[nodeIndex]);
+        });
+      },
+    [nodeState, edgeState, nodeDataState]
+  );
+};

@@ -1,4 +1,4 @@
-import { selectorFamily } from "recoil";
+import { selector, selectorFamily } from "recoil";
 import { edgeState, nodeDataState, nodeState } from "../Atoms/atoms";
 
 export const connectedNodesSelector = selectorFamily<Array<string>, string>({
@@ -91,4 +91,17 @@ export const validHandleConnectionSelector = selectorFamily<object, [string, str
         });
       return valid;
     },
+});
+
+export const allNodeDataSelector = selector<Object[]>({
+  key: "@allNodeDataSelector",
+  get: ({ get }) => {
+    const nodes = get(nodeState);
+    return nodes.map((node) => get(nodeDataState(node.id)));
+  },
+  set: ({ set }, newNodeData: any) => {
+    newNodeData.forEach((node) => {
+      set(nodeDataState(node.id), node);
+    });
+  },
 });
