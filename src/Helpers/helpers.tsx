@@ -109,17 +109,3 @@ function createHandles(count: number, kind: string, validConnections: any, label
     </div>
   ));
 }
-
-export const useUpdateCanvasState = (nodes: Node[], edges: Edge[], nodeData: Object[]) => {
-  return useRecoilCallback(
-    ({ set }) =>
-      () => {
-        set(nodeState, nodes);
-        set(edgeState, edges);
-        nodes.forEach((node, nodeIndex) => {
-          set(nodeDataState(node.id), nodeData[nodeIndex]);
-        });
-      },
-    [nodeState, edgeState, nodeDataState]
-  );
-};

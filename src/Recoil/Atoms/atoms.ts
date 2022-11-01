@@ -161,6 +161,12 @@ export const nodeDataState = atomFamily<any, string>({
 });
 
 export const cursorPositionState = atom({
-  key: "cursorPosition",
+  key: "cursorPositionState",
   default: { x: 0, y: 0 },
+});
+
+// @notice This is a global variable that is used to keep track of various things we use often. Like providers or latest block number etc.
+export const globalVariablesState = atom({
+  key: "globalVariablesState",
+  default: {},
 });

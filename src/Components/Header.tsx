@@ -14,6 +14,7 @@ export function MenuHeader() {
   const [maxNodeId, setMaxNodeId] = useRecoilState(maxNodeIdState);
   const { project } = useReactFlow();
 
+  // TODO: REMOVE THIS REDUNDANCY
   function addNode(type: string) {
     const id = String(maxNodeId);
     setMaxNodeId(maxNodeId + 1);

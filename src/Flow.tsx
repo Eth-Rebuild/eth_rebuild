@@ -20,7 +20,6 @@ import { MenuHeader } from "./Components/Header";
 import { CustomControls } from "./Components/CustomControls";
 import { useState } from "react";
 import { allNodeDataSelector } from "./Recoil/Selectors/selectors";
-import { useUpdateCanvasState } from "./Helpers/helpers";
 
 const { Content } = Layout;
 
@@ -29,11 +28,16 @@ export function Flow() {
   const [edges, setEdges] = useRecoilState(edgeState);
   const [nodeData, setNodeData] = useRecoilState(allNodeDataSelector);
   const [_, setCursorPos] = useRecoilState(cursorPositionState);
+
+  // @notice for adding new nodes
   const [maxNodeId, setMaxNodeId] = useRecoilState(maxNodeIdState);
   const nodeTypes = useRecoilValue(nodeTypesState);
+
+  // @notice for the drag and drop handles
   const connectingNodeId = useRef("");
   const connectingNodeHandleId = useRef("");
   const connectingNodeHandleType = useRef("");
+
   const reactFlowWrapper = useRef<HTMLDivElement>(null);
   const { project } = useReactFlow();
 
@@ -63,6 +67,7 @@ export function Flow() {
         const targetIsPane = event.target.classList.contains("react-flow__pane");
         if (targetIsPane) {
           if (reactFlowWrapper.current?.getBoundingClientRect()) {
+            // TODO: REMOVE THIS REDUNDANCY (see src/Components/Header.tsx function addNode)
             const { top, left } = reactFlowWrapper.current.getBoundingClientRect();
             const id = String(maxNodeId);
             setMaxNodeId(maxNodeId + 1);
@@ -113,9 +118,9 @@ export function Flow() {
       <Button
         type="primary"
         onClick={() => {
-          console.log("NODES: ", nodes);
-          console.log("EDGES: ", edges);
-          console.log("NODE DATA: ", nodeData);
+          console.log("NODES: ", JSON.stringify(nodes));
+          console.log("EDGES: ", JSON.stringify(edges));
+          console.log("NODE DATA: ", JSON.stringify(nodeData));
         }}
       >
         Export
