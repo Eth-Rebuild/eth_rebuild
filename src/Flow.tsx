@@ -20,7 +20,8 @@ import { MenuHeader } from "./Components/Header";
 import { CustomControls } from "./Components/CustomControls";
 import { useState } from "react";
 import { allNodeDataSelector } from "./Recoil/Selectors/selectors";
-import { testAddBuildToDB, testGetBuildFromDB } from "./Recoil/firebase";
+import { addBuildToDB, getBuildFromDB, testAddBuildToDB, testGetBuildFromDB } from "./Recoil/firebase";
+import { useParams } from "react-router-dom";
 
 const { Content } = Layout;
 
@@ -30,6 +31,9 @@ export function Flow() {
   const [edges, setEdges] = useRecoilState(edgeState);
   const [nodeData, setNodeData] = useRecoilState(allNodeDataSelector);
   const [_, setCursorPos] = useRecoilState(cursorPositionState);
+
+  // @notice url_params
+  const buildId = useParams().buildId;
 
   // @notice for adding new nodes
   const [maxNodeId, setMaxNodeId] = useRecoilState(maxNodeIdState);
@@ -109,10 +113,31 @@ export function Flow() {
     [nodes]
   );
 
-  const db = useRecoilValue(globalVariablesState)["db"];
+  async function loadBuild() {
+    if (buildId) {
+      try {
+        const build = JSON.parse(await getBuildFromDB(buildId));
+        const { nodes, edges, nodeData } = build;
+        setNodes(nodes);
+        setEdges(edges);
+        setNodeData(nodeData);
+      } catch (e) {}
+    }
+  }
+
+  async function saveBuild() {
+    if (buildId) {
+      await addBuildToDB({
+        id: buildId,
+        nodes,
+        edges,
+        nodeData,
+      });
+    }
+  }
   useEffect(() => {
-    console.log(db);
-  }, [db]);
+    loadBuild();
+  }, []);
 
   return (
     <Layout
@@ -124,24 +149,10 @@ export function Flow() {
       <MenuHeader />
       <Button
         type="primary"
-        onClick={() => {
-          console.log(
-            JSON.stringify({
-              nodes: savedNodes,
-              edges: savedEdges,
-              nodeData: savedNodeState,
-            })
-          );
-        }}
-      >
-        Export
-      </Button>
-      <Button
-        type="primary"
         onClick={async () => {
           console.log("Uploading to DB");
           try {
-            await testAddBuildToDB(nodes, edges, nodeData);
+            await saveBuild();
             console.log("Done");
           } catch (e) {
             console.error(e);
@@ -149,24 +160,6 @@ export function Flow() {
         }}
       >
         Save
-      </Button>
-      <Button
-        type="primary"
-        onClick={async () => {
-          console.log("Fetching...");
-          try {
-            const res = JSON.parse(await testGetBuildFromDB());
-            if (res) {
-              setNodes(res.nodes);
-              setEdges(res.edges);
-              setNodeData(res.nodeData);
-            }
-          } catch (e) {
-            console.error(e);
-          }
-        }}
-      >
-        Load
       </Button>
       <Content>
         <div
