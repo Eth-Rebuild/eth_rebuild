@@ -1,9 +1,8 @@
-import { atom, atomFamily, selectorFamily } from "recoil";
+import { atom, atomFamily } from "recoil";
 import * as Displays from "../../Nodes/Displays";
 import * as Pipes from "../../Nodes/Pipes";
 import * as Inputs from "../../Nodes/Inputs";
 import { Edge, Node } from "reactflow";
-import { validNodeConnectionSelector } from "../Selectors/selectors";
 
 export const nodeTypesState = atom({
   key: "nodeTypes",
@@ -168,5 +167,7 @@ export const cursorPositionState = atom({
 // @notice This is a global variable that is used to keep track of various things we use often. Like providers or latest block number etc.
 export const globalVariablesState = atom({
   key: "globalVariablesState",
-  default: {},
+  default: {
+    // db,
+  },
 });

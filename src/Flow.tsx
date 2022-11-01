@@ -12,7 +12,7 @@ import ReactFlow, {
   Node,
 } from "reactflow";
 import "reactflow/dist/style.css";
-import { cursorPositionState, edgeState, maxNodeIdState, nodeState, nodeTypesState } from "./Recoil/Atoms/atoms";
+import { cursorPositionState, edgeState, globalVariablesState, maxNodeIdState, nodeState, nodeTypesState } from "./Recoil/Atoms/atoms";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { useCallback, useEffect, useRef } from "react";
 import { Button, Layout } from "antd";
@@ -20,10 +20,12 @@ import { MenuHeader } from "./Components/Header";
 import { CustomControls } from "./Components/CustomControls";
 import { useState } from "react";
 import { allNodeDataSelector } from "./Recoil/Selectors/selectors";
+import { testAddBuildToDB, testGetBuildFromDB } from "./Recoil/firebase";
 
 const { Content } = Layout;
 
 export function Flow() {
+  // @notice general data
   const [nodes, setNodes] = useRecoilState(nodeState);
   const [edges, setEdges] = useRecoilState(edgeState);
   const [nodeData, setNodeData] = useRecoilState(allNodeDataSelector);
@@ -107,6 +109,11 @@ export function Flow() {
     [nodes]
   );
 
+  const db = useRecoilValue(globalVariablesState)["db"];
+  useEffect(() => {
+    console.log(db);
+  }, [db]);
+
   return (
     <Layout
       style={{
@@ -118,29 +125,45 @@ export function Flow() {
       <Button
         type="primary"
         onClick={() => {
-          console.log("NODES: ", JSON.stringify(nodes));
-          console.log("EDGES: ", JSON.stringify(edges));
-          console.log("NODE DATA: ", JSON.stringify(nodeData));
+          console.log(
+            JSON.stringify({
+              nodes: savedNodes,
+              edges: savedEdges,
+              nodeData: savedNodeState,
+            })
+          );
         }}
       >
         Export
       </Button>
       <Button
         type="primary"
-        onClick={() => {
-          setSavedNodes(nodes);
-          setSavedEdges(edges);
-          setSavedNodeState(nodeData);
+        onClick={async () => {
+          console.log("Uploading to DB");
+          try {
+            await testAddBuildToDB(nodes, edges, nodeData);
+            console.log("Done");
+          } catch (e) {
+            console.error(e);
+          }
         }}
       >
         Save
       </Button>
       <Button
         type="primary"
-        onClick={() => {
-          setNodes(savedNodes);
-          setEdges(savedEdges);
-          setNodeData(savedNodeState);
+        onClick={async () => {
+          console.log("Fetching...");
+          try {
+            const res = JSON.parse(await testGetBuildFromDB());
+            if (res) {
+              setNodes(res.nodes);
+              setEdges(res.edges);
+              setNodeData(res.nodeData);
+            }
+          } catch (e) {
+            console.error(e);
+          }
         }}
       >
         Load
