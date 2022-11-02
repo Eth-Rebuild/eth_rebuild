@@ -32,8 +32,8 @@ export function Flow() {
   const [nodeData, setNodeData] = useRecoilState(allNodeDataSelector);
   const [_, setCursorPos] = useRecoilState(cursorPositionState);
 
-  // @notice url_params
-  const buildId = useParams().buildId;
+  // @notice url_params, or generate a random number if it is a new build
+  const buildId = useParams().buildId || String(Math.floor(Math.random() * 1000000000000000000));
 
   // @notice for adding new nodes
   const [maxNodeId, setMaxNodeId] = useRecoilState(maxNodeIdState);
@@ -160,6 +160,14 @@ export function Flow() {
         }}
       >
         Save
+      </Button>
+      <Button
+        type="primary"
+        onClick={async () => {
+          navigator.clipboard.writeText(window.location.origin + "/create/" + buildId);
+        }}
+      >
+        Copy URL
       </Button>
       <Content>
         <div
