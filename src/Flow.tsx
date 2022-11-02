@@ -33,7 +33,7 @@ export function Flow() {
   const [_, setCursorPos] = useRecoilState(cursorPositionState);
 
   // @notice url_params, or generate a random number if it is a new build
-  const buildId = useParams().buildId || String(Math.floor(Math.random() * 1000000000000000000));
+  const buildId = useParams().buildId;
 
   // @notice for adding new nodes
   const [maxNodeId, setMaxNodeId] = useRecoilState(maxNodeIdState);
@@ -136,6 +136,9 @@ export function Flow() {
     }
   }
   useEffect(() => {
+    if (!buildId) {
+      window.location.href = "/create/" + String(Math.floor(Math.random() * 1000000000000000000));
+    }
     loadBuild();
   }, []);
 
