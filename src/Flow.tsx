@@ -12,7 +12,7 @@ import ReactFlow, {
   Node,
 } from "reactflow";
 import "reactflow/dist/style.css";
-import { cursorPositionState, edgeState, globalVariablesState, maxNodeIdState, nodeState, nodeTypesState } from "./Recoil/Atoms/atoms";
+import { cursorPositionState, edgeState, globalVariablesState, maxNodeIdState, nodeState, nodeTypesState, userAddressState } from "./Recoil/Atoms/atoms";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { useCallback, useEffect, useRef } from "react";
 import { Button, Layout } from "antd";
@@ -20,7 +20,7 @@ import { MenuHeader } from "./Components/Header";
 import { CustomControls } from "./Components/CustomControls";
 import { useState } from "react";
 import { allNodeDataSelector } from "./Recoil/Selectors/selectors";
-import { addBuildToDB, getBuildFromDB, testAddBuildToDB, testGetBuildFromDB } from "./Recoil/firebase";
+import { addBuildToDB, getBuildFromDB } from "./Recoil/firebase";
 import { useParams } from "react-router-dom";
 
 const { Content } = Layout;
@@ -47,9 +47,11 @@ export function Flow() {
   const reactFlowWrapper = useRef<HTMLDivElement>(null);
   const { project } = useReactFlow();
 
-  const [savedNodes, setSavedNodes] = useState(nodes);
-  const [savedEdges, setSavedEdges] = useState(edges);
-  const [savedNodeState, setSavedNodeState] = useState(nodeData);
+  const userAddress = useRecoilValue(userAddressState);
+
+  // const [savedNodes, setSavedNodes] = useState(nodes);
+  // const [savedEdges, setSavedEdges] = useState(edges);
+  // const [savedNodeState, setSavedNodeState] = useState(nodeData);
 
   const onNodesChange = useCallback((changes: NodeChange[]) => setNodes((nds) => applyNodeChanges(changes, nds)), [setNodes]);
   const onEdgesChange = useCallback((changes: EdgeChange[]) => setEdges((eds) => applyEdgeChanges(changes, eds)), [setEdges]);
@@ -116,23 +118,32 @@ export function Flow() {
   async function loadBuild() {
     if (buildId) {
       try {
+        console.log("loading build");
         const build = JSON.parse(await getBuildFromDB(buildId));
         const { nodes, edges, nodeData } = build;
         setNodes(nodes);
         setEdges(edges);
         setNodeData(nodeData);
-      } catch (e) {}
+      } catch (e) {
+        console.error(e);
+      }
     }
   }
 
   async function saveBuild() {
     if (buildId) {
-      await addBuildToDB({
-        id: buildId,
-        nodes,
-        edges,
-        nodeData,
-      });
+      const build = JSON.parse(await getBuildFromDB(buildId));
+      await addBuildToDB(
+        {
+          ...build,
+          id: buildId,
+          nodes,
+          edges,
+          nodeData,
+          createdBy: userAddress,
+        },
+        userAddress
+      );
     }
   }
   useEffect(() => {

@@ -3,6 +3,8 @@ import * as Displays from "../../Nodes/Displays";
 import * as Pipes from "../../Nodes/Pipes";
 import * as Inputs from "../../Nodes/Inputs";
 import { Edge, Node } from "reactflow";
+import { ethers } from "ethers";
+import { useAccount } from "wagmi";
 
 export const nodeTypesState = atom({
   key: "nodeTypes",
@@ -164,10 +166,20 @@ export const cursorPositionState = atom({
   default: { x: 0, y: 0 },
 });
 
+export const userVerifiedState = atom({
+  key: "userVerifiedState",
+  default: false,
+});
+
+export const userAddressState = atom({
+  key: "userAddressState",
+  default: "",
+});
+
 // @notice This is a global variable that is used to keep track of various things we use often. Like providers or latest block number etc.
 export const globalVariablesState = atom({
   key: "globalVariablesState",
   default: {
-    // db,
+    // provider: new ethers.providers.AlchemyProvider(process.env.REACT_APP_ALCHEMY_ENDPOINT),
   },
 });

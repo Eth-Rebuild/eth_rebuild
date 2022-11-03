@@ -4,6 +4,13 @@ import { Landing } from "./Components/Landing";
 import { ReactFlowProvider } from "reactflow";
 import { RecoilRoot } from "recoil";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { WagmiConfig, createClient } from "wagmi";
+import { getDefaultProvider } from "ethers";
+
+const client = createClient({
+  autoConnect: true,
+  provider: getDefaultProvider(),
+});
 
 const router = createBrowserRouter([
   {
@@ -23,12 +30,14 @@ const router = createBrowserRouter([
 function App() {
   return (
     <RecoilRoot>
-      <div className="App">
-        <ReactFlowProvider>
-          {/* <Flow /> */}
-          <RouterProvider router={router} />
-        </ReactFlowProvider>
-      </div>
+      <WagmiConfig client={client}>
+        <div className="App">
+          <ReactFlowProvider>
+            {/* <Flow /> */}
+            <RouterProvider router={router} />
+          </ReactFlowProvider>
+        </div>
+      </WagmiConfig>
     </RecoilRoot>
   );
 }
