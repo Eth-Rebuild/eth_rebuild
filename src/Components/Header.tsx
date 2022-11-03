@@ -6,7 +6,7 @@ import { useState } from "react";
 const { Header } = Layout;
 
 export function MenuHeader() {
-const nodeTypesPretty = useRecoilValue(nodeTypesPrettyState);
+  const nodeTypesPretty = useRecoilValue(nodeTypesPrettyState);
   const [nodes, setNodes] = useRecoilState(nodeState);
   const [edges, setEdges] = useRecoilState(edgeState);
   const [currentNodeId, setCurrentNodeId] = useState("");

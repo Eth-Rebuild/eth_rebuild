@@ -14,7 +14,7 @@ export function NumberInputNode({ id }) {
   return (
     <div className="custom-node input">
       <h4>Number Input</h4>
-      <InputNumber className="input" onChange={onChange} defaultValue={0} />
+      <InputNumber className="input" value={state ? state.a : null} onChange={onChange} defaultValue={0} />
       <Handles
         id={id}
         outputTypes={{
