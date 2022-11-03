@@ -18,11 +18,11 @@ const router = createBrowserRouter([
     element: <Landing />,
   },
   {
-    path: "/create",
+    path: "/build",
     element: <Flow />,
   },
   {
-    path: "/create/:buildId",
+    path: "/build/:buildId",
     element: <Flow />,
   },
 ]);

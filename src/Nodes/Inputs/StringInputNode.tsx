@@ -24,7 +24,7 @@ export function StringInputNode({ id }) {
       ) : (
         ""
       )}
-      <Input className="input" onChange={(e) => setState((oldState) => ({ ...oldState, a: e.target.value }))} />
+      <Input className="input" value={state ? state.a : null} onChange={(e) => setState((oldState) => ({ ...oldState, a: e.target.value }))} />
       <Handles
         id={id}
         outputTypes={{

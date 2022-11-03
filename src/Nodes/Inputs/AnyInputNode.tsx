@@ -23,7 +23,7 @@ export function AnyInputNode({ id }) {
   return (
     <div className="custom-node input">
       <h4>Any Input</h4>
-      <Input className="input" onChange={(e) => setState((oldState) => ({ ...oldState, a: safeEval(e.target.value) }))} />
+      <Input className="input" value={state ? state.a : null} onChange={(e) => setState((oldState) => ({ ...oldState, a: safeEval(e.target.value) }))} />
       <Handles
         id={id}
         outputTypes={{

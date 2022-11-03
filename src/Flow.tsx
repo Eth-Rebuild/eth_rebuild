@@ -162,7 +162,7 @@ export function Flow() {
   }
   useEffect(() => {
     if (!buildId) {
-      window.location.href = "/create/" + String(Math.floor(Math.random() * 1000000000000000000));
+      window.location.href = "/build/" + String(Math.floor(Math.random() * 1_000_000_000_000_000_000));
     }
     loadBuild();
   }, []);
