@@ -12,7 +12,7 @@ import ReactFlow, {
   Node,
 } from "reactflow";
 import "reactflow/dist/style.css";
-import { cursorPositionState, edgeState, globalVariablesState, maxNodeIdState, nodeState, nodeTypesState, userAddressState } from "./Recoil/Atoms/atoms";
+import { cursorPositionState, edgeState, maxNodeIdState, nodeState, nodeTypesState } from "./Recoil/Atoms/atoms";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { useCallback, useEffect, useRef } from "react";
 import { Button, Layout } from "antd";
@@ -20,8 +20,11 @@ import { MenuHeader } from "./Components/Header";
 import { CustomControls } from "./Components/CustomControls";
 import { useState } from "react";
 import { allNodeDataSelector } from "./Recoil/Selectors/selectors";
-import { addBuildToDB, getBuildFromDB } from "./Recoil/firebase";
+import { addBuildToDB, Build, getBuildFromDB } from "./Recoil/firebase";
 import { useParams } from "react-router-dom";
+import { useAccount, useConnect, useDisconnect, useSignMessage } from "wagmi";
+import { InjectedConnector } from "wagmi/connectors/injected";
+import { verifyMessage } from "ethers/lib/utils";
 
 const { Content } = Layout;
 
@@ -35,6 +38,19 @@ export function Flow() {
   // @notice url_params, or generate a random number if it is a new build
   const buildId = useParams().buildId;
 
+  // @notice wagmi hooks
+  const { address, isConnected } = useAccount();
+  const { connect } = useConnect({
+    connector: new InjectedConnector(),
+  });
+  const { disconnect } = useDisconnect();
+  const { data, status, isLoading, signMessage } = useSignMessage({
+    onSuccess(data, variables) {
+      const address = verifyMessage(variables.message, data);
+      localStorage.setItem("userAddress", address);
+    },
+  });
+
   // @notice for adding new nodes
   const [maxNodeId, setMaxNodeId] = useRecoilState(maxNodeIdState);
   const nodeTypes = useRecoilValue(nodeTypesState);
@@ -47,11 +63,7 @@ export function Flow() {
   const reactFlowWrapper = useRef<HTMLDivElement>(null);
   const { project } = useReactFlow();
 
-  const userAddress = useRecoilValue(userAddressState);
-
-  // const [savedNodes, setSavedNodes] = useState(nodes);
-  // const [savedEdges, setSavedEdges] = useState(edges);
-  // const [savedNodeState, setSavedNodeState] = useState(nodeData);
+  const userAddress = localStorage.getItem("userAddress");
 
   const onNodesChange = useCallback((changes: NodeChange[]) => setNodes((nds) => applyNodeChanges(changes, nds)), [setNodes]);
   const onEdgesChange = useCallback((changes: EdgeChange[]) => setEdges((eds) => applyEdgeChanges(changes, eds)), [setEdges]);
@@ -125,25 +137,27 @@ export function Flow() {
         setEdges(edges);
         setNodeData(nodeData);
       } catch (e) {
-        console.error(e);
+        console.log("This is a new build!");
       }
     }
   }
 
   async function saveBuild() {
     if (buildId) {
-      const build = JSON.parse(await getBuildFromDB(buildId));
-      await addBuildToDB(
-        {
-          ...build,
-          id: buildId,
-          nodes,
-          edges,
-          nodeData,
-          createdBy: userAddress,
-        },
-        userAddress
-      );
+      if (userAddress) {
+        try {
+          const build: Build = {
+            id: buildId,
+            nodes,
+            edges,
+            nodeData,
+            createdBy: userAddress,
+          };
+          await addBuildToDB(build);
+        } catch (e) {
+          console.error(e);
+        }
+      }
     }
   }
   useEffect(() => {

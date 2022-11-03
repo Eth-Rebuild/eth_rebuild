@@ -166,15 +166,10 @@ export const cursorPositionState = atom({
   default: { x: 0, y: 0 },
 });
 
-export const userVerifiedState = atom({
-  key: "userVerifiedState",
-  default: false,
-});
-
-export const userAddressState = atom({
-  key: "userAddressState",
-  default: "",
-});
+// export const userAddressState = atom({
+//   key: "userAddressState",
+//   default: localStorage.getItem("userAddress"),
+// });
 
 // @notice This is a global variable that is used to keep track of various things we use often. Like providers or latest block number etc.
 export const globalVariablesState = atom({

@@ -1,15 +1,14 @@
 import { verifyMessage } from "ethers/lib/utils";
 import { useEffect, useState } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { useAccount, useConnect, useDisconnect, useSignMessage } from "wagmi";
 import { InjectedConnector } from "wagmi/connectors/injected";
-import { userAddressState, userVerifiedState } from "../Recoil/Atoms/atoms";
 import { addUserToDB, getUserBuildsFromDB, getUserFromDB } from "../Recoil/firebase";
 import { Space, Button } from "antd";
 
 export function Landing() {
   const { address, isConnected } = useAccount();
-  const [userAddress, setUserAddress] = useRecoilState(userAddressState);
+  const userAddress = localStorage.getItem("userAddress");
   const { connect } = useConnect({
     connector: new InjectedConnector(),
   });
@@ -17,27 +16,23 @@ export function Landing() {
   const { data, status, isLoading, signMessage } = useSignMessage({
     onSuccess(data, variables) {
       const address = verifyMessage(variables.message, data);
-      getOrCreateUser(address);
+      localStorage.setItem("userAddress", address);
+      getOrCreateUser();
     },
   });
-  const [verified, setVerified] = useRecoilState(userVerifiedState);
-  const [userBuilds, setUserBuilds] = useState(0);
+  const [userBuilds, setUserBuilds] = useState([]);
 
-  async function getOrCreateUser(address) {
+  async function getOrCreateUser() {
     console.log("Attempting to fetch user from DB");
-    let user = await getUserFromDB(address);
+    let user = await getUserFromDB();
     if (user) {
       console.log("Succesfully got user from DB");
-      setVerified(true);
-      setUserAddress(address);
-      setUserBuilds(await getUserBuildsFromDB(address));
+      setUserBuilds(await getUserBuildsFromDB());
     } else {
       console.log("User not found in DB, creating new user");
       try {
-        await addUserToDB(address);
-        setVerified(true);
-        setUserAddress(address);
-        setUserBuilds(await getUserBuildsFromDB(address));
+        await addUserToDB();
+        setUserBuilds(await getUserBuildsFromDB());
         console.log("Succesfully created new user");
       } catch (e) {
         console.error("Something went wrong while creating new user, error:", e);
@@ -45,12 +40,19 @@ export function Landing() {
     }
   }
 
+  useEffect(() => {
+    if (userAddress) {
+      getOrCreateUser();
+    }
+  }, [userAddress]);
+
   return (
     <Space direction="vertical" size="large">
       <h1>Welcome to BuidlBlocks.xyz!</h1>
       {isConnected ? (
         <>
           <h1>Connected to: {address}</h1>
+          <h1>UserAddress is: {userAddress}</h1>
           <Button type="primary" onClick={() => disconnect()}>
             Disconnect
           </Button>
@@ -60,9 +62,16 @@ export function Landing() {
           Connect Wallet
         </Button>
       )}
-      {verified ? (
+      {userAddress === address ? (
         <div>
-          <h1>You have {userBuilds} builds saved.</h1>
+          <h1>You have {userBuilds?.length || 0} builds saved.</h1>
+          {userBuilds?.map((build) => {
+            return (
+              <div key={build}>
+                <a href={`/create/${build}`}>Open Build: {build}</a>
+              </div>
+            );
+          })}
           <Button
             type="primary"
             onClick={() => {
