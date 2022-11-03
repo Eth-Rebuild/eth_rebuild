@@ -1,9 +1,10 @@
-import { atom, atomFamily, selectorFamily } from "recoil";
+import { atom, atomFamily } from "recoil";
 import * as Displays from "../../Nodes/Displays";
 import * as Pipes from "../../Nodes/Pipes";
 import * as Inputs from "../../Nodes/Inputs";
 import { Edge, Node } from "reactflow";
-import { validNodeConnectionSelector } from "../Selectors/selectors";
+import { ethers } from "ethers";
+import { useAccount } from "wagmi";
 
 export const nodeTypesState = atom({
   key: "nodeTypes",
@@ -135,29 +136,45 @@ export const edgeState = atom<Array<Edge>>({
 export const nodeDataState = atomFamily<any, string>({
   key: "nodeDataState",
   dangerouslyAllowMutability: true,
-  default: {
-    a: undefined,
-    b: undefined,
-    c: undefined,
-    d: undefined,
-    e: undefined,
-    f: undefined,
-    g: undefined,
-    h: undefined,
-    i: undefined,
-    j: undefined,
-    k: undefined,
-    l: undefined,
-    m: undefined,
-    n: undefined,
-    o: undefined,
-    p: undefined,
-    inputTypes: undefined,
-    outputTypes: undefined,
+  default: (nodeID) => {
+    return {
+      a: undefined,
+      b: undefined,
+      c: undefined,
+      d: undefined,
+      e: undefined,
+      f: undefined,
+      g: undefined,
+      h: undefined,
+      i: undefined,
+      j: undefined,
+      k: undefined,
+      l: undefined,
+      m: undefined,
+      n: undefined,
+      o: undefined,
+      p: undefined,
+      inputTypes: undefined,
+      outputTypes: undefined,
+      id: nodeID,
+    };
   },
 });
 
 export const cursorPositionState = atom({
-  key: "cursorPosition",
+  key: "cursorPositionState",
   default: { x: 0, y: 0 },
+});
+
+// export const userAddressState = atom({
+//   key: "userAddressState",
+//   default: localStorage.getItem("userAddress"),
+// });
+
+// @notice This is a global variable that is used to keep track of various things we use often. Like providers or latest block number etc.
+export const globalVariablesState = atom({
+  key: "globalVariablesState",
+  default: {
+    // provider: new ethers.providers.AlchemyProvider(process.env.REACT_APP_ALCHEMY_ENDPOINT),
+  },
 });
