@@ -1,30 +1,18 @@
-import ReactFlow, {
-  Controls,
-  applyNodeChanges,
-  applyEdgeChanges,
-  addEdge,
-  Background,
-  useReactFlow,
-  NodeChange,
-  EdgeChange,
-  Connection,
-  Edge,
-  Node,
-} from "reactflow";
+import ReactFlow, { applyNodeChanges, applyEdgeChanges, addEdge, Background, useReactFlow, NodeChange, EdgeChange, Connection, Edge } from "reactflow";
 import "reactflow/dist/style.css";
-import { cursorPositionState, edgeState, maxNodeIdState, nodeState, nodeTypesState } from "./Recoil/Atoms/atoms";
+import { cursorPositionState, edgeState, nodeState, nodeTypesState } from "./Recoil/Atoms/atoms";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { useCallback, useEffect, useRef } from "react";
 import { Button, Layout } from "antd";
 import { MenuHeader } from "./Components/Header";
 import { CustomControls } from "./Components/CustomControls";
-import { useState } from "react";
 import { allNodeDataSelector } from "./Recoil/Selectors/selectors";
 import { addBuildToDB, Build, getBuildFromDB } from "./Recoil/firebase";
 import { useParams } from "react-router-dom";
 import { useAccount, useConnect, useDisconnect, useSignMessage } from "wagmi";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import { verifyMessage } from "ethers/lib/utils";
+import { maxNodeIdSelector } from "./Recoil/Selectors/selectors";
 
 const { Content } = Layout;
 
@@ -52,7 +40,8 @@ export function Flow() {
   });
 
   // @notice for adding new nodes
-  const [maxNodeId, setMaxNodeId] = useRecoilState(maxNodeIdState);
+  // const [maxNodeId, setMaxNodeId] = useRecoilState(maxNodeIdState);
+  const maxNodeId = useRecoilValue(maxNodeIdSelector);
   const nodeTypes = useRecoilValue(nodeTypesState);
 
   // @notice for the drag and drop handles
@@ -90,7 +79,6 @@ export function Flow() {
             // TODO: REMOVE THIS REDUNDANCY (see src/Components/Header.tsx function addNode)
             const { top, left } = reactFlowWrapper.current.getBoundingClientRect();
             const id = String(maxNodeId);
-            setMaxNodeId(maxNodeId + 1);
             const newNode = {
               id,
               type: connectingNodeHandleType.current == "source" ? "stringDisplayNode" : "anyInputNode",

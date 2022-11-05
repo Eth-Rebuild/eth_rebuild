@@ -8,7 +8,6 @@ export function AnyInputNode({ id }) {
 
   function safeEval(str: string) {
     try {
-      // if the string doesn't include brackets, treat it as number or string
       if (!str.includes("{") || !str.includes("[")) {
         const isNumber = /^\d+$/.test(str);
         return isNumber ? Number(str) : str;

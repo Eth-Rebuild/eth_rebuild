@@ -3,6 +3,7 @@ import { useRecoilValue, useRecoilState } from "recoil";
 import { nodeTypesPrettyState, nodeState, maxNodeIdState, edgeState, nodeDataState } from "../Recoil/Atoms/atoms";
 import { useReactFlow } from "reactflow";
 import { useState } from "react";
+import { maxNodeIdSelector } from "../Recoil/Selectors/selectors";
 const { Header } = Layout;
 
 export function MenuHeader() {
@@ -11,13 +12,12 @@ export function MenuHeader() {
   const [edges, setEdges] = useRecoilState(edgeState);
   const [currentNodeId, setCurrentNodeId] = useState("");
   const [nodeData, setNodeData] = useRecoilState(nodeDataState(currentNodeId));
-  const [maxNodeId, setMaxNodeId] = useRecoilState(maxNodeIdState);
+  const maxNodeId = useRecoilValue(maxNodeIdSelector);
   const { project } = useReactFlow();
 
   // TODO: REMOVE THIS REDUNDANCY
   function addNode(type: string) {
     const id = String(maxNodeId);
-    setMaxNodeId(maxNodeId + 1);
     setNodes((nodes) => {
       return [
         ...nodes,

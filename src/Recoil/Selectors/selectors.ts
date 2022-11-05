@@ -105,3 +105,11 @@ export const allNodeDataSelector = selector<Object[]>({
     });
   },
 });
+
+export const maxNodeIdSelector = selector({
+  key: "@maxNodeId",
+  get: ({ get }) => {
+    const nodes = get(nodeState);
+    return String(Math.max(...nodes.map((node) => Number(node.id))) + 1);
+  },
+});
