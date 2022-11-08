@@ -122,11 +122,6 @@ export const nodeState = atom<Array<Node>>({
   default: [],
 });
 
-export const maxNodeIdState = atom({
-  key: "maxNodeId",
-  default: 0,
-});
-
 export const edgeState = atom<Array<Edge>>({
   key: "edges",
   default: [],
@@ -166,10 +161,16 @@ export const cursorPositionState = atom({
   default: { x: 0, y: 0 },
 });
 
-// export const userAddressState = atom({
-//   key: "userAddressState",
-//   default: localStorage.getItem("userAddress"),
-// });
+export const blockNumberState = atom({
+  key: "blockNumberState",
+  default: 0,
+  dangerouslyAllowMutability: true,
+});
+
+export const chainIdState = atom({
+  key: "chainIdState",
+  default: 1,
+});
 
 // @notice This is a global variable that is used to keep track of various things we use often. Like providers or latest block number etc.
 export const globalVariablesState = atom({

@@ -2,13 +2,14 @@ import { ethers } from "ethers";
 import { useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { Handles } from "../../../Helpers/helpers";
-import { nodeDataState } from "../../../Recoil/Atoms/atoms";
+import { blockNumberState, nodeDataState } from "../../../Recoil/Atoms/atoms";
 import { connectedValueSelector } from "../../../Recoil/Selectors/selectors";
 
 export function GetBalanceNode({ id }) {
   const [state, setState] = useRecoilState(nodeDataState(id));
   const a = useRecoilValue(connectedValueSelector([id, "a"]));
   const b = useRecoilValue(connectedValueSelector([id, "b"]));
+  const blockNumber = useRecoilValue(blockNumberState);
 
   const getBalance = async () => {
     if (a && b) {
@@ -23,7 +24,7 @@ export function GetBalanceNode({ id }) {
     } catch (e) {
       console.error(e);
     }
-  }, [a, b]);
+  }, [a, b, blockNumber]);
 
   return (
     <div className="custom-node pipe">

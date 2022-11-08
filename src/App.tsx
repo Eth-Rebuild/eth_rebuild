@@ -5,11 +5,11 @@ import { ReactFlowProvider } from "reactflow";
 import { RecoilRoot } from "recoil";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { WagmiConfig, createClient } from "wagmi";
-import { getDefaultProvider } from "ethers";
+import { AlchemyProvider } from "@ethersproject/providers";
 
 const client = createClient({
   autoConnect: true,
-  provider: getDefaultProvider(),
+  provider: new AlchemyProvider(1, process.env.REACT_APP_ALCHEMY_API_KEY),
 });
 
 const router = createBrowserRouter([
@@ -33,7 +33,6 @@ function App() {
       <WagmiConfig client={client}>
         <div className="App">
           <ReactFlowProvider>
-            {/* <Flow /> */}
             <RouterProvider router={router} />
           </ReactFlowProvider>
         </div>

@@ -11,6 +11,7 @@ const firebaseConfig = {
   messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
   appId: process.env.REACT_APP_APP_ID,
 };
+
 const app = initializeApp(firebaseConfig);
 export const db = getDatabase(app);
 
@@ -29,9 +30,8 @@ export interface Build {
 
 export const addBuildToDB = async (localBuild: Build) => {
   let address = localStorage.getItem("userAddress");
-  console.log("userAddress", address);
   // fetch the localBuild and see who created it
-  let remoteBuild = await getBuildFromDB(localBuild.id);
+  let remoteBuild = JSON.parse(await getBuildFromDB(localBuild.id));
   // check if the remoteBuild is undefined
   if (!remoteBuild) {
     //save the localBuild with the current user as the creator
@@ -43,6 +43,8 @@ export const addBuildToDB = async (localBuild: Build) => {
     console.log("Build saved");
   } else {
     // if the localBuild was created by the user, then update the localBuild
+    console.log("Remote project create by: ", remoteBuild.createdBy);
+    console.log("Your Address: ", address);
     if (remoteBuild.createdBy === address) {
       console.log("Saving your build");
       await set(ref(db, "builds/" + localBuild.id), JSON.stringify(localBuild));

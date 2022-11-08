@@ -95,6 +95,7 @@ export const validHandleConnectionSelector = selectorFamily<object, [string, str
 
 export const allNodeDataSelector = selector<Object[]>({
   key: "@allNodeDataSelector",
+  dangerouslyAllowMutability: true,
   get: ({ get }) => {
     const nodes = get(nodeState);
     return nodes.map((node) => get(nodeDataState(node.id)));
@@ -110,6 +111,6 @@ export const maxNodeIdSelector = selector({
   key: "@maxNodeId",
   get: ({ get }) => {
     const nodes = get(nodeState);
-    return String(Math.max(...nodes.map((node) => Number(node.id))) + 1);
+    return nodes.length > 0 ? String(Math.max(...nodes.map((node) => Number(node.id))) + 1) : "0";
   },
 });

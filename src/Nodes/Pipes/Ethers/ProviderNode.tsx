@@ -1,6 +1,7 @@
 import { ethers } from "ethers";
 import { useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
+import { useProvider } from "wagmi";
 import { Handles } from "../../../Helpers/helpers";
 import { nodeDataState } from "../../../Recoil/Atoms/atoms";
 import { connectedValueSelector } from "../../../Recoil/Selectors/selectors";
@@ -9,10 +10,10 @@ export function ProviderNode({ id }) {
   const [state, setState] = useRecoilState(nodeDataState(id));
   const a = useRecoilValue(connectedValueSelector([id, "a"]));
   const b = useRecoilValue(connectedValueSelector([id, "b"]));
+  const wagmiProvider = useProvider();
 
-  const getProvider = async () => {
-    const provider = new ethers.providers.JsonRpcProvider(a || process.env.REACT_APP_ALCHEMY_ENDPOINT, b || 1);
-    console.log(provider);
+  const getProvider = () => {
+    const provider = !a ? wagmiProvider : new ethers.providers.JsonRpcProvider(a, b || 1);
     setState((prevState) => ({ ...prevState, a: provider }));
   };
 

@@ -1,8 +1,9 @@
-import { useEffect } from "react";
-import { Connection, Edge, Handle, Node, Position } from "reactflow";
+import { useCallback, useEffect, useRef } from "react";
+import { addEdge, applyEdgeChanges, applyNodeChanges, Connection, Edge, EdgeChange, Handle, Node, NodeChange, Position, useReactFlow } from "reactflow";
 import { useRecoilCallback, useRecoilRefresher_UNSTABLE, useRecoilState, useRecoilValue } from "recoil";
-import { edgeState, nodeDataState, nodeState } from "../Recoil/Atoms/atoms";
-import { validNodeConnectionSelector } from "../Recoil/Selectors/selectors";
+import { edgeState, nodeDataState, nodeState, nodeTypesState } from "../Recoil/Atoms/atoms";
+import { addBuildToDB, Build, getBuildFromDB } from "../Recoil/firebase";
+import { allNodeDataSelector, maxNodeIdSelector, validNodeConnectionSelector } from "../Recoil/Selectors/selectors";
 
 export const alphaArray = "abcdefghijklmnopqrstuvwxyz".split("");
 
@@ -108,4 +109,114 @@ function createHandles(count: number, kind: string, validConnections: any, label
       </span>
     </div>
   ));
+}
+
+export function useReactFlowHelpers(reactFlowWrapper) {
+  // @notice all the getters and setters for the react flow instance
+  const maxNodeId = useRecoilValue(maxNodeIdSelector);
+  const [nodes, setNodes] = useRecoilState(nodeState);
+  const [edges, setEdges] = useRecoilState(edgeState);
+  const [nodeData, setNodeData] = useRecoilState(allNodeDataSelector);
+  const userAddress = localStorage.getItem("userAddress");
+  const connectingNodeId = useRef("");
+  const connectingNodeHandleId = useRef("");
+  const connectingNodeHandleType = useRef("");
+  const { project } = useReactFlow();
+
+  // @notice all the callbacks for the react flow instance
+  const onConnectStart = useCallback((_, { nodeId, handleId, handleType }) => {
+    connectingNodeId.current = nodeId;
+    connectingNodeHandleId.current = handleId;
+    connectingNodeHandleType.current = handleType;
+  }, []);
+  const onConnectEnd = useCallback(
+    (event: MouseEvent) => {
+      if (event.target instanceof Element) {
+        const targetIsPane = event.target.classList.contains("react-flow__pane");
+        if (targetIsPane) {
+          if (reactFlowWrapper.current?.getBoundingClientRect()) {
+            // TODO: REMOVE THIS REDUNDANCY (see src/Components/Header.tsx function addNode)
+            const { top, left } = reactFlowWrapper.current.getBoundingClientRect();
+            const id = maxNodeId;
+            const newNode = {
+              id,
+              type: connectingNodeHandleType.current == "source" ? "stringDisplayNode" : "anyInputNode",
+              position: project({
+                x: event.clientX - left - 75,
+                y: event.clientY - top,
+              }),
+              data: { label: `Node ${id}` },
+            };
+            setNodes((nds) => nds.concat(newNode));
+            setEdges((eds) =>
+              eds.concat(
+                connectingNodeHandleType.current == "source"
+                  ? {
+                      id: `${connectingNodeId.current}-${id}`,
+                      source: connectingNodeId.current,
+                      sourceHandle: connectingNodeHandleId.current,
+                      target: id,
+                      targetHandle: "a",
+                    }
+                  : {
+                      id: `${id}a-${connectingNodeId.current}${connectingNodeHandleId.current}`,
+                      source: id,
+                      sourceHandle: "a",
+                      target: connectingNodeId.current,
+                      targetHandle: connectingNodeHandleId.current,
+                    }
+              )
+            );
+          }
+        }
+      }
+    },
+    [nodes]
+  );
+  const onNodesChange = useCallback((changes: NodeChange[]) => setNodes((nds) => applyNodeChanges(changes, nds)), [setNodes]);
+  const onEdgesChange = useCallback((changes: EdgeChange[]) => setEdges((eds) => applyEdgeChanges(changes, eds)), [setEdges]);
+  const onConnect = useCallback(
+    (connection: Edge | Connection) => {
+      setEdges((eds) => addEdge(connection, eds));
+    },
+    [setEdges]
+  );
+  const nodeTypes = useRecoilValue(nodeTypesState);
+
+  // @notice all the callbacks for interaction with the db
+  async function loadBuild(buildId) {
+    if (buildId) {
+      try {
+        console.log("loading build");
+        const build = JSON.parse(await getBuildFromDB(buildId));
+        const { nodes, edges, nodeData } = build;
+        setNodes(nodes);
+        setEdges(edges);
+        setNodeData(nodeData);
+      } catch (e) {
+        console.log("This is a new build!");
+      }
+    }
+  }
+
+  async function saveBuild(buildId) {
+    if (buildId) {
+      if (userAddress) {
+        try {
+          const build: Build = {
+            id: buildId,
+            nodes,
+            edges,
+            nodeData,
+            createdBy: userAddress,
+          };
+          await addBuildToDB(build);
+        } catch (e) {
+          console.error(e);
+        }
+      }
+    }
+  }
+
+  return { onConnectStart, onConnectEnd, onNodesChange, onEdgesChange, onConnect, nodeTypes, loadBuild, saveBuild };
 }

@@ -73,23 +73,25 @@ export function Landing() {
         <Space direction="vertical" align="center">
           {isConnected ? address?.substring(0, 6) : "Not connected"}
           {isConnected ? <Button onClick={() => disconnect()}>Disconnect</Button> : <Button onClick={() => connect()}>Connect</Button>}
-          {userAddress !== address ? (
-            <Button
-              onClick={() => {
-                signMessage({ message: "Signing this message to verify your address for BuidlBlocks.xyz" });
-              }}
-            >
-              Sign a message to verify
-            </Button>
-          ) : (
-            <Button
-              onClick={() => {
-                window.location.href = "/build";
-              }}
-            >
-              Create a build!
-            </Button>
-          )}
+          {isConnected ? (
+            userAddress !== address ? (
+              <Button
+                onClick={() => {
+                  signMessage({ message: "Signing this message to verify your address for BuidlBlocks.xyz" });
+                }}
+              >
+                Sign a message to verify
+              </Button>
+            ) : (
+              <Button
+                onClick={() => {
+                  window.location.href = "/build";
+                }}
+              >
+                Create a build!
+              </Button>
+            )
+          ) : null}
         </Space>
         <div
           style={{
