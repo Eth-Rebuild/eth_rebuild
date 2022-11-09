@@ -17,21 +17,9 @@ export function Flow() {
   const nodes = useRecoilValue(nodeState);
   const edges = useRecoilValue(edgeState);
   const [_, setCursorPos] = useRecoilState(cursorPositionState);
-  const [blockNumber, setBlockNumber] = useRecoilState(blockNumberState);
-  const [chainId, setChainId] = useRecoilState(chainIdState);
 
   // @notice url_params, or generate a random number if it is a new build
   const buildId = useParams().buildId;
-
-  // @notice getting the block number
-  useBlockNumber({
-    watch: true,
-    chainId,
-    onBlock(blockNumber) {
-      console.log("A new block is here🧱: ", blockNumber);
-      setBlockNumber(blockNumber);
-    },
-  });
 
   const reactFlowWrapper = useRef<HTMLDivElement>(null);
 

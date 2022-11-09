@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useRef } from "react";
 import { addEdge, applyEdgeChanges, applyNodeChanges, Connection, Edge, EdgeChange, Handle, Node, NodeChange, Position, useReactFlow } from "reactflow";
-import { useRecoilCallback, useRecoilRefresher_UNSTABLE, useRecoilState, useRecoilValue } from "recoil";
-import { edgeState, nodeDataState, nodeState, nodeTypesState } from "../Recoil/Atoms/atoms";
+import { useRecoilCallback, useRecoilRefresher_UNSTABLE, useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
+import { useBlockNumber } from "wagmi";
+import { blockNumberState, chainIdState, edgeState, nodeDataState, nodeState, nodeTypesState } from "../Recoil/Atoms/atoms";
 import { addBuildToDB, Build, getBuildFromDB } from "../Recoil/firebase";
 import { allNodeDataSelector, maxNodeIdSelector, validNodeConnectionSelector } from "../Recoil/Selectors/selectors";
 
@@ -117,6 +118,9 @@ export function useReactFlowHelpers(reactFlowWrapper) {
   const [nodes, setNodes] = useRecoilState(nodeState);
   const [edges, setEdges] = useRecoilState(edgeState);
   const [nodeData, setNodeData] = useRecoilState(allNodeDataSelector);
+  const [blockNumber, setBlockNumber] = useRecoilState(blockNumberState);
+
+  const chainId = useRecoilValue(chainIdState);
   const userAddress = localStorage.getItem("userAddress");
   const connectingNodeId = useRef("");
   const connectingNodeHandleId = useRef("");
@@ -182,6 +186,16 @@ export function useReactFlowHelpers(reactFlowWrapper) {
     [setEdges]
   );
   const nodeTypes = useRecoilValue(nodeTypesState);
+
+  // @notice for updating the block number atom
+  useBlockNumber({
+    watch: true,
+    chainId,
+    onBlock(blockNumber) {
+      console.log("A new block is here🧱: ", blockNumber);
+      setBlockNumber(blockNumber);
+    },
+  });
 
   // @notice all the callbacks for interaction with the db
   async function loadBuild(buildId) {
