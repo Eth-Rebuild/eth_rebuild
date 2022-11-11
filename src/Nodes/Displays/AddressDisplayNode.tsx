@@ -1,11 +1,11 @@
-import { connectedValueSelector } from "../../Recoil/Selectors/selectors";
+import { allConnectedValueSelector, connectedValueSelector } from "../../Recoil/Selectors/selectors";
 import { useRecoilValue } from "recoil";
 import { Handles } from "../../Helpers/helpers";
 import { isAddress } from "ethers/lib/utils";
 import makeBlockie from "ethereum-blockies-base64";
 
 export function AddressDisplayNode({ id }) {
-  const a = useRecoilValue(connectedValueSelector([id, "a"]));
+  const {a} = useRecoilValue(allConnectedValueSelector(id));
   const isValid = isAddress(a);
 
   return (

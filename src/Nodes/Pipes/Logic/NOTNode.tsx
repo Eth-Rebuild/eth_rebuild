@@ -3,11 +3,11 @@ import { useUpdateNodeInternals } from "reactflow";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { Handles } from "../../../Helpers/helpers";
 import { nodeDataState } from "../../../Recoil/Atoms/atoms";
-import { connectedValueSelector } from "../../../Recoil/Selectors/selectors";
+import { allConnectedValueSelector } from "../../../Recoil/Selectors/selectors";
 
 export function NOTNode({ id }) {
   const [state, setState] = useRecoilState(nodeDataState(id));
-  const a = useRecoilValue(connectedValueSelector([id, "a"]));
+  const { a, b, c } = useRecoilValue(allConnectedValueSelector(id));
 
   useEffect(() => {
     try {

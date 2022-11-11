@@ -1,11 +1,9 @@
-import { connectedValueSelector } from "../../Recoil/Selectors/selectors";
+import { allConnectedValueSelector } from "../../Recoil/Selectors/selectors";
 import { useRecoilValue } from "recoil";
 import { Handles } from "../../Helpers/helpers";
 
 export function ConditionalDisplayNode({ id }) {
-  const a = useRecoilValue(connectedValueSelector([id, "a"]));
-  const b = useRecoilValue(connectedValueSelector([id, "b"]));
-  const c = useRecoilValue(connectedValueSelector([id, "c"]));
+  const { a, b, c } = useRecoilValue(allConnectedValueSelector(id));
 
   return (
     <div className="custom-node display">

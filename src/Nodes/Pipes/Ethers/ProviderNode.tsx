@@ -4,12 +4,12 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { useProvider } from "wagmi";
 import { Handles } from "../../../Helpers/helpers";
 import { nodeDataState } from "../../../Recoil/Atoms/atoms";
-import { connectedValueSelector } from "../../../Recoil/Selectors/selectors";
+import { allConnectedValueSelector } from "../../../Recoil/Selectors/selectors";
 
 export function ProviderNode({ id }) {
   const [state, setState] = useRecoilState(nodeDataState(id));
-  const a = useRecoilValue(connectedValueSelector([id, "a"]));
-  const b = useRecoilValue(connectedValueSelector([id, "b"]));
+  const { a, b, c } = useRecoilValue(allConnectedValueSelector(id));
+
   const wagmiProvider = useProvider();
 
   const getProvider = () => {

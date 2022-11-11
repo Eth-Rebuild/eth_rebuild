@@ -23,6 +23,7 @@ import { XORNode } from "./Logic/XORNode";
 // Ethers
 import { ProviderNode } from "./Ethers/ProviderNode";
 import { GetBalanceNode } from "./Ethers/GetBalanceNode";
+import { ContractNode } from "./Ethers/ContractNode";
 
 export {
   // Math
@@ -50,4 +51,5 @@ export {
   // Ethers
   ProviderNode,
   GetBalanceNode,
+  ContractNode,
 };

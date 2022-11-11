@@ -1,13 +1,12 @@
 import { useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { nodeDataState } from "../../../Recoil/Atoms/atoms";
-import { connectedValueSelector } from "../../../Recoil/Selectors/selectors";
+import { allConnectedValueSelector } from "../../../Recoil/Selectors/selectors";
 import { Handles } from "../../../Helpers/helpers";
 
 export function EncryptNode({ id }) {
   const [state, setState] = useRecoilState(nodeDataState(id));
-  const a = useRecoilValue(connectedValueSelector([id, "a"]));
-  const b = useRecoilValue(connectedValueSelector([id, "b"]));
+  const {a,b} = useRecoilValue(allConnectedValueSelector(id));
 
   const encrypt = async () => {};
 

@@ -3,17 +3,20 @@ import { useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { Handles } from "../../../Helpers/helpers";
 import { nodeDataState } from "../../../Recoil/Atoms/atoms";
-import { connectedValueSelector } from "../../../Recoil/Selectors/selectors";
+import { allConnectedValueSelector } from "../../../Recoil/Selectors/selectors";
+import {useProvider} from "wagmi";
 
 export function ContractNode({ id }) {
   const [state, setState] = useRecoilState(nodeDataState(id));
-  const a = useRecoilValue(connectedValueSelector([id, "a"]));
-  const b = useRecoilValue(connectedValueSelector([id, "b"]));
+  const {a,b} = useRecoilValue(allConnectedValueSelector(id));
+  const defaultProvider = useProvider();
 
   const getBalance = async () => {
     if (a && b) {
-      const balance = await a.getBalance(b);
-      setState((prevState) => ({ ...prevState, a: balance }));
+      // const provider = 
+      // // const contract = new ethers.Contract()
+      // const balance = await a.getBalance(b);
+      // setState((prevState) => ({ ...prevState, a: balance }));
     }
   };
 
@@ -27,17 +30,19 @@ export function ContractNode({ id }) {
 
   return (
     <div className="custom-node pipe">
-      <h4>Get Balance</h4>
+      <h4>Contract Node</h4>
       <Handles
         id={id}
         inputTypes={{
-          a: "object",
-          b: "string",
+          a: "string",
+          b: "object",
+          c: "object"
         }}
-        inputLabels={["Provider", "Address"]}
+        inputLabels={["Contract Address", "Contract ABI", "Optional: Provider"]}
         outputTypes={{
-          a: "number",
+          a: "object",
         }}
+        outputLabels={["Contract Object"]}
       />
     </div>
   );

@@ -1,9 +1,9 @@
-import { connectedValueSelector } from "../../Recoil/Selectors/selectors";
+import { allConnectedValueSelector } from "../../Recoil/Selectors/selectors";
 import { useRecoilValue } from "recoil";
 import { Handles } from "../../Helpers/helpers";
 
 export function ArrayDisplayNode({ id }) {
-  const valuesToDisplay = useRecoilValue(connectedValueSelector([id, "a"]));
+  // const valuesToDisplay = useRecoilValue(connectedValueSelector([id, "a"]));
 
   return (
     <div className="custom-node display">
@@ -15,7 +15,7 @@ export function ArrayDisplayNode({ id }) {
         }}
         inputLabels={["Array"]}
       />
-      <h4>{valuesToDisplay}</h4>
+      {/* <h4>{valuesToDisplay}</h4> */}
     </div>
   );
 }

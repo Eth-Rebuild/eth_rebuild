@@ -1,11 +1,11 @@
-import { connectedValueSelector } from "../../Recoil/Selectors/selectors";
+import { allConnectedValueSelector } from "../../Recoil/Selectors/selectors";
 import { useRecoilValue } from "recoil";
 import { Handles } from "../../Helpers/helpers";
 import { BigNumber } from "ethers";
 import { formatEther } from "ethers/lib/utils";
 
 export function NumberDisplayNode({ id }) {
-  const num = useRecoilValue(connectedValueSelector([id, "a"]));
+  const a = useRecoilValue(allConnectedValueSelector(id));
 
   return (
     <div className="custom-node display">
@@ -13,10 +13,10 @@ export function NumberDisplayNode({ id }) {
       <Handles
         id={id}
         inputTypes={{
-          a: "number"
+          a: "number",
         }}
       />
-      <h4>{num instanceof BigNumber ? "Ξ" + formatEther(num).substring(0, 6) : num ? num : ""}</h4>
+      <h4>{a instanceof BigNumber ? "Ξ" + formatEther(a).substring(0, 6) : a ? a : ""}</h4>
     </div>
   );
 }

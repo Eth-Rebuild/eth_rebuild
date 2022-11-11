@@ -3,8 +3,6 @@ import * as Displays from "../../Nodes/Displays";
 import * as Pipes from "../../Nodes/Pipes";
 import * as Inputs from "../../Nodes/Inputs";
 import { Edge, Node } from "reactflow";
-import { ethers } from "ethers";
-import { useAccount } from "wagmi";
 
 export const nodeTypesState = atom({
   key: "nodeTypes",
@@ -46,6 +44,7 @@ export const nodeTypesState = atom({
     // ETHERS
     providerNode: Pipes.ProviderNode,
     getBalanceNode: Pipes.GetBalanceNode,
+    contractNode: Pipes.ContractNode,
 
     //  ---------
     // | Displays |
@@ -91,6 +90,7 @@ export const nodeTypesPrettyState = atom({
     Ethers: {
       providerNode: "Provider",
       getBalanceNode: "Balance",
+      contractNode: "Contract"
     },
     Control: {
       andNode: "AND",

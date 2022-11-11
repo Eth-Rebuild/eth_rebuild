@@ -1,11 +1,11 @@
-import { connectedValueSelector } from "../../Recoil/Selectors/selectors";
+import { allConnectedValueSelector } from "../../Recoil/Selectors/selectors";
 import { useRecoilValue } from "recoil";
 import { Handles } from "../../Helpers/helpers";
 import { isBigNumberish } from "@ethersproject/bignumber/lib/bignumber";
 import { BigNumber, utils } from "ethers";
 
 export function StringDisplayNode({ id }) {
-  const a = format(useRecoilValue(connectedValueSelector([id, "a"])));
+  const a = format(useRecoilValue(allConnectedValueSelector(id))?.a);
 
   function format(str) {
     if (BigNumber.isBigNumber(str)) {

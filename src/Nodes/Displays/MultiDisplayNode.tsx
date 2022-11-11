@@ -1,12 +1,10 @@
-import { connectedValueSelector } from "../../Recoil/Selectors/selectors";
+import { allConnectedValueSelector } from "../../Recoil/Selectors/selectors";
 import { useRecoilValue } from "recoil";
 import { useEffect } from "react";
 import { Handles } from "../../Helpers/helpers";
 
 export function MultiDisplayNode({ id }) {
-  const a = useRecoilValue(connectedValueSelector([id, "a"]));
-  const b = useRecoilValue(connectedValueSelector([id, "b"]));
-  const c = useRecoilValue(connectedValueSelector([id, "c"]));
+  const { a, b, c } = useRecoilValue(allConnectedValueSelector(id));
 
   console.log(a, b, c);
   return (

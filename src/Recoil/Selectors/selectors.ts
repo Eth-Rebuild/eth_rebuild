@@ -40,6 +40,35 @@ export const connectedValueSelector = selectorFamily<any, [string, string]>({
     },
 });
 
+// inputs: nodeId
+// returns an object with data for each of the handles, a b c etc
+// @dev This probably isn't super performant. But maybe it's ok?
+// @dev 5 mins later, this is most certainly way more performant
+export const allConnectedValueSelector = selectorFamily<any, string>({
+  key: "@allConnectedValueSelector",
+  dangerouslyAllowMutability: true,
+
+  get:
+    (id) =>
+    ({ get }) => {
+      // key: targetHandle
+      // value: nodeData
+      // An object used to map all the connected nodes to their connectedHandles
+      const handleToNodes = {};
+      // All connected nodes to this id.
+      get(edgeState).forEach((edge) => {
+        const {targetHandle, sourceHandle, source, target} = edge;
+        if(target === id) {
+          if(targetHandle && sourceHandle && source) {
+            handleToNodes[targetHandle] = get(nodeDataState(source))[sourceHandle]
+          }
+        }
+      });
+      console.log(handleToNodes)
+      return handleToNodes;
+    },
+});
+
 // @notice used to find all the valid connections for each handle on a node
 /* @returns an object like this
   {

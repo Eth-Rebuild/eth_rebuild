@@ -1,10 +1,10 @@
 import { Handle, Position } from "reactflow";
-import { connectedValueSelector } from "../../Recoil/Selectors/selectors";
+import { allConnectedValueSelector } from "../../Recoil/Selectors/selectors";
 import { useRecoilValue } from "recoil";
 import { Handles } from "../../Helpers/helpers";
 
 export function BooleanDisplayNode({ id }) {
-  const valueToDisplay = useRecoilValue(connectedValueSelector([id, "a"]));
+  const { a } = useRecoilValue(allConnectedValueSelector(id));
 
   return (
     <div className="custom-node display">
@@ -16,7 +16,7 @@ export function BooleanDisplayNode({ id }) {
         }}
         inputLabels={["Condition"]}
       />
-      <h4>{valueToDisplay ? "true" : "false"}</h4>
+      <h4>{a ? "true" : "false"}</h4>
     </div>
   );
 }
