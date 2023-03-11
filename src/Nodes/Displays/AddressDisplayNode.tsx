@@ -1,4 +1,4 @@
-import { allConnectedValueSelector, connectedValueSelector } from "../../Recoil/Selectors/selectors";
+import { allConnectedValueSelector } from "../../Recoil/Selectors/selectors";
 import { useRecoilValue } from "recoil";
 import { Handles } from "../../Helpers/helpers";
 import { isAddress } from "ethers/lib/utils";

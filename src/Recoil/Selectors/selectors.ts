@@ -11,39 +11,9 @@ export const connectedNodesSelector = selectorFamily<Array<string>, string>({
     },
 });
 
-// @params:
-// - id: string
-// - handleId: string
-
-// explanation of this selector:
-// 1) get all the connected nodes ids
-// 2) filter through the edges to find a node that: source === connectedNode && targetHandle === handleId
-// 3) return the sourceHandle of that edge and the source
-// 4) return get(nodeData(source))[sourceHandle]
-// 5) else return undefined
-
-export const connectedValueSelector = selectorFamily<any, [string, string]>({
-  key: "@displaySelector",
-  dangerouslyAllowMutability: true,
-
-  get:
-    ([id, handleId]) =>
-    ({ get }) => {
-      // Connected Node to this handleId
-      const edge = get(edgeState).filter((edge) => edge.target === id && edge.targetHandle === handleId)[0];
-      if (edge && edge.sourceHandle) {
-        const nodeData = get(nodeDataState(edge.source));
-        return nodeData?.[edge.sourceHandle];
-      } else {
-        return undefined;
-      }
-    },
-});
-
-// inputs: nodeId
-// returns an object with data for each of the handles, a b c etc
-// @dev This probably isn't super performant. But maybe it's ok?
-// @dev 5 mins later, this is most certainly way more performant
+// @param: nodeId
+// @returns: an object with data for each of the handles, a b c etc
+// @dev, this algorithm runs in O(n) time for each node. Rather than O(n) for each handle on each node
 export const allConnectedValueSelector = selectorFamily<any, string>({
   key: "@allConnectedValueSelector",
   dangerouslyAllowMutability: true,
@@ -114,7 +84,7 @@ export const validHandleConnectionSelector = selectorFamily<object, [string, str
           const inputTypes = get(nodeDataState(id)).inputTypes;
           const handles = Object.keys(inputTypes).filter((key) => {
             if (type === "any") return true;
-            return (inputTypes[key] === type || inputTypes[key] === "any") && !get(connectedValueSelector([id, key]));
+            return (inputTypes[key] === type || inputTypes[key] === "any") && !get(allConnectedValueSelector(id))[key];
           });
           valid[id] = handles;
         });

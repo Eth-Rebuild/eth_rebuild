@@ -1,6 +1,5 @@
 import { allConnectedValueSelector } from "../../Recoil/Selectors/selectors";
 import { useRecoilValue } from "recoil";
-import { useEffect } from "react";
 import { Handles } from "../../Helpers/helpers";
 
 export function MultiDisplayNode({ id }) {

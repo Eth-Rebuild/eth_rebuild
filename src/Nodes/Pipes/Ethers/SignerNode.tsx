@@ -1,31 +1,40 @@
+import {ethers} from "ethers";
 import { useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { Handles } from "../../../Helpers/helpers";
-import { nodeDataState } from "../../../Recoil/Atoms/atoms";
+import { blockNumberState, nodeDataState } from "../../../Recoil/Atoms/atoms";
 import { allConnectedValueSelector } from "../../../Recoil/Selectors/selectors";
 
-export function MuliplicationNode({ id }) {
+export function SignerNode({ id }) {
   const [state, setState] = useRecoilState(nodeDataState(id));
-  const {a,b} = useRecoilValue(allConnectedValueSelector(id));
+  const { a, b, c } = useRecoilValue(allConnectedValueSelector(id));
+
+  const blockNumber = useRecoilValue(blockNumberState);
+
+  const getBalance = async () => {
+    if (a) {
+      provider.si
+    }
+  };
 
   useEffect(() => {
     try {
-      setState((state) => ({...state, a: a && b ? a * b : undefined}))
+      getBalance();
     } catch (e) {
       console.error(e);
     }
-  }, [a, b]);
+  }, [a, b, blockNumber]);
 
   return (
     <div className="custom-node pipe">
-      <h4>Multiplication Pipe</h4>
+      <h4>Transfer</h4>
       <Handles
         id={id}
         inputTypes={{
-          a: "number",
-          b: "number",
+          a: "object",
+          b: "string",
         }}
-        inputLabels={["A", "B"]}
+        inputLabels={["Provider", "Address"]}
         outputTypes={{
           a: "number",
         }}

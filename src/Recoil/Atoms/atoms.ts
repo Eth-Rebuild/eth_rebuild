@@ -4,6 +4,7 @@ import * as Pipes from "../../Nodes/Pipes";
 import * as Inputs from "../../Nodes/Inputs";
 import { Edge, Node } from "reactflow";
 
+// TODO: Add a helper function to automate this.
 export const nodeTypesState = atom({
   key: "nodeTypes",
   default: {

@@ -1,4 +1,3 @@
-import { ethers } from "ethers";
 import { useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { Handles } from "../../../Helpers/helpers";

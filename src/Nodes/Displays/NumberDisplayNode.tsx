@@ -5,7 +5,7 @@ import { BigNumber } from "ethers";
 import { formatEther } from "ethers/lib/utils";
 
 export function NumberDisplayNode({ id }) {
-  const a = useRecoilValue(allConnectedValueSelector(id));
+  const {a} = useRecoilValue(allConnectedValueSelector(id));
 
   return (
     <div className="custom-node display">
