@@ -1,6 +1,23 @@
-import ReactFlow, { applyNodeChanges, applyEdgeChanges, addEdge, Background, useReactFlow, NodeChange, EdgeChange, Connection, Edge } from "reactflow";
+import ReactFlow, {
+  applyNodeChanges,
+  applyEdgeChanges,
+  addEdge,
+  Background,
+  useReactFlow,
+  NodeChange,
+  EdgeChange,
+  Connection,
+  Edge,
+} from "reactflow";
 import "reactflow/dist/style.css";
-import { blockNumberState, chainIdState, cursorPositionState, edgeState, nodeState, nodeTypesState } from "./Recoil/Atoms/atoms";
+import {
+  blockNumberState,
+  chainIdState,
+  cursorPositionState,
+  edgeState,
+  nodeState,
+  nodeTypesState,
+} from "./Recoil/Atoms/atoms";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { useEffect, useRef } from "react";
 import { Button, Layout } from "antd";
@@ -9,6 +26,7 @@ import { CustomControls } from "./Components/CustomControls";
 import { useParams } from "react-router-dom";
 import { useBlockNumber } from "wagmi";
 import { useReactFlowHelpers } from "./Helpers/helpers";
+import connection from "./ConnectionLine";
 
 const { Content } = Layout;
 
@@ -23,12 +41,23 @@ export function Flow() {
 
   const reactFlowWrapper = useRef<HTMLDivElement>(null);
 
-  const { onConnectStart, onConnectEnd, onEdgesChange, onNodesChange, onConnect, nodeTypes, loadBuild, saveBuild } = useReactFlowHelpers(reactFlowWrapper);
+  const {
+    onConnectStart,
+    onConnectEnd,
+    onEdgesChange,
+    onNodesChange,
+    onConnect,
+    nodeTypes,
+    loadBuild,
+    saveBuild,
+  } = useReactFlowHelpers(reactFlowWrapper);
 
   // @notice on mount, if no buildId, generate a random number
   useEffect(() => {
     if (!buildId) {
-      window.location.href = "/build/" + String(Math.floor(Math.random() * 1_000_000_000_000_000_000));
+      window.location.href =
+        "/build/" +
+        String(Math.floor(Math.random() * 1_000_000_000_000_000_000));
     }
     loadBuild(buildId);
   }, []);
@@ -58,7 +87,9 @@ export function Flow() {
       <Button
         type="primary"
         onClick={async () => {
-          navigator.clipboard.writeText(window.location.origin + "/create/" + buildId);
+          navigator.clipboard.writeText(
+            window.location.origin + "/create/" + buildId
+          );
         }}
       >
         Copy URL

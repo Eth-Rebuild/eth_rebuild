@@ -11,6 +11,7 @@ import {
   NodeChange,
   Position,
   useReactFlow,
+  MarkerType,
 } from "reactflow";
 import {
   useRecoilCallback,
@@ -206,6 +207,18 @@ export function useReactFlowHelpers(reactFlowWrapper) {
   }, []);
   const onConnectEnd = useCallback(
     (event: MouseEvent) => {
+      function getEdgeColor(selectedHandleType: string, id: string) {
+        if (selectedHandleType === "source" && id === "a") {
+          return "#6FCF97";
+        } else if (selectedHandleType === "target" && id === "a") {
+          return "#FF0072";
+        } else if (selectedHandleType === "source" && id === "b") {
+          return "#FF0072";
+        } else if (selectedHandleType === "target" && id === "b") {
+          return "#6FCF97";
+        }
+      }
+
       console.log("nodes", nodes);
       if (event.target instanceof Element) {
         const targetIsPane =
@@ -234,12 +247,55 @@ export function useReactFlowHelpers(reactFlowWrapper) {
                       source: connectingNodeId.current,
                       sourceHandle: connectingNodeHandleId.current,
                       target: id,
+                      label:
+                        getEdgeColor(
+                          connectingNodeHandleType.current,
+                          connectingNodeHandleId.current
+                        ) === "#FF0072"
+                          ? "Value"
+                          : "Profit",
+                      markerEnd: {
+                        type: MarkerType.ArrowClosed,
+                        width: 20,
+                        height: 20,
+                        color: getEdgeColor(
+                          connectingNodeHandleType.current,
+                          connectingNodeHandleId.current
+                        ),
+                      },
+                      style: {
+                        strokeWidth: 2,
+                        stroke: getEdgeColor(
+                          connectingNodeHandleType.current,
+                          connectingNodeHandleId.current
+                        ),
+                      },
                       targetHandle:
                         connectingNodeHandleId.current === "a" ? "b" : "a",
                     }
                   : {
                       id: `${id}a-${connectingNodeId.current}${connectingNodeHandleId.current}`,
                       source: id,
+                      markerEnd: {
+                        type: MarkerType.ArrowClosed,
+                        width: 20,
+                        height: 20,
+                        color: getEdgeColor(
+                          connectingNodeHandleType.current,
+                          connectingNodeHandleId.current
+                        ),
+                      },
+                      label:
+                        connectingNodeHandleId.current === "a"
+                          ? "Value"
+                          : "Profit",
+                      style: {
+                        strokeWidth: 2,
+                        stroke: getEdgeColor(
+                          connectingNodeHandleType.current,
+                          connectingNodeHandleId.current
+                        ),
+                      },
                       sourceHandle:
                         connectingNodeHandleId.current === "a" ? "b" : "a",
                       target: connectingNodeId.current,

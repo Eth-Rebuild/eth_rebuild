@@ -1,43 +1,49 @@
-import { useEffect } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { createHandles, Handles } from "../../Helpers/helpers";
-import { nodeDataState, edgeState } from "../../Recoil/Atoms/atoms";
-import { allConnectedValueSelector } from "../../Recoil/Selectors/selectors";
-import { Handle, Position } from "reactflow";
+import { useEffect, useState, useRef } from "react";
+import { useRecoilState } from "recoil";
+import { Handles } from "../../Helpers/helpers";
+import { nodeDataState } from "../../Recoil/Atoms/atoms";
+import { Input } from "antd";
 
 export function ValueNode({ id }) {
-  const edges = useRecoilValue(edgeState);
   const [state, setState] = useRecoilState(nodeDataState(id));
-  const { a, b } = useRecoilValue(allConnectedValueSelector(id));
+  const [displayInput, setDisplayInput] = useState(false);
+  const inputRef = useRef<any>(null);
 
   useEffect(() => {
-    try {
-      if (a && b) {
-        const numToSave = a + b;
-        setState((state) => ({ ...state, a: numToSave }));
-      } else {
-        setState((state) => ({ ...state, a: undefined }));
-      }
-    } catch (e) {
-      console.error(e);
+    if (displayInput) {
+      inputRef.current.focus();
     }
-  }, [a, b]);
-
-  useEffect(() => {
-    console.log("edges", edges);
-  }, [edges]);
+  }, [displayInput]);
 
   return (
-    <div className="custom-node pipe">
-      <h4>ValueNode</h4>
+    <div
+      className="custom-node pipe"
+      onDoubleClick={() => setDisplayInput(true)}
+      onBlur={() => setDisplayInput(false)}
+    >
+      {!displayInput && <h4>{state.value || "Default Project Name"}</h4>}
+      {displayInput && (
+        <Input
+          value={state.value}
+          ref={inputRef}
+          onKeyPress={(e) => {
+            if (e.key === "Enter") {
+              setDisplayInput(false);
+            }
+          }}
+          onChange={(e) => {
+            setState((old) => ({ ...old, value: e.target.value }));
+          }}
+        />
+      )}
       <Handles
         id={id}
-        inputLabels={["value from project", "profit to project"]}
+        inputLabels={["-> Gets value from", "<- Provides profit to"]}
         inputTypes={{
           a: "any",
           b: "any",
         }}
-        outputLabels={["value to project", "profit from project"]}
+        outputLabels={["Provides value to ->", "Gets profit from <-"]}
         outputTypes={{
           a: "any",
           b: "any",
