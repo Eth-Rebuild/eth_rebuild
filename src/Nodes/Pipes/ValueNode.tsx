@@ -1,39 +1,55 @@
 import { useEffect, useState, useRef } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { Handles } from "../../Helpers/helpers";
-import { nodeDataState } from "../../Recoil/Atoms/atoms";
-import { Input } from "antd";
+import { nodeDataState, nodeNameState } from "../../Recoil/Atoms/atoms";
+import { AutoComplete } from "antd";
 
 export function ValueNode({ id }) {
   const [state, setState] = useRecoilState(nodeDataState(id));
-  const [displayInput, setDisplayInput] = useState(false);
-  const inputRef = useRef<any>(null);
+  const [displayModal, setDisplayModal] = useState(false);
+  const options = useRecoilValue(nodeNameState);
+  const [value, setValue] = useState(state.name);
+  const [nodeOptions, setNodeOptions] = useState<any[]>();
 
   useEffect(() => {
-    if (displayInput) {
-      inputRef.current.focus();
-    }
-  }, [displayInput]);
+    if (!value) return;
+    setNodeOptions(
+      options
+        .filter((o) => o.toLowerCase().includes(value.toLowerCase()))
+        .map((item) => ({ value: item }))
+    );
+  }, [value]);
+
+  function onSelect(value) {
+    setState((old) => ({ ...old, name: value }));
+    setDisplayModal(false);
+  }
+
+  function onChange(value) {
+    setValue(value);
+  }
 
   return (
     <div
       className="custom-node pipe"
-      onDoubleClick={() => setDisplayInput(true)}
-      onBlur={() => setDisplayInput(false)}
+      onDoubleClick={() => {
+        setDisplayModal(true);
+      }}
+      style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+      onBlur={() => setDisplayModal(false)}
     >
-      {!displayInput && <h4>{state.value || "Default Project Name"}</h4>}
-      {displayInput && (
-        <Input
-          value={state.value}
-          ref={inputRef}
-          onKeyPress={(e) => {
-            if (e.key === "Enter") {
-              setDisplayInput(false);
-            }
+      {!displayModal && <h4>{state.name || "Default Project Name"}</h4>}
+      {displayModal && (
+        <AutoComplete
+          style={{
+            width: "100%",
           }}
-          onChange={(e) => {
-            setState((old) => ({ ...old, value: e.target.value }));
-          }}
+          autoFocus
+          placeholder="Select Project"
+          options={nodeOptions}
+          onSelect={onSelect}
+          value={value}
+          onChange={onChange}
         />
       )}
       <Handles
