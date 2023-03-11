@@ -1,5 +1,5 @@
 import React from "react";
-import { getBezierPath, Position } from "reactflow";
+import { getBezierPath, Position, EdgeLabelRenderer } from "reactflow";
 
 interface CustomEdgeProps {
   id: string;
@@ -45,19 +45,7 @@ export default function CustomEdge({
         d={edgePath}
         markerEnd={markerEnd || undefined}
       />
-      <text>
-        <textPath
-          href={`#${id}`}
-          style={{ fontSize: 12 }}
-          startOffset="50%"
-          textAnchor="middle"
-        >
-          {
-            //@ts-ignore
-            data.text
-          }
-        </textPath>
-      </text>
+      <EdgeLabelRenderer></EdgeLabelRenderer>
     </>
   );
 }

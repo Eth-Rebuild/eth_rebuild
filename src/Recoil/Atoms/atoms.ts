@@ -161,6 +161,14 @@ export const nodeDataState = atomFamily<any, string>({
   },
 });
 
+export const edgeLabelState = atomFamily<string, string>({
+  key: "nodeDataState",
+  dangerouslyAllowMutability: true,
+  default: (nodeID) => {
+    return "default label";
+  },
+});
+
 export const cursorPositionState = atom({
   key: "cursorPositionState",
   default: { x: 0, y: 0 },
