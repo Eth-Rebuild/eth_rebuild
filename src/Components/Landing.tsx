@@ -124,13 +124,17 @@ export function Landing() {
           <h3>Your Saved builds:</h3>
           <List
             bordered={true}
-            //size="large"
+            size="large"
             dataSource={userBuilds}
             itemLayout="horizontal"
-            grid={{ gutter: 40, column: 2 }}
             renderItem={(item, index) => (
               <List.Item>
-                <Card title={`Build: ${index}`}>
+                <Card
+                  title={`Build: ${index}`}
+                  onClick={() => {
+                    window.location.href = `/build/${item}`;
+                  }}
+                >
                   <Button
                     size="middle"
                     onClick={() => {
