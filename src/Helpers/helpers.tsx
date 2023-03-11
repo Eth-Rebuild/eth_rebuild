@@ -1,14 +1,50 @@
 import { useCallback, useEffect, useRef } from "react";
-import { addEdge, applyEdgeChanges, applyNodeChanges, Connection, Edge, EdgeChange, Handle, Node, NodeChange, Position, useReactFlow } from "reactflow";
-import { useRecoilCallback, useRecoilRefresher_UNSTABLE, useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
+import {
+  addEdge,
+  applyEdgeChanges,
+  applyNodeChanges,
+  Connection,
+  Edge,
+  EdgeChange,
+  Handle,
+  Node,
+  NodeChange,
+  Position,
+  useReactFlow,
+} from "reactflow";
+import {
+  useRecoilCallback,
+  useRecoilRefresher_UNSTABLE,
+  useRecoilState,
+  useRecoilValue,
+  useResetRecoilState,
+} from "recoil";
 import { useBlockNumber } from "wagmi";
-import { blockNumberState, chainIdState, edgeState, nodeDataState, nodeState, nodeTypesState } from "../Recoil/Atoms/atoms";
+import {
+  blockNumberState,
+  chainIdState,
+  edgeState,
+  nodeDataState,
+  nodeState,
+  nodeTypesState,
+} from "../Recoil/Atoms/atoms";
 import { addBuildToDB, Build, getBuildFromDB } from "../Recoil/firebase";
-import { allNodeDataSelector, maxNodeIdSelector, validNodeConnectionSelector } from "../Recoil/Selectors/selectors";
+import {
+  allNodeDataSelector,
+  maxNodeIdSelector,
+  validNodeConnectionSelector,
+} from "../Recoil/Selectors/selectors";
 
 export const alphaArray = "abcdefghijklmnopqrstuvwxyz".split("");
 
-type HandleType = "string" | "number" | "boolean" | "address" | "array" | "object" | "any";
+type HandleType =
+  | "string"
+  | "number"
+  | "boolean"
+  | "address"
+  | "array"
+  | "object"
+  | "any";
 
 interface HandleTypes {
   [key: string]: HandleType;
@@ -50,7 +86,14 @@ export function Handles(props: HandlesProps) {
           flexDirection: "column",
         }}
       >
-        {inputTypes ? createHandles(Object.keys(inputTypes).length, "input", validConnections, inputLabels) : ""}
+        {inputTypes
+          ? createHandles(
+              Object.keys(inputTypes).length,
+              "input",
+              validConnections,
+              inputLabels
+            )
+          : ""}
       </div>
 
       <div
@@ -59,13 +102,37 @@ export function Handles(props: HandlesProps) {
           flexDirection: "column",
         }}
       >
-        {outputTypes ? createHandles(Object.keys(outputTypes).length, "output", validConnections, outputLabels) : ""}
+        {outputTypes
+          ? createHandles(
+              Object.keys(outputTypes).length,
+              "output",
+              validConnections,
+              outputLabels
+            )
+          : ""}
       </div>
     </div>
   );
 }
 
-function createHandles(count: number, kind: string, validConnections: any, labels?: string[]) {
+export function createHandles(
+  count: number,
+  kind: string,
+  validConnections: any,
+  labels?: string[]
+) {
+  function getKind(kind: string, index: number) {
+    if (kind === "input" && index !== 1) {
+      return "target";
+    } else if (kind === "output" && index !== 1) {
+      return "source";
+    } else if (kind === "input" && index === 1) {
+      return "source";
+    } else {
+      return "target";
+    }
+  }
+
   return Array.from(Array(count)).map((_, index) => (
     <div
       key={kind + index.toString()}
@@ -75,30 +142,33 @@ function createHandles(count: number, kind: string, validConnections: any, label
       }}
     >
       <Handle
-        type={kind === "input" ? "target" : "source"} // @dev I really just don't like the word target and source, so im using input and output
+        type={getKind(kind, index)} // @dev I really just don't like the word target and source, so im using input and output
         position={kind === "input" ? Position.Left : Position.Right}
         style={{
           width: "15px",
           height: "15px",
           borderRadius: "50%",
-          backgroundColor: kind === "input" ? "#DB79FF" : "#6FCF97",
+          backgroundColor:
+            getKind(kind, index) === "target" ? "#DB79FF" : "#6FCF97",
           cursor: "pointer",
           border: "1px solid #ffffff",
           position: "relative",
           order: 2,
         }}
-        id={alphaArray[index]}
+        //id={index !== 1 ? alphaArray[index] : "a"}
+        id={kind === "input" ? "a" : "b"}
         isValidConnection={(connection: Connection) => {
-          // grab the target
-          const { target, targetHandle, sourceHandle } = connection;
-          // null checking
-          if (target && targetHandle && sourceHandle) {
-            // check if the connected at target, and handle is valid
-            const validHandles = validConnections?.[sourceHandle]?.[target];
-            return validHandles ? validHandles.includes(targetHandle) : false;
-          } else {
-            return false;
-          }
+          return true;
+          //// grab the target
+          //const { target, targetHandle, sourceHandle } = connection;
+          //// null checking
+          //if (target && targetHandle && sourceHandle) {
+          //  // check if the connected at target, and handle is valid
+          //  const validHandles = validConnections?.[sourceHandle]?.[target];
+          //  return validHandles ? validHandles.includes(targetHandle) : false;
+          //} else {
+          //  return false;
+          //}
         }}
       />
       <span
@@ -132,19 +202,23 @@ export function useReactFlowHelpers(reactFlowWrapper) {
     connectingNodeId.current = nodeId;
     connectingNodeHandleId.current = handleId;
     connectingNodeHandleType.current = handleType;
+    console.log("onConnectStart", nodeId, handleId, handleType);
   }, []);
   const onConnectEnd = useCallback(
     (event: MouseEvent) => {
+      console.log("nodes", nodes);
       if (event.target instanceof Element) {
-        const targetIsPane = event.target.classList.contains("react-flow__pane");
+        const targetIsPane =
+          event.target.classList.contains("react-flow__pane");
         if (targetIsPane) {
           if (reactFlowWrapper.current?.getBoundingClientRect()) {
             // TODO: REMOVE THIS REDUNDANCY (see src/Components/Header.tsx function addNode)
-            const { top, left } = reactFlowWrapper.current.getBoundingClientRect();
+            const { top, left } =
+              reactFlowWrapper.current.getBoundingClientRect();
             const id = maxNodeId;
             const newNode = {
               id,
-              type: connectingNodeHandleType.current == "source" ? "stringDisplayNode" : "anyInputNode",
+              type: "valueNode",
               position: project({
                 x: event.clientX - left - 75,
                 y: event.clientY - top,
@@ -154,18 +228,20 @@ export function useReactFlowHelpers(reactFlowWrapper) {
             setNodes((nds) => nds.concat(newNode));
             setEdges((eds) =>
               eds.concat(
-                connectingNodeHandleType.current == "source"
+                connectingNodeHandleType.current === "source"
                   ? {
-                      id: `${connectingNodeId.current}-${id}`,
+                      id: `${connectingNodeId.current}${connectingNodeHandleId.current}-${id}a`,
                       source: connectingNodeId.current,
                       sourceHandle: connectingNodeHandleId.current,
                       target: id,
-                      targetHandle: "a",
+                      targetHandle:
+                        connectingNodeHandleId.current === "a" ? "b" : "a",
                     }
                   : {
                       id: `${id}a-${connectingNodeId.current}${connectingNodeHandleId.current}`,
                       source: id,
-                      sourceHandle: "a",
+                      sourceHandle:
+                        connectingNodeHandleId.current === "a" ? "b" : "a",
                       target: connectingNodeId.current,
                       targetHandle: connectingNodeHandleId.current,
                     }
@@ -177,8 +253,16 @@ export function useReactFlowHelpers(reactFlowWrapper) {
     },
     [nodes]
   );
-  const onNodesChange = useCallback((changes: NodeChange[]) => setNodes((nds) => applyNodeChanges(changes, nds)), [setNodes]);
-  const onEdgesChange = useCallback((changes: EdgeChange[]) => setEdges((eds) => applyEdgeChanges(changes, eds)), [setEdges]);
+  const onNodesChange = useCallback(
+    (changes: NodeChange[]) =>
+      setNodes((nds) => applyNodeChanges(changes, nds)),
+    [setNodes]
+  );
+  const onEdgesChange = useCallback(
+    (changes: EdgeChange[]) =>
+      setEdges((eds) => applyEdgeChanges(changes, eds)),
+    [setEdges]
+  );
   const onConnect = useCallback(
     (connection: Edge | Connection) => {
       setEdges((eds) => addEdge(connection, eds));
@@ -232,5 +316,14 @@ export function useReactFlowHelpers(reactFlowWrapper) {
     }
   }
 
-  return { onConnectStart, onConnectEnd, onNodesChange, onEdgesChange, onConnect, nodeTypes, loadBuild, saveBuild };
+  return {
+    onConnectStart,
+    onConnectEnd,
+    onNodesChange,
+    onEdgesChange,
+    onConnect,
+    nodeTypes,
+    loadBuild,
+    saveBuild,
+  };
 }

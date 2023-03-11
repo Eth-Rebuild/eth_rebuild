@@ -1,4 +1,4 @@
-import {ethers} from "ethers";
+import { ethers } from "ethers";
 import { useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { Handles } from "../../../Helpers/helpers";
@@ -13,7 +13,7 @@ export function SignerNode({ id }) {
 
   const getBalance = async () => {
     if (a) {
-      provider.si
+      //provider.si
     }
   };
 

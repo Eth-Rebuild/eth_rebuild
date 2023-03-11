@@ -2,7 +2,11 @@ import { verifyMessage } from "ethers/lib/utils";
 import { useEffect, useState } from "react";
 import { useAccount, useConnect, useDisconnect, useSignMessage } from "wagmi";
 import { InjectedConnector } from "wagmi/connectors/injected";
-import { addUserToDB, getUserBuildsFromDB, getUserFromDB } from "../Recoil/firebase";
+import {
+  addUserToDB,
+  getUserBuildsFromDB,
+  getUserFromDB,
+} from "../Recoil/firebase";
 import { Space, Button, Col, Row, Typography, Card, List } from "antd";
 
 const { Title } = Typography;
@@ -21,7 +25,8 @@ export function Landing() {
       getOrCreateUser();
     },
   });
-  const [userBuilds, setUserBuilds] = useState([]);
+
+  const [userBuilds, setUserBuilds] = useState<string[]>([]);
 
   async function getOrCreateUser() {
     console.log("Attempting to fetch user from DB");
@@ -36,10 +41,17 @@ export function Landing() {
         setUserBuilds(await getUserBuildsFromDB());
         console.log("Succesfully created new user");
       } catch (e) {
-        console.error("Something went wrong while creating new user, error:", e);
+        console.error(
+          "Something went wrong while creating new user, error:",
+          e
+        );
       }
     }
   }
+
+  useEffect(() => {
+    console.log("User builds changed, new value:", userBuilds);
+  }, [userBuilds]);
 
   useEffect(() => {
     if (userAddress) {
@@ -72,12 +84,19 @@ export function Landing() {
         <h3>Sorry about the landing page carlos ;)</h3>
         <Space direction="vertical" align="center">
           {isConnected ? address?.substring(0, 6) : "Not connected"}
-          {isConnected ? <Button onClick={() => disconnect()}>Disconnect</Button> : <Button onClick={() => connect()}>Connect</Button>}
+          {isConnected ? (
+            <Button onClick={() => disconnect()}>Disconnect</Button>
+          ) : (
+            <Button onClick={() => connect()}>Connect</Button>
+          )}
           {isConnected ? (
             userAddress !== address ? (
               <Button
                 onClick={() => {
-                  signMessage({ message: "Signing this message to verify your address for BuidlBlocks.xyz" });
+                  signMessage({
+                    message:
+                      "Signing this message to verify your address for BuidlBlocks.xyz",
+                  });
                 }}
               >
                 Sign a message to verify
@@ -105,10 +124,10 @@ export function Landing() {
           <h3>Your Saved builds:</h3>
           <List
             bordered={true}
-            size="large"
+            //size="large"
             dataSource={userBuilds}
             itemLayout="horizontal"
-            grid={{ gutter: 32, column: 2 }}
+            grid={{ gutter: 40, column: 2 }}
             renderItem={(item, index) => (
               <List.Item>
                 <Card title={`Build: ${index}`}>

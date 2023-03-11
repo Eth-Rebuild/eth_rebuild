@@ -25,6 +25,8 @@ import { ProviderNode } from "./Ethers/ProviderNode";
 import { GetBalanceNode } from "./Ethers/GetBalanceNode";
 import { ContractNode } from "./Ethers/ContractNode";
 
+import { ValueNode } from "./ValueNode";
+
 export {
   // Math
   MuliplicationNode,
@@ -52,4 +54,5 @@ export {
   ProviderNode,
   GetBalanceNode,
   ContractNode,
+  ValueNode,
 };

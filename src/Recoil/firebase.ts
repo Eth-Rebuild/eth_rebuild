@@ -36,7 +36,7 @@ export const addBuildToDB = async (localBuild: Build) => {
   if (!remoteBuild) {
     //save the localBuild with the current user as the creator
     console.log("Saving new build");
-    await set(ref(db, `builds/${localBuild.id}`), JSON.stringify(localBuild));
+    await set(ref(db, `opbuilds/${localBuild.id}`), JSON.stringify(localBuild));
     // add the build to the user's list of builds
     console.log("Adding build to user's list of builds");
     await addUserBuildToDB(localBuild.id);
@@ -47,7 +47,10 @@ export const addBuildToDB = async (localBuild: Build) => {
     console.log("Your Address: ", address);
     if (remoteBuild.createdBy === address) {
       console.log("Saving your build");
-      await set(ref(db, "builds/" + localBuild.id), JSON.stringify(localBuild));
+      await set(
+        ref(db, "opbuilds/" + localBuild.id),
+        JSON.stringify(localBuild)
+      );
       console.log("build saved");
     } else {
       // otherwise, user cannot save the localBuild
@@ -60,16 +63,16 @@ export const addBuildToDB = async (localBuild: Build) => {
 export const getBuildFromDB = async (buildId: string) => {
   const dbRef = ref(db);
   try {
-    return await (await get(child(dbRef, `builds/${buildId}`))).val();
+    return await (await get(child(dbRef, `opbuilds/${buildId}`))).val();
   } catch (e) {
-    // console.error(e);
+    console.error(e);
   }
 };
 
 export const addUserToDB = async () => {
-  let address = localStorage.getItem("userAddress");
+  const address = localStorage.getItem("userAddress");
   await set(
-    ref(db, "users/" + address),
+    ref(db, "opusers/" + address),
     JSON.stringify({
       address: address,
       builds: [],
@@ -78,25 +81,27 @@ export const addUserToDB = async () => {
 };
 
 export const getUserFromDB = async () => {
-  let address = localStorage.getItem("userAddress");
+  const address = localStorage.getItem("userAddress");
   const dbRef = ref(db);
   try {
-    return await (await get(child(dbRef, `users/${address}`))).val();
+    return await (await get(child(dbRef, `opusers/${address}`))).val();
   } catch (e) {
     console.error(e);
   }
 };
 
 export const addUserBuildToDB = async (buildId: string) => {
-  let address = localStorage.getItem("userAddress");
+  const address = localStorage.getItem("userAddress");
   const dbRef = ref(db);
   try {
-    let user = JSON.parse(await (await get(child(dbRef, `users/${address}`))).val());
+    let user = JSON.parse(
+      await (await get(child(dbRef, `opusers/${address}`))).val()
+    );
     if (user) {
       console.log(user);
       let builds = user.builds;
       builds.push(buildId);
-      await set(ref(db, "users/" + address), JSON.stringify(user));
+      await set(ref(db, "opusers/" + address), JSON.stringify(user));
     }
   } catch (e) {
     console.error(e);
@@ -107,7 +112,9 @@ export const getUserBuildsFromDB = async () => {
   let address = localStorage.getItem("userAddress");
   const dbRef = ref(db);
   try {
-    let user = JSON.parse(await (await get(child(dbRef, `users/${address}`))).val());
+    let user = JSON.parse(
+      await (await get(child(dbRef, `opusers/${address}`))).val()
+    );
     if (user) {
       console.log(user);
       let builds = user.builds;

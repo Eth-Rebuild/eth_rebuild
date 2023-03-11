@@ -57,6 +57,8 @@ export const nodeTypesState = atom({
     addressDisplayNode: Displays.AddressDisplayNode,
     conditionalDisplayNode: Displays.ConditionalDisplayNode,
     booleanDisplayNode: Displays.BooleanDisplayNode,
+
+    valueNode: Pipes.ValueNode,
   },
 });
 
@@ -91,7 +93,7 @@ export const nodeTypesPrettyState = atom({
     Ethers: {
       providerNode: "Provider",
       getBalanceNode: "Balance",
-      contractNode: "Contract"
+      contractNode: "Contract",
     },
     Control: {
       andNode: "AND",
@@ -112,6 +114,7 @@ export const nodeTypesPrettyState = atom({
     Utils: {},
     String: {
       stringConcatNode: "Concat",
+      valueNode: "ValueNode",
     },
     // TODO ADD THIS
     Object: {},
