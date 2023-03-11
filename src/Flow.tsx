@@ -1,22 +1,9 @@
-import ReactFlow, {
-  applyNodeChanges,
-  applyEdgeChanges,
-  addEdge,
-  Background,
-  useReactFlow,
-  NodeChange,
-  EdgeChange,
-  Connection,
-  Edge,
-} from "reactflow";
+import ReactFlow, { Background } from "reactflow";
 import "reactflow/dist/style.css";
 import {
-  blockNumberState,
-  chainIdState,
   cursorPositionState,
   edgeState,
   nodeState,
-  nodeTypesState,
 } from "./Recoil/Atoms/atoms";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { useEffect, useRef } from "react";
@@ -24,11 +11,14 @@ import { Button, Layout } from "antd";
 import { MenuHeader } from "./Components/Header";
 import { CustomControls } from "./Components/CustomControls";
 import { useParams } from "react-router-dom";
-import { useBlockNumber } from "wagmi";
 import { useReactFlowHelpers } from "./Helpers/helpers";
-import connection from "./ConnectionLine";
+import CustomEdge from "./ConnectionLine";
 
 const { Content } = Layout;
+
+const edgeTypes = {
+  customEdge: CustomEdge,
+};
 
 export function Flow() {
   // @notice general data
@@ -112,6 +102,7 @@ export function Flow() {
             onPaneContextMenu={(e) => e.preventDefault()}
             onConnectStart={onConnectStart}
             onConnectEnd={onConnectEnd}
+            edgeTypes={edgeTypes}
             onMouseMove={(e) => {
               setCursorPos({
                 x: e.clientX,

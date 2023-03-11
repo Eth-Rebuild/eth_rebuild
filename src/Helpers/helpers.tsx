@@ -205,6 +205,7 @@ export function useReactFlowHelpers(reactFlowWrapper) {
     connectingNodeHandleType.current = handleType;
     console.log("onConnectStart", nodeId, handleId, handleType);
   }, []);
+
   const onConnectEnd = useCallback(
     (event: MouseEvent) => {
       function getEdgeColor(selectedHandleType: string, id: string) {
@@ -219,7 +220,6 @@ export function useReactFlowHelpers(reactFlowWrapper) {
         }
       }
 
-      console.log("nodes", nodes);
       if (event.target instanceof Element) {
         const targetIsPane =
           event.target.classList.contains("react-flow__pane");
@@ -321,10 +321,26 @@ export function useReactFlowHelpers(reactFlowWrapper) {
   );
   const onConnect = useCallback(
     (connection: Edge | Connection) => {
-      setEdges((eds) => addEdge(connection, eds));
+      const newConnection = {
+        ...connection,
+        label: connection.sourceHandle === "b" ? "Value" : "Profit",
+        markerEnd: {
+          type: MarkerType.ArrowClosed,
+          width: 20,
+          height: 20,
+          color: connection.sourceHandle === "b" ? "#FF0072" : "#6FCF97",
+        },
+        style: {
+          strokeWidth: 2,
+          stroke: connection.sourceHandle === "b" ? "#FF0072" : "#6FCF97",
+        },
+      };
+      console.log("onConnect", newConnection);
+      setEdges((eds) => addEdge(newConnection, eds));
     },
     [setEdges]
   );
+
   const nodeTypes = useRecoilValue(nodeTypesState);
 
   // @notice for updating the block number atom

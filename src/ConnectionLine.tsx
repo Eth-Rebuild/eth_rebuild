@@ -1,42 +1,63 @@
-import { Position, ConnectionLineType } from "reactflow";
+import React from "react";
+import { getBezierPath, Position } from "reactflow";
 
-interface ConnectionLineProps {
-  fromX: number;
-  fromY: number;
-  fromPosition: Position;
-  toX: number;
-  toY: number;
-  toPosition: Position;
-  connectionLineType: ConnectionLineType;
-  connectionLineStyle: any;
+interface CustomEdgeProps {
+  id: string;
+  sourceX: number;
+  sourceY: number;
+  targetX: number;
+  targetY: number;
+  sourcePosition: Position | undefined;
+  targetPosition: Position | undefined;
+  style?: React.CSSProperties;
+  data?: any;
+  markerEnd?: string;
 }
-export default ({
-  fromX,
-  fromY,
-  fromPosition,
-  toX,
-  toY,
-  toPosition,
-  connectionLineType,
-  connectionLineStyle,
-}: ConnectionLineProps) => {
+
+export default function CustomEdge({
+  id,
+  sourceX,
+  sourceY,
+  targetX,
+  targetY,
+  sourcePosition,
+  targetPosition,
+  style = {},
+  data = {},
+  markerEnd = undefined,
+}: CustomEdgeProps) {
+  console.log("rendering custom edge");
+  const [edgePath] = getBezierPath({
+    sourceX,
+    sourceY,
+    sourcePosition,
+    targetX,
+    targetY,
+    targetPosition,
+  });
+
   return (
-    <g>
+    <>
       <path
-        fill="none"
-        stroke="#222"
-        strokeWidth={1.5}
-        className="animated"
-        d={`M${fromX},${fromY} C ${fromX} ${toY} ${fromX} ${toY} ${toX},${toY}`}
+        id={id}
+        style={style}
+        className="react-flow__edge-path"
+        d={edgePath}
+        markerEnd={markerEnd || undefined}
       />
-      <circle
-        cx={toX}
-        cy={toY}
-        fill="#fff"
-        r={3}
-        stroke="#222"
-        strokeWidth={1.5}
-      />
-    </g>
+      <text>
+        <textPath
+          href={`#${id}`}
+          style={{ fontSize: 12 }}
+          startOffset="50%"
+          textAnchor="middle"
+        >
+          {
+            //@ts-ignore
+            data.text
+          }
+        </textPath>
+      </text>
+    </>
   );
-};
+}
